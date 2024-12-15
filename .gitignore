@@ -1,0 +1,7 @@
+/_build/
+/cover/
+/deps/
+/doc/
+/.fetch
+/tmp/
+.tools-versions

@@ -3,22 +3,19 @@ defmodule GeoUtils.Area do
   Calculates area of Geo struct.
   """
 
-  # TODO: revamp it to collect x and y values separately, then add the last vertex, then do the same as now -> look up shoelace method
   defp calculate_area(coords) when is_list(coords) do
-
-    last_coord = List.last(coords)
-    coords_nolast = Enum.drop(coords, -1)
-    coords_nolast
-    |> Enum.reduce({0, coords_nolast}, fn {x1, y1}, {acc, [{x2, y2} | rest]} ->
-      acc = acc + (x1 * y2 - x2 * y1)
-      IO.inspect(acc)
-      IO.inspect({x1, y1, x2, y2, rest})
-
-      {acc, [{x2, y2}] ++ rest}
+    coords
+    |> Enum.reduce({0, tl(coords)}, fn item, accumulator ->
+      {x1, y1} = item
+      case accumulator do
+        {acc, [{x2, y2} | rest]} ->
+          acc = acc + abs(x1 * y2 - x2 * y1)
+          {acc, [{x2, y2}] ++ rest}
+        {acc, [{_}]} ->
+          {acc}
+      end
     end)
     |> elem(0)
-    |>
-    |> abs()
     |> Kernel./(2)
   end
 
@@ -32,7 +29,6 @@ defmodule GeoUtils.Area do
 
   def area(%Geo.Polygon{coordinates: coords}) do
     IO.inspect(coords)
-    coord = List.first(coords)
-    calculate_area(coord)
+    calculate_area(coords)
   end
 end

@@ -1,12 +1,12 @@
 defmodule GeoProperties.Mixfile do
   use Mix.Project
 
-  @source_url "https://github.com/simagyari/geoutils"
+  @source_url "https://github.com/simagyari/geoproperties"
   @version "0.0.1"
 
   def project do
     [
-      app: :geoutils,
+      app: :geoproperties,
       version: @version,
       elixir: "~> 1.10",
       deps: deps(),
@@ -41,7 +41,7 @@ defmodule GeoProperties.Mixfile do
       files: ["lib", "mix.exs", "README.md"],
       maintainers: ["Sandor Magyari"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/simagyari/geoutils"}
+      links: %{"GitHub" => "https://github.com/simagyari/geoproperties"}
     ]
   end
 

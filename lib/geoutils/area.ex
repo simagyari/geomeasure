@@ -20,11 +20,11 @@ defmodule GeoProperties.Area do
   end
 
   def area(%Geo.Point{}) do
-    0.0
+    nil
   end
 
   def area(%Geo.LineString{}) do
-    0.0
+    nil
   end
 
   def area(%Geo.Polygon{coordinates: [coords]}) do

@@ -10,7 +10,7 @@ defmodule GeoProperties.Centroid do
     ys = Enum.map(coords, fn x -> elem(x, 1) end)
     mean_x = Enum.sum(xs) / length(xs)
     mean_y = Enum.sum(ys) / length(ys)
-    Geo.Point.new({mean_x, mean_y})
+    %Geo.Point{coordinates: {mean_x, mean_y}}
   end
 
   def centroid(%Geo.Point{} = point), do: point

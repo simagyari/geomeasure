@@ -3,7 +3,7 @@ defmodule GeoProperties.Extent do
   Calculates the extent of a Geo struct and returns it as a Geo.Polygon.
   """
 
-  defp calculate_extent(coords) when is_list(coords) do
+  def calculate_extent(coords) when is_list(coords) do
     coords
     |> Enum.reduce({nil, nil, nil, nil}, fn {x, y}, {min_x, max_x, min_y, max_y} ->
       {

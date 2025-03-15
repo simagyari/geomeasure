@@ -3,22 +3,27 @@ defmodule GeoProperties.Perimeter do
   Calculates the perimeter of a Geo struct.
   """
 
-  alias Distance
+  alias GeoProperties.Distance
 
+  # TODO: fix this for polygons, does not return the correct perimeter
+  # Distance.distance returns the correct distance
   defp calculate_perimeter(coords) when is_list(coords) do
     coords
-    |> Enum.reduce({0, tl(coords)}, fn item, accumulator ->
-      {x1, y1} = point_1
+    |> Enum.reduce({0, tl(coords)}, fn point_1, accumulator ->
       case accumulator do
-        {acc, [point_2 | rest]} ->
-          acc = acc + Distance.distance(point_1, point_2)
-          {acc, [point_2] ++ rest}
         {acc, [point_2 = {_a, _b}]} ->
           acc = acc + Distance.distance(point_1, point_2)
+          IO.puts("Last item")
+          IO.inspect(acc)
           {acc}
+        {acc, [point_2 | rest]} ->
+          acc = acc + Distance.distance(point_1, point_2)
+          IO.puts("Not last item")
+          IO.inspect(acc)
+          {acc, [point_2] ++ rest}
       end
     end)
-    elem(0)
+    |> elem(0)
   end
 
   def perimeter(%Geo.Point{}) do
@@ -29,7 +34,7 @@ defmodule GeoProperties.Perimeter do
     nil
   end
 
-  def perimeter(%Get.Polygon{coordinates: [coords]}) do
+  def perimeter(%Geo.Polygon{coordinates: [coords]}) do
     calculate_perimeter(coords)
   end
 end

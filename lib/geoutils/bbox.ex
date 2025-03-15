@@ -3,12 +3,12 @@ defmodule GeoProperties.Bbox do
   Calculates the bounding box of a Geo struct.
   """
 
-  alias Extent
+  alias GeoProperties.Extent
 
   defp calculate_bbox(coords) when is_list(coords) do
     {min_x, max_x, min_y, max_y} = Extent.calculate_extent(coords)
-    Geo.Polygon.new(
-      [
+    %Geo.Polygon{
+      coordinates: [
         [
           {min_x, min_y},
           {min_x, max_y},
@@ -17,10 +17,10 @@ defmodule GeoProperties.Bbox do
           {min_x, min_y}
         ]
       ]
-    )
+    }
   end
 
-  def bbox(%Geo.Point{}), do: point
+  def bbox(%Geo.Point{} = point), do: point
 
   def bbox(%Geo.LineString{coordinates: coords}) do
     calculate_bbox(coords)

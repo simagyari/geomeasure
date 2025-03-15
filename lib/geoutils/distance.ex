@@ -1,4 +1,4 @@
-defmodule GeoUtils.Distance do
+defmodule GeoProperties.Distance do
   @moduledoc """
   Calculates distance between two Geo.Point structs.
   """

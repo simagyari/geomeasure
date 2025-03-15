@@ -1,6 +1,6 @@
-defmodule GeoUtils.Area do
+defmodule GeoProperties.Area do
   @moduledoc """
-  Calculates area of Geo struct.
+  Calculates the area of Geo struct.
   """
 
   defp calculate_area(coords) when is_list(coords) do
@@ -27,8 +27,7 @@ defmodule GeoUtils.Area do
     0.0
   end
 
-  def area(%Geo.Polygon{coordinates: coords}) do
-    IO.inspect(coords)
+  def area(%Geo.Polygon{coordinates: [coords]}) do
     calculate_area(coords)
   end
 end

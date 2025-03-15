@@ -1,4 +1,4 @@
-defmodule GeoUtils.Mixfile do
+defmodule GeoProperties.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/simagyari/geoutils"
@@ -13,7 +13,7 @@ defmodule GeoUtils.Mixfile do
       description: description(),
       package: package(),
       docs: docs(),
-      name: "GeoUtils"
+      name: "GeoProperties"
     ]
   end
 

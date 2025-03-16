@@ -5,8 +5,7 @@ defmodule GeoProperties.Perimeter do
 
   alias GeoProperties.Distance
 
-  # TODO: fix this for polygons, does not return the correct perimeter
-  # Distance.distance returns the correct distance
+  @spec calculate_perimeter([{number(), number()}]) :: float()
   defp calculate_perimeter(coords) when is_list(coords) do
     coords
     |> Enum.drop(-1)
@@ -27,14 +26,17 @@ defmodule GeoProperties.Perimeter do
     |> elem(0)
   end
 
+  @spec perimeter(Geo.Point.t()) :: atom()
   def perimeter(%Geo.Point{}) do
     nil
   end
 
+  @spec perimeter(Geo.LineString.t()) :: atom()
   def perimeter(%Geo.LineString{}) do
     nil
   end
 
+  @spec perimeter(Geo.Polygon.t()) :: float()
   def perimeter(%Geo.Polygon{coordinates: [coords]}) do
     calculate_perimeter(coords)
   end

@@ -5,6 +5,7 @@ defmodule GeoProperties.Centroid do
 
   alias Geo
 
+  @spec calculate_centroid([{number(), number()}]) :: Geo.Point.t()
   defp calculate_centroid(coords) when is_list(coords) do
     xs = Enum.map(coords, fn x -> elem(x, 0) end)
     ys = Enum.map(coords, fn x -> elem(x, 1) end)
@@ -13,12 +14,15 @@ defmodule GeoProperties.Centroid do
     %Geo.Point{coordinates: {mean_x, mean_y}}
   end
 
+  @spec centroid(Geo.Point.t()) :: Geo.Point.t()
   def centroid(%Geo.Point{} = point), do: point
 
+  @spec centroid(Geo.LineString.t()) :: Geo.Point.t()
   def centroid(%Geo.LineString{coordinates: coords}) do
     calculate_centroid(coords)
   end
 
+  @spec centroid(Geo.Polygon.t()) :: Get.Point.t()
   def centroid(%Geo.Polygon{coordinates: [coords]}) do
     calculate_centroid(tl(coords))
   end

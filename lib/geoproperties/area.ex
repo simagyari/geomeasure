@@ -3,6 +3,7 @@ defmodule GeoProperties.Area do
   Calculates the area of Geo struct.
   """
 
+  @spec calculate_area([{number(), number()}]) :: float()
   defp calculate_area(coords) when is_list(coords) do
     coords
     |> Enum.reduce({0, tl(coords)}, fn item, accumulator ->
@@ -19,14 +20,17 @@ defmodule GeoProperties.Area do
     |> Kernel./(2)
   end
 
+  @spec area(Geo.Point.t()) :: atom()
   def area(%Geo.Point{}) do
     nil
   end
 
+  @spec area(Geo.LineString.t()) :: atom()
   def area(%Geo.LineString{}) do
     nil
   end
 
+  @spec area(Geo.Polygon.t()) :: float()
   def area(%Geo.Polygon{coordinates: [coords]}) do
     calculate_area(coords)
   end

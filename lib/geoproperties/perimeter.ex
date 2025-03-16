@@ -9,18 +9,19 @@ defmodule GeoProperties.Perimeter do
   # Distance.distance returns the correct distance
   defp calculate_perimeter(coords) when is_list(coords) do
     coords
-    |> Enum.reduce({0, tl(coords)}, fn point_1, accumulator ->
-      case accumulator do
-        {acc, [point_2 = {_a, _b}]} ->
+    |> Enum.drop(-1)
+    |> Enum.reduce({0, tl(coords)}, fn point_1, {acc, remaining} ->
+      case remaining do
+        [point_2 = {_a, _b}] ->
           acc = acc + Distance.distance(point_1, point_2)
           IO.puts("Last item")
           IO.inspect(acc)
-          {acc}
-        {acc, [point_2 | rest]} ->
+          {acc, []}
+        [point_2 | rest] ->
           acc = acc + Distance.distance(point_1, point_2)
           IO.puts("Not last item")
           IO.inspect(acc)
-          {acc, [point_2] ++ rest}
+          {acc, rest}
       end
     end)
     |> elem(0)

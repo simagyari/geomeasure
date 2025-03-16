@@ -13,13 +13,9 @@ defmodule GeoProperties.Perimeter do
       case remaining do
         [point_2 = {_a, _b}] ->
           acc = acc + Distance.distance(point_1, point_2)
-          IO.puts("Last item")
-          IO.inspect(acc)
           {acc, []}
         [point_2 | rest] ->
           acc = acc + Distance.distance(point_1, point_2)
-          IO.puts("Not last item")
-          IO.inspect(acc)
           {acc, rest}
       end
     end)

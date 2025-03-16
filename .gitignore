@@ -3,5 +3,8 @@
 /deps/
 /doc/
 /.fetch
+erl_crash.dump
+*.ez
+geoproperties-*.tar
 /tmp/
 .tools-versions

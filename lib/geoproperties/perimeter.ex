@@ -26,12 +26,28 @@ defmodule GeoProperties.Perimeter do
     |> elem(0)
   end
 
-  @spec perimeter(Geo.Point.t()) :: atom()
+  @doc """
+  Calculates the perimeter of a Geo struct.
+
+  ## Examples:
+
+    iex> GeoProperties.Perimeter.perimeter(%Geo.Point{coordinates: {1, 2}})
+    nil
+
+    iex> GeoProperties.Perimeter.perimeter(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+    nil
+
+    iex> GeoProperties.Perimeter.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+    8.0
+
+  """
+  @doc since: "0.0.1"
+  @spec perimeter(Geo.Point.t()) :: nil
   def perimeter(%Geo.Point{}) do
     nil
   end
 
-  @spec perimeter(Geo.LineString.t()) :: atom()
+  @spec perimeter(Geo.LineString.t()) :: nil
   def perimeter(%Geo.LineString{}) do
     nil
   end

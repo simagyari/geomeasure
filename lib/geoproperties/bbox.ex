@@ -21,6 +21,22 @@ defmodule GeoProperties.Bbox do
     }
   end
 
+  @doc """
+  Calculates the bounding box of a Geo struct as a Geo.Polygon.
+
+  Examples:
+
+    iex> GeoProperties.Bbox.bbox(%Geo.Point{coordinates: {1, 2}})
+    %Geo.Point{coordinates: {1, 2}}
+
+    iex> GeoProperties.Bbox.bbox(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+    %Geo.Polygon{coordinates: [[{1, 2}, {1, 4}, {3, 4}, {3, 2}, {1, 2}]]}
+
+    iex> GeoProperties.Bbox.bbox(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+    %Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]}
+
+  """
+  @doc since: "0.0.1"
   @spec bbox(Geo.Point.t()) :: Geo.Point.t()
   def bbox(%Geo.Point{} = point), do: point
 

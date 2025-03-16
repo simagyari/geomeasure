@@ -14,6 +14,22 @@ defmodule GeoProperties.Centroid do
     %Geo.Point{coordinates: {mean_x, mean_y}}
   end
 
+  @doc """
+  Calculates the centroid of a Geo struct as a Geo.Point.
+
+  ## Examples:
+
+    iex> GeoProperties.Centroid.centroid(%Geo.Point{coordinates: {1, 2}})
+    %Geo.Point{coordinates: {1, 2}}
+
+    iex> GeoProperties.Centroid.centroid(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+    %Geo.Point{coordinates: {2.0, 3.0}}
+
+    iex> GeoProperties.Centroid.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+    %Geo.Point{coordinates: {1.0, 1.0}}
+
+  """
+  @doc since: "0.0.1"
   @spec centroid(Geo.Point.t()) :: Geo.Point.t()
   def centroid(%Geo.Point{} = point), do: point
 

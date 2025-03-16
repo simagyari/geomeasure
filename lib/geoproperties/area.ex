@@ -20,12 +20,28 @@ defmodule GeoProperties.Area do
     |> Kernel./(2)
   end
 
-  @spec area(Geo.Point.t()) :: atom()
+  @doc """
+  Calculates the area of a Geo struct.
+
+  ## Examples:
+
+    iex> GeoProperties.Area.area(%Geo.Point{coordinates: {1, 2}})
+    nil
+
+    iex> GeoProperties.Area.area(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+    nil
+
+    iex> GeoProperties.Area.area(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+    4.0
+
+  """
+  @doc since: "0.0.1"
+  @spec area(Geo.Point.t()) :: nil
   def area(%Geo.Point{}) do
     nil
   end
 
-  @spec area(Geo.LineString.t()) :: atom()
+  @spec area(Geo.LineString.t()) :: nil
   def area(%Geo.LineString{}) do
     nil
   end

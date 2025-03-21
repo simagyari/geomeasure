@@ -187,6 +187,6 @@ iex(3)> GeoCalc.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2
 
 ## Copyright and License
 
-Copyright (c) 2025 Sándor István Magyari
+Copyright (c) 2024 simagyari
 
 Released under the MIT License, which can be found in the repository's [LICENSE](https://github.com/simagyari/geocalc/blob/main/LICENSE) file.

@@ -18,4 +18,22 @@ defmodule GeoCalc.Distance.Test do
     b = {3, 4}
     assert GeoCalc.Distance.distance(a, b) == 5.0
   end
+
+  test "calculate_distance_x_direction_point" do
+    a = %Geo.Point{coordinates: {0, 0}}
+    b = %Geo.Point{coordinates: {5, 0}}
+    assert GeoCalc.Distance.distance(a, b) == 5.0
+  end
+
+  test "calculate_distance_y_direction_point" do
+    a = %Geo.Point{coordinates: {0, 0}}
+    b = %Geo.Point{coordinates: {0, 5}}
+    assert GeoCalc.Distance.distance(a, b) == 5.0
+  end
+
+  test "calculate_distance_xy_direction_point" do
+    a = %Geo.Point{coordinates: {0, 0}}
+    b = %Geo.Point{coordinates: {3, 4}}
+    assert GeoCalc.Distance.distance(a, b) == 5.0
+  end
 end

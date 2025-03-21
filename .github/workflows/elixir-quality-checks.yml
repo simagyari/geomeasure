@@ -1,0 +1,40 @@
+name: Elixir Quality Checks
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - "**"
+
+jobs:
+  quality_checks:
+    name: Elixir Quality Checks
+    runs_on: ubuntu-latest
+    env:
+      MIX_ENV: dev
+      elixir: "1.15.4"
+      otp: "26.0.2"
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Elixir Project
+        uses: ./.github/actions/elixir-setup
+        with:
+          elixir-version: ${{ env.elixir }}
+          otp-version: ${{ env.otp }}
+          build-app: false
+
+      - name: Check For Unused Deps
+        run: mix deps.unlock --check-unused
+
+      - name: Check Code Formatting
+        run: mix format --check-formatted
+        if: always()
+
+      - name: Check For Compile-Time Dependencies Between Modules
+        run: mix xref graph --label compile-connected --fail-above 0
+        if: always()

@@ -1,4 +1,4 @@
-# GeoProperties
+# GeoCalc
 
 A collection of functions calculating different properties of [Geo](https://github.com/felt/geo/tree/master) structs.
 
@@ -21,58 +21,58 @@ _Note_: If you would like to make in-memory calculations to determine the relati
 ```elixir
 defp deps do
   [
-    {:geoproperties, "~> 1.0"}
+    {:geocalc, "~> 1.0"}
   ]
 end
 ```
 ## Examples
 
-Each function can be called through their module, such as `GeoProperties.Area.area` or `GeoProperties.Perimeter.perimeter`. Alternatively, as a convenience, delegates have been implemented from the main `GeoProperties` module, enabling shortened calls, such as `GeoProperties.area` or `GeoProperties.perimeter`.
+Each function can be called through their module, such as `GeoCalc.Area.area` or `GeoCalc.Perimeter.perimeter`. Alternatively, as a convenience, delegates have been implemented from the main `GeoCalc` module, enabling shortened calls, such as `GeoCalc.area` or `GeoCalc.perimeter`.
 
 ### Area
 
-Calling through the `GeoProperties.Area` module:
+Calling through the `GeoCalc.Area` module:
 
 ```elixir
-iex(1)> GeoProperties.Area.area(%Geo.Point{coordinates: {1, 2}})
+iex(1)> GeoCalc.Area.area(%Geo.Point{coordinates: {1, 2}})
 nil
 
-iex(2)> GeoProperties.Area.area(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+iex(2)> GeoCalc.Area.area(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 nil
 
-iex(3)> GeoProperties.Area.area(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(3)> GeoCalc.Area.area(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 4.0
 ```
 
-Calling through the `GeoProperties` module:
+Calling through the `GeoCalc` module:
 
 ```elixir
-iex(1)> GeoProperties.area(%Geo.Point{coordinates: {1, 2}})
+iex(1)> GeoCalc.area(%Geo.Point{coordinates: {1, 2}})
 nil
 
-iex(2)> GeoProperties.area(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+iex(2)> GeoCalc.area(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 nil
 
-iex(3)> GeoProperties.area(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(3)> GeoCalc.area(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 4.0
 ```
 
 ### Bounding Box
 
-Calling through the `GeoProperties.Bbox` module:
+Calling through the `GeoCalc.Bbox` module:
 
 ```elixir
-iex(1)> GeoProperties.Bbox.bbox(%Geo.Point{coordinates: {1, 2}})
+iex(1)> GeoCalc.Bbox.bbox(%Geo.Point{coordinates: {1, 2}})
 %Geo.Point{coordinates: {1, 2}, srid: nil, properties: %{}}
 
-iex(2)> GeoProperties.Bbox.bbox(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+iex(2)> GeoCalc.Bbox.bbox(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 %Geo.Polygon{
   coordinates: [[{1, 2}, {1, 4}, {3, 4}, {3, 2}, {1, 2}]],
   srid: nil,
   properties: %{}
 }
 
-iex(3)> GeoProperties.Bbox.bbox(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(3)> GeoCalc.Bbox.bbox(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 %Geo.Polygon{
   coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
   srid: nil,
@@ -80,20 +80,20 @@ iex(3)> GeoProperties.Bbox.bbox(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 
 }
 ```
 
-Calling through the `GeoProperties` module:
+Calling through the `GeoCalc` module:
 
 ```elixir
-iex(1)> GeoProperties.bbox(%Geo.Point{coordinates: {1, 2}})
+iex(1)> GeoCalc.bbox(%Geo.Point{coordinates: {1, 2}})
 %Geo.Point{coordinates: {1, 2}, srid: nil, properties: %{}}
 
-iex(2)> GeoProperties.bbox(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+iex(2)> GeoCalc.bbox(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 %Geo.Polygon{
   coordinates: [[{1, 2}, {1, 4}, {3, 4}, {3, 2}, {1, 2}]],
   srid: nil,
   properties: %{}
 }
 
-iex(3)> GeoProperties.bbox(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(3)> GeoCalc.bbox(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 %Geo.Polygon{
   coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
   srid: nil,
@@ -103,85 +103,85 @@ iex(3)> GeoProperties.bbox(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {
 
 ### Centroid
 
-Calling through the `GeoProperties.Centroid` module:
+Calling through the `GeoCalc.Centroid` module:
 
 ```elixir
-iex(1)> GeoProperties.Centroid.centroid(%Geo.Point{coordinates: {1, 2}})
+iex(1)> GeoCalc.Centroid.centroid(%Geo.Point{coordinates: {1, 2}})
 %Geo.Point{coordinates: {1, 2}, srid: nil, properties: %{}}
 
-iex(2)> GeoProperties.Centroid.centroid(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+iex(2)> GeoCalc.Centroid.centroid(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 %Geo.Point{coordinates: {2.0, 3.0}, srid: nil, properties: %{}}
 
-iex(3)> GeoProperties.Centroid.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(3)> GeoCalc.Centroid.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 %Geo.Point{coordinates: {1.0, 1.0}, srid: nil, properties: %{}}
 ```
 
-Calling through the `GeoProperties` module:
+Calling through the `GeoCalc` module:
 
 ```elixir
-iex(1)> GeoProperties.centroid(%Geo.Point{coordinates: {1, 2}})
+iex(1)> GeoCalc.centroid(%Geo.Point{coordinates: {1, 2}})
 %Geo.Point{coordinates: {1, 2}, srid: nil, properties: %{}}
 
-iex(2)> GeoProperties.centroid(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+iex(2)> GeoCalc.centroid(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 %Geo.Point{coordinates: {2.0, 3.0}, srid: nil, properties: %{}}
 
-iex(3)> GeoProperties.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(3)> GeoCalc.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 %Geo.Point{coordinates: {1.0, 1.0}, srid: nil, properties: %{}}
 ```
 
 ### Extent
 
-Calling through the `GeoProperties.Extent` module:
+Calling through the `GeoCalc.Extent` module:
 
 ```elixir
-iex(1)> GeoProperties.Extent.extent(%Geo.Point{coordinates: {1, 2}})
+iex(1)> GeoCalc.Extent.extent(%Geo.Point{coordinates: {1, 2}})
 nil
 
-iex(2)> GeoProperties.Extent.extent(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+iex(2)> GeoCalc.Extent.extent(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 {1, 3, 2, 4}
 
-iex(3)> GeoProperties.Extent.extent(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(3)> GeoCalc.Extent.extent(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 {0, 2, 0, 2}
 ```
 
-Calling through the `GeoProperties` module:
+Calling through the `GeoCalc` module:
 
 ```elixir
-iex(1)> GeoProperties.extent(%Geo.Point{coordinates: {1, 2}})
+iex(1)> GeoCalc.extent(%Geo.Point{coordinates: {1, 2}})
 nil
 
-iex(2)> GeoProperties.extent(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+iex(2)> GeoCalc.extent(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 {1, 3, 2, 4}
 
-iex(3)> GeoProperties.extent(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(3)> GeoCalc.extent(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 {0, 2, 0, 2}
 ```
 
 ### Perimeter
 
-Calling through the `GeoProperties.Perimeter` module:
+Calling through the `GeoCalc.Perimeter` module:
 
 ```elixir
-iex(1)> GeoProperties.Perimeter.perimeter(%Geo.Point{coordinates: {1, 2}})
+iex(1)> GeoCalc.Perimeter.perimeter(%Geo.Point{coordinates: {1, 2}})
 nil
 
-iex(2)> GeoProperties.Perimeter.perimeter(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+iex(2)> GeoCalc.Perimeter.perimeter(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 nil
 
-iex(3)> GeoProperties.Perimeter.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(3)> GeoCalc.Perimeter.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 8.0
 ```
 
-Calling through the `GeoProperties` module:
+Calling through the `GeoCalc` module:
 
 ```elixir
-iex(1)> GeoProperties.perimeter(%Geo.Point{coordinates: {1, 2}})
+iex(1)> GeoCalc.perimeter(%Geo.Point{coordinates: {1, 2}})
 nil
 
-iex(2)> GeoProperties.perimeter(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+iex(2)> GeoCalc.perimeter(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 nil
 
-iex(3)> GeoProperties.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(3)> GeoCalc.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 8.0
 ```
 
@@ -189,4 +189,4 @@ iex(3)> GeoProperties.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 
 
 Copyright (c) 2025 Sándor István Magyari
 
-Released under the MIT License, which can be found in the repository's [LICENSE](https://github.com/simagyari/geoproperties/blob/main/LICENSE) file.
+Released under the MIT License, which can be found in the repository's [LICENSE](https://github.com/simagyari/geocalc/blob/main/LICENSE) file.

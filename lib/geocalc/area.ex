@@ -1,4 +1,4 @@
-defmodule GeoProperties.Area do
+defmodule GeoCalc.Area do
   @moduledoc """
   Calculates the area of Geo struct.
   """
@@ -25,13 +25,13 @@ defmodule GeoProperties.Area do
 
   ## Examples:
 
-    iex> GeoProperties.Area.area(%Geo.Point{coordinates: {1, 2}})
+    iex> GeoCalc.Area.area(%Geo.Point{coordinates: {1, 2}})
     nil
 
-    iex> GeoProperties.Area.area(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+    iex> GeoCalc.Area.area(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
     nil
 
-    iex> GeoProperties.Area.area(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+    iex> GeoCalc.Area.area(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
     4.0
 
   """

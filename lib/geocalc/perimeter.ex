@@ -1,9 +1,9 @@
-defmodule GeoProperties.Perimeter do
+defmodule GeoCalc.Perimeter do
   @moduledoc"""
   Calculates the perimeter of a Geo struct.
   """
 
-  alias GeoProperties.Distance
+  alias GeoCalc.Distance
 
   @spec calculate_perimeter([{number(), number()}]) :: float()
   defp calculate_perimeter(coords) when is_list(coords) do
@@ -27,13 +27,13 @@ defmodule GeoProperties.Perimeter do
 
   ## Examples:
 
-    iex> GeoProperties.Perimeter.perimeter(%Geo.Point{coordinates: {1, 2}})
+    iex> GeoCalc.Perimeter.perimeter(%Geo.Point{coordinates: {1, 2}})
     nil
 
-    iex> GeoProperties.Perimeter.perimeter(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+    iex> GeoCalc.Perimeter.perimeter(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
     nil
 
-    iex> GeoProperties.Perimeter.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+    iex> GeoCalc.Perimeter.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
     8.0
 
   """

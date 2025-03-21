@@ -1,4 +1,4 @@
-defmodule GeoProperties.Distance do
+defmodule GeoCalc.Distance do
   @moduledoc """
   Calculates distance between two coordinate pairs.
   """
@@ -8,10 +8,10 @@ defmodule GeoProperties.Distance do
 
   ## Examples:
 
-    iex> GeoProperties.Distance.distance({0, 0}, {5, 0})
+    iex> GeoCalc.Distance.distance({0, 0}, {5, 0})
     5.0
 
-    iex> GeoProperties.Distance.distance({0, 0}, {3, 4})
+    iex> GeoCalc.Distance.distance({0, 0}, {3, 4})
     5.0
 
   """

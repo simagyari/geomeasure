@@ -1,10 +1,10 @@
-defmodule GeoProperties do
+defmodule GeoCalc do
   @moduledoc """
   Calculates properties of Geo structs.
   """
 
   alias Geo
-  alias GeoProperties.{
+  alias GeoCalc.{
     Area,
     Bbox,
     Centroid,

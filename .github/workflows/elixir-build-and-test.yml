@@ -1,0 +1,82 @@
+name: Elixir Build And Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - "**"
+
+jobs:
+  build:
+    name: Elixir Build And Test
+    runs-on: ubuntu-latest
+    env:
+      MIX_ENV: test
+    strategy:
+      matrix:
+        elixir: ["1.10.4", "1.11.4", "1.12.3", "1.13.4", "1.14.4", "1.15.5"]
+        otp: ["22.3", "23.3.4", "24.3.4", "25.3.2", "26.0.2"]
+        exclude:
+          - elixir: "1.10.4"
+            otp: "26.0.2"
+          - elixir: "1.10.4"
+            otp: "25.3.2"
+          - elixir: "1.10.4"
+            otp: "24.3.4"
+          - elixir: "1.11.4"
+            otp: "25.3.2"
+          - elixir: "1.11.4"
+            otp: "26.0.2"
+          - elixir: "1.12.3"
+            otp: "25.3.2"
+          - elixir: "1.12.3"
+            otp: "26.0.2"
+          - elixir: "1.13.4"
+            otp: "26.0.2"
+          - elixir: "1.14.4"
+            otp: "22.3"
+          - elixir: "1.15.5"
+            otp: "22.3"
+          - elixir: "1.15.5"
+            otp: "23.3.4"
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      
+      - name: Setup Elixir Project
+        uses: ./.github/actions/elixir-setup
+        with:
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
+          build-app: false
+      
+      - name: Compile With Warnings As Errors
+        if: ${{ matrix.elixir != "1.11.4" && matrix.elixir != "1.10.4" }}
+        run: mix compile --warnings-as-errors
+      
+      - name: Compile
+        if: ${{ matrix.elixir == "1.10.4" }}
+        run: mix compile
+      
+      - name: Run Tests With Warnings As Errors
+        if: ${{ matrix.elixir != "1.11.4" && matrix.elixir != "1.10.4" }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: nick-fields/retry@v2
+        with:
+          max_attempts: 3
+          timeout_minutes: 5
+          command: mix test --warnings-as-errors
+          new_command_on_retry: mix test --warnings-as-errors --failed
+      
+      - name: Run Tests
+        if: ${{ matrix.elixir == "1.11.4" }}
+        uses: nick-fields/retry@v2
+        with:
+          max_attempts: 3
+          timeout_minutes: 5
+          command: mix test
+          new_command_on_retry: mix test --failed

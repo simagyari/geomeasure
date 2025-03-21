@@ -1,16 +1,16 @@
-defmodule GeoCalc.Extent do
+defmodule GeoMeasure.Extent do
   @moduledoc"""
   Calculates the extent of a Geo struct.
 
   ## Examples:
 
-      iex> GeoCalc.Extent.extent(%Geo.Point{coordinates: {1, 2}})
+      iex> GeoMeasure.Extent.extent(%Geo.Point{coordinates: {1, 2}})
       nil
 
-      iex> GeoCalc.Extent.extent(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+      iex> GeoMeasure.Extent.extent(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
       {1, 3, 2, 4}
 
-      iex> GeoCalc.Extent.extent(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+      iex> GeoMeasure.Extent.extent(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
       {0, 2, 0, 2}
 
   """

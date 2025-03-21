@@ -5,6 +5,6 @@
 /.fetch
 erl_crash.dump
 *.ez
-geocalc-*.tar
+geomeasure-*.tar
 /tmp/
 .tools-versions

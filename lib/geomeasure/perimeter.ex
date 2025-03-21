@@ -1,21 +1,21 @@
-defmodule GeoCalc.Perimeter do
+defmodule GeoMeasure.Perimeter do
   @moduledoc"""
   Calculates the perimeter of a Geo struct.
 
   ## Examples:
 
-      iex> GeoCalc.Perimeter.perimeter(%Geo.Point{coordinates: {1, 2}})
+      iex> GeoMeasure.Perimeter.perimeter(%Geo.Point{coordinates: {1, 2}})
       nil
 
-      iex> GeoCalc.Perimeter.perimeter(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+      iex> GeoMeasure.Perimeter.perimeter(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
       nil
 
-      iex> GeoCalc.Perimeter.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+      iex> GeoMeasure.Perimeter.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
       8.0
 
   """
 
-  alias GeoCalc.Distance
+  alias GeoMeasure.Distance
 
   @spec calculate_perimeter([{number(), number()}]) :: float()
   defp calculate_perimeter(coords) when is_list(coords) do

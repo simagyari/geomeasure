@@ -1,16 +1,16 @@
-defmodule GeoCalc.Distance do
+defmodule GeoMeasure.Distance do
   @moduledoc """
   Calculates distance between two coordinate pairs or Geo.Point structs.
 
   ## Examples:
 
-      iex> GeoCalc.Distance.distance({0, 0}, {5, 0})
+      iex> GeoMeasure.Distance.distance({0, 0}, {5, 0})
       5.0
 
-      iex> GeoCalc.Distance.distance({0, 0}, {3, 4})
+      iex> GeoMeasure.Distance.distance({0, 0}, {3, 4})
       5.0
 
-      iex> GeoCalc.Distance.distance(%Geo.Point{coordinates: {0, 0}}, %Geo.Point{coordinates: {3, 4}})
+      iex> GeoMeasure.Distance.distance(%Geo.Point{coordinates: {0, 0}}, %Geo.Point{coordinates: {3, 4}})
       5.0
 
   """

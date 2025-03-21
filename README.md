@@ -13,6 +13,7 @@ Currently, the following properties can be calculated for the supported [Geo](ht
 - Area
 - Bounding box
 - Centroid
+- Distance (between two coordinate pairs or Geo.Point structs)
 - Extent
 - Perimeter
 
@@ -127,6 +128,34 @@ iex(2)> GeoCalc.centroid(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 
 iex(3)> GeoCalc.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 %Geo.Point{coordinates: {1.0, 1.0}, srid: nil, properties: %{}}
+```
+
+### Distance
+
+Calling through the `GeoCalc.Distance` module:
+
+```elixir
+iex(1)> GeoCalc.Distance.distance({0, 0}, {5, 0})
+5.0
+
+iex(2)> GeoCalc.Distance.distance({0, 0}, {3, 4})
+5.0
+
+iex(3)> GeoCalc.Distance.distance(%Geo.Point{coordinates: {0, 0}}, %Geo.Point{coordinates: {3, 4}})
+5.0
+```
+
+Calling through the `GeoCalc` module:
+
+```elixir
+iex(1)> GeoCalc.distance({0, 0}, {5, 0})
+5.0
+
+iex(2)> GeoCalc.distance({0, 0}, {3, 4})
+5.0
+
+iex(3)> GeoCalc.distance(%Geo.Point{coordinates: {0, 0}}, %Geo.Point{coordinates: {3, 4}})
+5.0
 ```
 
 ### Extent

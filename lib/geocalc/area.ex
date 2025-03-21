@@ -1,6 +1,18 @@
 defmodule GeoCalc.Area do
   @moduledoc """
   Calculates the area of Geo struct.
+
+  ## Examples:
+
+      iex> GeoCalc.Area.area(%Geo.Point{coordinates: {1, 2}})
+      nil
+
+      iex> GeoCalc.Area.area(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+      nil
+
+      iex> GeoCalc.Area.area(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+      4.0
+
   """
 
   @spec calculate_area([{number(), number()}]) :: float()
@@ -22,18 +34,6 @@ defmodule GeoCalc.Area do
 
   @doc """
   Calculates the area of a Geo struct.
-
-  ## Examples:
-
-    iex> GeoCalc.Area.area(%Geo.Point{coordinates: {1, 2}})
-    nil
-
-    iex> GeoCalc.Area.area(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
-    nil
-
-    iex> GeoCalc.Area.area(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
-    4.0
-
   """
   @doc since: "0.0.1"
   @spec area(Geo.Point.t()) :: nil

@@ -1,6 +1,18 @@
 defmodule GeoCalc.Centroid do
   @moduledoc"""
   Calculates the centroid of a Geo struct.
+
+  ## Examples:
+
+      iex> GeoCalc.Centroid.centroid(%Geo.Point{coordinates: {1, 2}})
+      %Geo.Point{coordinates: {1, 2}}
+
+      iex> GeoCalc.Centroid.centroid(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+      %Geo.Point{coordinates: {2.0, 3.0}}
+
+      iex> GeoCalc.Centroid.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+      %Geo.Point{coordinates: {1.0, 1.0}}
+
   """
 
   alias Geo
@@ -16,18 +28,6 @@ defmodule GeoCalc.Centroid do
 
   @doc """
   Calculates the centroid of a Geo struct as a Geo.Point.
-
-  ## Examples:
-
-    iex> GeoCalc.Centroid.centroid(%Geo.Point{coordinates: {1, 2}})
-    %Geo.Point{coordinates: {1, 2}}
-
-    iex> GeoCalc.Centroid.centroid(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
-    %Geo.Point{coordinates: {2.0, 3.0}}
-
-    iex> GeoCalc.Centroid.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
-    %Geo.Point{coordinates: {1.0, 1.0}}
-
   """
   @doc since: "0.0.1"
   @spec centroid(Geo.Point.t()) :: Geo.Point.t()

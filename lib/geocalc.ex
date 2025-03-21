@@ -8,6 +8,7 @@ defmodule GeoCalc do
     Area,
     Bbox,
     Centroid,
+    Distance,
     Extent,
     Perimeter
   }
@@ -20,6 +21,10 @@ defmodule GeoCalc do
 
   @spec centroid(Geo.geometry()) :: Geo.Point.t()
   defdelegate centroid(geometry), to: Centroid
+
+  @spec distance({number(), number()}, {number(), number()}) :: float()
+  @spec distance(Geo.Point.t(), Geo.Point.t()) :: float()
+  defdelegate distance(coordinates_1, coordinates_2), to: Distance
 
   @spec extent(Geo.geometry()) :: {number(), number(), number(), number()} | nil
   defdelegate extent(geometry), to: Extent

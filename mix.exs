@@ -31,7 +31,8 @@ defmodule GeoCalc.Mixfile do
 
   defp deps do
     [
-      {:geo, "~> 4.0"}
+      {:geo, "~> 4.0"},
+      {:ex_doc, "~> 0.34", only: :dev, runtime: false}
     ]
   end
 
@@ -39,7 +40,7 @@ defmodule GeoCalc.Mixfile do
     # Files in the package
     [
       files: ["lib", "mix.exs", "README.md"],
-      maintainers: ["Sandor Magyari"],
+      maintainers: ["Sandor Istvan Magyari"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/simagyari/geocalc"}
     ]
@@ -47,9 +48,10 @@ defmodule GeoCalc.Mixfile do
 
   defp docs do
     [
-      extras: ["README.md"],
+      extras: ["README.md", "LICENSE"],
       main: "readme",
       source_url: @source_url,
+      source_ref: "main",
       formatters: ["html"]
     ]
   end

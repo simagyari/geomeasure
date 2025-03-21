@@ -1,5 +1,12 @@
 # GeoMeasure
 
+[![Build Status](https://github.com/simagyari/geomeasure/actions/workflows/elixir-build-and-test.yml/badge.svg?branch=master)](https://github.com/simagyari/geomeasure/actions/workflows/elixir-build-and-test.yml)
+[![Module Version](https://img.shields.io/hexpm/v/geomeasure.svg)](https://hex.pm/packages/geomeasure)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/geomeasure/)
+[![Total Download](https://img.shields.io/hexpm/dt/geomeasure.svg)](https://hex.pm/packages/geomeasure)
+[![License](https://img.shields.io/hexpm/l/geomeasure.svg)](https://github.com/simagyari/geomeasure/blob/main/LICENSE)
+[![Last Updated](https://img.shields.io/github/last-commit/simagyari/geomeasure.svg)](https://github.com/simagyari/geomeasure/commits/main)
+
 A collection of functions calculating different properties of [Geo](https://github.com/felt/geo/tree/master) structs.
 
 Currently, this project supports only the following geometries:

@@ -55,6 +55,7 @@ runs:
 
     - name: Check Runner OS
       run: echo "Runner OS is ${{ runner.os }}"
+      shell: sh
 
     - name: Setup Elixir
       uses: erlef/setup-beam@v1

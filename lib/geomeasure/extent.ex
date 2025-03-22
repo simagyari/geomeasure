@@ -1,5 +1,5 @@
 defmodule GeoMeasure.Extent do
-  @moduledoc"""
+  @moduledoc """
   Calculates the extent of a Geo struct.
 
   ## Examples:

@@ -20,10 +20,12 @@ defmodule GeoMeasure.Area do
     coords
     |> Enum.reduce({0, tl(coords)}, fn item, accumulator ->
       {x1, y1} = item
+
       case accumulator do
         {acc, [{x2, y2} | rest]} ->
           acc = acc + abs(x1 * y2 - x2 * y1)
           {acc, [{x2, y2}] ++ rest}
+
         {acc, [{_}]} ->
           {acc}
       end

@@ -1,5 +1,5 @@
 defmodule GeoMeasure.Perimeter do
-  @moduledoc"""
+  @moduledoc """
   Calculates the perimeter of a Geo struct.
 
   ## Examples:
@@ -26,6 +26,7 @@ defmodule GeoMeasure.Perimeter do
         [point_2 = {_a, _b}] ->
           acc = acc + Distance.distance(point_1, point_2)
           {acc, []}
+
         [point_2 | rest] ->
           acc = acc + Distance.distance(point_1, point_2)
           {acc, rest}

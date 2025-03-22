@@ -1,5 +1,5 @@
 defmodule GeoMeasure.Centroid do
-  @moduledoc"""
+  @moduledoc """
   Calculates the centroid of a Geo struct.
 
   ## Examples:

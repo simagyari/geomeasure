@@ -4,6 +4,7 @@ defmodule GeoMeasure do
   """
 
   alias Geo
+
   alias GeoMeasure.{
     Area,
     Bbox,
@@ -31,5 +32,4 @@ defmodule GeoMeasure do
 
   @spec perimeter(Geo.geometry()) :: float() | nil
   defdelegate perimeter(geometry), to: Perimeter
-
 end

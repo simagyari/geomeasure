@@ -8,6 +8,9 @@ on:
     branches:
       - "**"
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Elixir Build And Test
@@ -54,15 +57,15 @@ jobs:
           build-app: false
       
       - name: Compile With Warnings As Errors
-        if: ${{ matrix.elixir != "1.11.4" && matrix.elixir != "1.10.4" }}
+        if: ${{ matrix.elixir != '1.11.4' && matrix.elixir != '1.10.4' }}
         run: mix compile --warnings-as-errors
       
       - name: Compile
-        if: ${{ matrix.elixir == "1.10.4" }}
+        if: ${{ matrix.elixir == '1.10.4' }}
         run: mix compile
       
       - name: Run Tests With Warnings As Errors
-        if: ${{ matrix.elixir != "1.11.4" && matrix.elixir != "1.10.4" }}
+        if: ${{ matrix.elixir != '1.11.4' && matrix.elixir != '1.10.4' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         uses: nick-fields/retry@v2
@@ -73,7 +76,7 @@ jobs:
           new_command_on_retry: mix test --warnings-as-errors --failed
       
       - name: Run Tests
-        if: ${{ matrix.elixir == "1.11.4" }}
+        if: ${{ matrix.elixir == '1.11.4' }}
         uses: nick-fields/retry@v2
         with:
           max_attempts: 3

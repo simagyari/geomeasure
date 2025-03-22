@@ -58,7 +58,7 @@ runs:
       shell: sh
 
     - name: Setup Elixir
-      uses: erlef/setup-beam@v1
+      uses: erlef/setup-beam@v1.15.4
       id: beam
       with:
         elixir-version: ${{ inputs.elixir-version }}

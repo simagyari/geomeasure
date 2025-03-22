@@ -63,7 +63,7 @@ runs:
       uses: actions/cache@v2
       with:
         path: deps/
-        key: deps-${{ inputs.cache-key }}-${{ runner.os }}-${{ hashFiles("**/mix.lock")}}
+        key: deps-${{ inputs.cache-key }}-${{ runner.os }}-${{ hashFiles('**/mix.lock') }}
         restore-keys: |
           deps-${{ inputs.cache-key }}-${{ runner.os }}-
     

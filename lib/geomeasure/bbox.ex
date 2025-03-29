@@ -1,19 +1,5 @@
 defmodule GeoMeasure.Bbox do
-  @moduledoc """
-  Calculates the bounding box of a Geo struct.
-
-  Examples:
-
-      iex> GeoMeasure.Bbox.bbox(%Geo.Point{coordinates: {1, 2}})
-      %Geo.Point{coordinates: {1, 2}}
-
-      iex> GeoMeasure.Bbox.bbox(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
-      %Geo.Polygon{coordinates: [[{1, 2}, {1, 4}, {3, 4}, {3, 2}, {1, 2}]]}
-
-      iex> GeoMeasure.Bbox.bbox(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
-      %Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]}
-
-  """
+  @moduledoc false
 
   alias GeoMeasure.Extent
 

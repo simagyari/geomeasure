@@ -1,19 +1,5 @@
 defmodule GeoMeasure.Centroid do
-  @moduledoc """
-  Calculates the centroid of a Geo struct.
-
-  ## Examples:
-
-      iex> GeoMeasure.Centroid.centroid(%Geo.Point{coordinates: {1, 2}})
-      %Geo.Point{coordinates: {1, 2}}
-
-      iex> GeoMeasure.Centroid.centroid(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
-      %Geo.Point{coordinates: {2.0, 3.0}}
-
-      iex> GeoMeasure.Centroid.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
-      %Geo.Point{coordinates: {1.0, 1.0}}
-
-  """
+  @moduledoc false
 
   alias Geo
 

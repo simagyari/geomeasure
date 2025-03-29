@@ -5,12 +5,14 @@ defmodule GeoMeasure.Centroid do
 
   @spec calculate_centroid([{number(), number()}]) :: Geo.Point.t()
   defp calculate_centroid(coords) when is_list(coords) do
-    xs = Enum.map(coords, fn x -> elem(x, 0) end)
-    ys = Enum.map(coords, fn x -> elem(x, 1) end)
-    mean_x = Enum.sum(xs) / length(xs)
-    mean_y = Enum.sum(ys) / length(ys)
+    {sum_x, sum_y} = Enum.reduce(coords, {0, 0}, &sum_coordinates/2)
+    mean_x = sum_x / length(coords)
+    mean_y = sum_y / length(coords)
     %Geo.Point{coordinates: {mean_x, mean_y}}
   end
+
+  @spec sum_coordinates({number(), number()}, {number(), number()}) :: number()
+  defp sum_coordinates({lx, ly}, {rx, ry}), do: {lx + rx, ly + ry}
 
   @doc """
   Calculates the centroid of a Geo struct as a Geo.Point.

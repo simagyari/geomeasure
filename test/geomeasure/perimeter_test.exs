@@ -3,16 +3,16 @@ defmodule GeoMeasure.Perimeter.Test do
 
   test "calculate_point_perimeter" do
     geom = %Geo.Point{coordinates: {1, 2}}
-    assert_raise FunctionClauseError, fn -> GeoMeasure.Perimeter.perimeter(geom) end
+    assert_raise FunctionClauseError, fn -> GeoMeasure.Perimeter.calculate(geom) end
   end
 
   test "calculate_linestring_perimeter" do
     geom = %Geo.LineString{coordinates: [{1, 2}, {3, 4}]}
-    assert_raise FunctionClauseError, fn -> GeoMeasure.Perimeter.perimeter(geom) end
+    assert_raise FunctionClauseError, fn -> GeoMeasure.Perimeter.calculate(geom) end
   end
 
   test "calculate_polygon_perimeter" do
     geom = %Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]}
-    assert GeoMeasure.Perimeter.perimeter(geom) == 8.0
+    assert GeoMeasure.Perimeter.calculate(geom) == 8.0
   end
 end

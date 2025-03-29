@@ -16,6 +16,11 @@ defmodule GeoMeasure.Test do
     assert GeoMeasure.area(geom) == 4.0
   end
 
+  test "calculate_polygon_area_nil_coord" do
+    geom = %Geo.Polygon{coordinates: [[{0, 0}, {0, nil}, {2, 2}, {2, 0}, {0, 0}]]}
+    assert_raise ArgumentError, fn -> GeoMeasure.area(geom) end
+  end
+
   test "calculate_point_bbox" do
     geom = %Geo.Point{coordinates: {1, 2}}
     assert GeoMeasure.bbox(geom) == %Geo.Point{coordinates: {1, 2}}
@@ -37,6 +42,21 @@ defmodule GeoMeasure.Test do
            }
   end
 
+  test "calculate_point_bbox_nil_coord" do
+    geom = %Geo.Point{coordinates: {1, nil}}
+    assert_raise ArgumentError, fn -> GeoMeasure.bbox(geom) end
+  end
+
+  test "calculate_linestring_bbox_nil_coord" do
+    geom = %Geo.LineString{coordinates: [{1, 2}, {nil, 4}]}
+    assert_raise ArgumentError, fn -> GeoMeasure.bbox(geom) end
+  end
+
+  test "calculate_polygon_bbox_nil_coord" do
+    geom = %Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, nil}, {2, 0}, {0, 0}]]}
+    assert_raise ArgumentError, fn -> GeoMeasure.bbox(geom) end
+  end
+
   test "calculate_point_centroid" do
     geom = %Geo.Point{coordinates: {1, 2}}
     assert GeoMeasure.centroid(geom) == %Geo.Point{coordinates: {1, 2}}
@@ -50,6 +70,21 @@ defmodule GeoMeasure.Test do
   test "calculate_polygon_centroid" do
     geom = %Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]}
     assert GeoMeasure.centroid(geom) == %Geo.Point{coordinates: {1.0, 1.0}}
+  end
+
+  test "calculate_point_centroid_nil_coord" do
+    geom = %Geo.Point{coordinates: {nil, 2}}
+    assert_raise ArgumentError, fn -> GeoMeasure.centroid(geom) end
+  end
+
+  test "calculate_linestring_centroid_nil_coord" do
+    geom = %Geo.LineString{coordinates: [{1, nil}, {3, 4}]}
+    assert_raise ArgumentError, fn -> GeoMeasure.centroid(geom) end
+  end
+
+  test "calculate_polygon_centroid_nil_coord" do
+    geom = %Geo.Polygon{coordinates: [[{0, 0}, {nil, 2}, {2, 2}, {2, 0}, {0, 0}]]}
+    assert_raise ArgumentError, fn -> GeoMeasure.centroid(geom) end
   end
 
   test "calculate_distance_x_direction" do
@@ -88,6 +123,18 @@ defmodule GeoMeasure.Test do
     assert GeoMeasure.distance(a, b) == 5.0
   end
 
+  test "calculate_distance_xy_direction_nil_coord" do
+    a = {0, nil}
+    b = {3, 4}
+    assert_raise ArgumentError, fn -> GeoMeasure.distance(a, b) end
+  end
+
+  test "calculate_distance_xy_direction_point_nil_coord" do
+    a = %Geo.Point{coordinates: {0, 0}}
+    b = %Geo.Point{coordinates: {nil, 4}}
+    assert_raise ArgumentError, fn -> GeoMeasure.distance(a, b) end
+  end
+
   test "calculate_point_extent" do
     geom = %Geo.Point{coordinates: {1, 2}}
     assert_raise FunctionClauseError, fn -> GeoMeasure.extent(geom) end
@@ -103,6 +150,16 @@ defmodule GeoMeasure.Test do
     assert GeoMeasure.extent(geom) == {0, 2, 0, 2}
   end
 
+  test "calculate_linestring_extent_nil_coord" do
+    geom = %Geo.LineString{coordinates: [{1, 2}, {nil, 4}]}
+    assert_raise ArgumentError, fn -> GeoMeasure.extent(geom) end
+  end
+
+  test "calculate_polygon_extent_nil_coord" do
+    geom = %Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {nil, 0}, {0, 0}]]}
+    assert_raise ArgumentError, fn -> GeoMeasure.extent(geom) end
+  end
+
   test "calculate_point_perimeter" do
     geom = %Geo.Point{coordinates: {1, 2}}
     assert_raise FunctionClauseError, fn -> GeoMeasure.perimeter(geom) end
@@ -116,5 +173,10 @@ defmodule GeoMeasure.Test do
   test "calculate_polygon_perimeter" do
     geom = %Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]}
     assert GeoMeasure.perimeter(geom) == 8.0
+  end
+
+  test "calculate_polygon_perimeter_nil_coord" do
+    geom = %Geo.Polygon{coordinates: [[{0, 0}, {nil, 2}, {2, nil}, {2, 0}, {0, 0}]]}
+    assert_raise ArgumentError, fn -> GeoMeasure.perimeter(geom) end
   end
 end

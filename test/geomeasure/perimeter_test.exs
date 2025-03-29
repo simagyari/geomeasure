@@ -15,4 +15,9 @@ defmodule GeoMeasure.Perimeter.Test do
     geom = %Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]}
     assert GeoMeasure.Perimeter.calculate(geom) == 8.0
   end
+
+  test "calculate_polygon_perimeter_nil_coord" do
+    geom = %Geo.Polygon{coordinates: [[{0, 0}, {nil, 2}, {2, nil}, {2, 0}, {0, 0}]]}
+    assert_raise ArgumentError, fn -> GeoMeasure.Perimeter.calculate(geom) end
+  end
 end

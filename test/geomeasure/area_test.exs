@@ -15,4 +15,9 @@ defmodule GeoMeasure.Area.Test do
     geom = %Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]}
     assert GeoMeasure.Area.calculate(geom) == 4.0
   end
+
+  test "calculate_polygon_area_nil_coord" do
+    geom = %Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {nil, 0}, {0, 0}]]}
+    assert_raise ArgumentError, fn -> GeoMeasure.Area.calculate(geom) end
+  end
 end

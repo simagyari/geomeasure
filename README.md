@@ -26,11 +26,11 @@ Currently, the following properties can be calculated for the supported [Geo](ht
 
 For each geometry, only the properties that have meaning for the given geometry are implemented. This results in the following implementation table, where :white_check_mark: means supported, and :x: means unsupported property:
 
-| Geometry | Area | Bounding box | Centroid | Distance | Extent | Perimeter |
-| -------- | ---- | ------------ | -------- | -------- | ------ | --------- |
-| Point | <p align="center">:x:</p> | <p align="center">:white_check_mark:</p> | <p align="center">:white_check_mark:</p> | <p align="center">:white_check_mark:</p> | <p align="center">:x:</p> | <p align="center">:x:</p> |
-| LineString | <p align="center">:x:</p> | <p align="center">:white_check_mark:</p> | <p align="center">:white_check_mark:</p> | <p align="center">:x:</p> | <p align="center">:white_check_mark:</p> | <p align="center">:x:</p> |
-| Polygon | <p align="center">:white_check_mark:</p> | <p align="center">:white_check_mark:</p> | <p align="center">:white_check_mark:</p> | <p align="center">:x:</p> | <p align="center">:white_check_mark:</p> | <p align="center">:white_check_mark:</p> |
+| Geometry   | Area | Bounding box | Centroid | Distance | Extent | Perimeter |
+| ---------- | :--: | :----------: | :------: | :------: | :----: | :-------: |
+| Point      | ❌   | ✅          | ✅       | ✅      | ❌     | ❌       |
+| LineString | ❌   | ✅          | ✅       | ❌      | ✅     | ❌       |
+| Polygon    | ✅   | ✅          | ✅       | ❌      | ✅     | ✅       |
 
 _Note_: If you would like to make in-memory calculations to determine the relationship between two Geo structs, please check out [topo](https://github.com/pkinney/topo).
 
@@ -43,48 +43,16 @@ end
 ```
 ## Examples
 
-Each function can be called through their module, such as `GeoMeasure.Area.area` or `GeoMeasure.Perimeter.perimeter`. Alternatively, as a convenience, delegates have been implemented from the main `GeoMeasure` module, enabling shortened calls, such as `GeoMeasure.area` or `GeoMeasure.perimeter`.
+While each function can be called through their module, such as `GeoMeasure.Area.area` or `GeoMeasure.Perimeter.perimeter`, it is encouraged to use delegates from the main `GeoMeasure` module, enabling shortened calls, such as `GeoMeasure.area` or `GeoMeasure.perimeter`. Thus, the following examples will only show the shorter, more convenient calls through `GeoMeasure`.
 
 ### Area
 
-Calling through the `GeoMeasure.Area` module:
-
 ```elixir
-iex(3)> GeoMeasure.Area.area(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
-4.0
-```
-
-Calling through the `GeoMeasure` module:
-
-```elixir
-iex(3)> GeoMeasure.area(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(1)> GeoMeasure.area(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 4.0
 ```
 
 ### Bounding Box
-
-Calling through the `GeoMeasure.Bbox` module:
-
-```elixir
-iex(1)> GeoMeasure.Bbox.bbox(%Geo.Point{coordinates: {1, 2}})
-%Geo.Point{coordinates: {1, 2}, srid: nil, properties: %{}}
-
-iex(2)> GeoMeasure.Bbox.bbox(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
-%Geo.Polygon{
-  coordinates: [[{1, 2}, {1, 4}, {3, 4}, {3, 2}, {1, 2}]],
-  srid: nil,
-  properties: %{}
-}
-
-iex(3)> GeoMeasure.Bbox.bbox(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
-%Geo.Polygon{
-  coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
-  srid: nil,
-  properties: %{}
-}
-```
-
-Calling through the `GeoMeasure` module:
 
 ```elixir
 iex(1)> GeoMeasure.bbox(%Geo.Point{coordinates: {1, 2}})
@@ -107,21 +75,6 @@ iex(3)> GeoMeasure.bbox(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 
 
 ### Centroid
 
-Calling through the `GeoMeasure.Centroid` module:
-
-```elixir
-iex(1)> GeoMeasure.Centroid.centroid(%Geo.Point{coordinates: {1, 2}})
-%Geo.Point{coordinates: {1, 2}, srid: nil, properties: %{}}
-
-iex(2)> GeoMeasure.Centroid.centroid(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
-%Geo.Point{coordinates: {2.0, 3.0}, srid: nil, properties: %{}}
-
-iex(3)> GeoMeasure.Centroid.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
-%Geo.Point{coordinates: {1.0, 1.0}, srid: nil, properties: %{}}
-```
-
-Calling through the `GeoMeasure` module:
-
 ```elixir
 iex(1)> GeoMeasure.centroid(%Geo.Point{coordinates: {1, 2}})
 %Geo.Point{coordinates: {1, 2}, srid: nil, properties: %{}}
@@ -134,21 +87,6 @@ iex(3)> GeoMeasure.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, 
 ```
 
 ### Distance
-
-Calling through the `GeoMeasure.Distance` module:
-
-```elixir
-iex(1)> GeoMeasure.Distance.distance({0, 0}, {5, 0})
-5.0
-
-iex(2)> GeoMeasure.Distance.distance({0, 0}, {3, 4})
-5.0
-
-iex(3)> GeoMeasure.Distance.distance(%Geo.Point{coordinates: {0, 0}}, %Geo.Point{coordinates: {3, 4}})
-5.0
-```
-
-Calling through the `GeoMeasure` module:
 
 ```elixir
 iex(1)> GeoMeasure.distance({0, 0}, {5, 0})
@@ -163,39 +101,18 @@ iex(3)> GeoMeasure.distance(%Geo.Point{coordinates: {0, 0}}, %Geo.Point{coordina
 
 ### Extent
 
-Calling through the `GeoMeasure.Extent` module:
-
 ```elixir
-iex(2)> GeoMeasure.Extent.extent(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+iex(1)> GeoMeasure.extent(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 {1, 3, 2, 4}
 
-iex(3)> GeoMeasure.Extent.extent(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
-{0, 2, 0, 2}
-```
-
-Calling through the `GeoMeasure` module:
-
-```elixir
-iex(2)> GeoMeasure.extent(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
-{1, 3, 2, 4}
-
-iex(3)> GeoMeasure.extent(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(2)> GeoMeasure.extent(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 {0, 2, 0, 2}
 ```
 
 ### Perimeter
 
-Calling through the `GeoMeasure.Perimeter` module:
-
 ```elixir
-iex(3)> GeoMeasure.Perimeter.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
-8.0
-```
-
-Calling through the `GeoMeasure` module:
-
-```elixir
-iex(3)> GeoMeasure.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(1)> GeoMeasure.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 8.0
 ```
 

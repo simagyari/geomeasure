@@ -95,21 +95,21 @@ defmodule GeoMeasure do
   """
   @doc since: "0.0.1"
   @spec area(Geo.geometry()) :: number()
-  defdelegate area(geometry), to: Area
+  defdelegate area(geometry), to: Area, as: :calculate
 
   @doc """
   Calculates the bounding box of a Geo struct as a Geo.Polygon.
   """
   @doc since: "0.0.1"
   @spec bbox(Geo.geometry()) :: Geo.geometry()
-  defdelegate bbox(geometry), to: Bbox
+  defdelegate bbox(geometry), to: Bbox, as: :calculate
 
   @doc """
   Calculates the centroid of a Geo struct as a Geo.Point.
   """
   @doc since: "0.0.1"
   @spec centroid(Geo.geometry()) :: Geo.Point.t()
-  defdelegate centroid(geometry), to: Centroid
+  defdelegate centroid(geometry), to: Centroid, as: :calculate
 
   @doc """
   Calculates the distance between two coordinate pairs or Geo.Point structs.
@@ -117,19 +117,19 @@ defmodule GeoMeasure do
   @doc since: "0.0.1"
   @spec distance({number(), number()}, {number(), number()}) :: float()
   @spec distance(Geo.Point.t(), Geo.Point.t()) :: float()
-  defdelegate distance(coordinates_1, coordinates_2), to: Distance
+  defdelegate distance(coordinates_1, coordinates_2), to: Distance, as: :calculate
 
   @doc """
   Calculates the extent coordinates of a Geo struct.
   """
   @doc since: "0.0.1"
   @spec extent(Geo.geometry()) :: {number(), number(), number(), number()}
-  defdelegate extent(geometry), to: Extent
+  defdelegate extent(geometry), to: Extent, as: :calculate
 
   @doc """
   Calculates the perimeter of a Geo struct.
   """
   @doc since: "0.0.1"
   @spec perimeter(Geo.geometry()) :: float()
-  defdelegate perimeter(geometry), to: Perimeter
+  defdelegate perimeter(geometry), to: Perimeter, as: :calculate
 end

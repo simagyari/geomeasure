@@ -16,16 +16,16 @@ defmodule GeoMeasure.Centroid do
   Calculates the centroid of a Geo struct as a Geo.Point.
   """
   @doc since: "0.0.1"
-  @spec centroid(Geo.Point.t()) :: Geo.Point.t()
-  def centroid(%Geo.Point{} = point), do: point
+  @spec calculate(Geo.Point.t()) :: Geo.Point.t()
+  def calculate(%Geo.Point{} = point), do: point
 
-  @spec centroid(Geo.LineString.t()) :: Geo.Point.t()
-  def centroid(%Geo.LineString{coordinates: coords}) do
+  @spec calculate(Geo.LineString.t()) :: Geo.Point.t()
+  def calculate(%Geo.LineString{coordinates: coords}) do
     calculate_centroid(coords)
   end
 
-  @spec centroid(Geo.Polygon.t()) :: Get.Point.t()
-  def centroid(%Geo.Polygon{coordinates: [coords]}) do
+  @spec calculate(Geo.Polygon.t()) :: Get.Point.t()
+  def calculate(%Geo.Polygon{coordinates: [coords]}) do
     calculate_centroid(tl(coords))
   end
 end

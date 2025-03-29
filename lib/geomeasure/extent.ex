@@ -30,13 +30,13 @@ defmodule GeoMeasure.Extent do
   Calculates the extent coordinates of a Geo struct.
   """
   @doc since: "0.0.1"
-  @spec extent(Geo.LineString.t()) :: {number(), number(), number(), number()}
-  def extent(%Geo.LineString{coordinates: coords}) do
+  @spec calculate(Geo.LineString.t()) :: {number(), number(), number(), number()}
+  def calculate(%Geo.LineString{coordinates: coords}) do
     calculate_extent(coords)
   end
 
-  @spec extent(Geo.Polygon.t()) :: {number(), number(), number(), number()}
-  def extent(%Geo.Polygon{coordinates: [coords]}) do
+  @spec calculate(Geo.Polygon.t()) :: {number(), number(), number(), number()}
+  def calculate(%Geo.Polygon{coordinates: [coords]}) do
     calculate_extent(tl(coords))
   end
 end

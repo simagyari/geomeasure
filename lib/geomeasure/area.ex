@@ -1,13 +1,5 @@
 defmodule GeoMeasure.Area do
-  @moduledoc """
-  Calculates the area of Geo struct.
-
-  ## Examples:
-
-      iex> GeoMeasure.Area.area(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
-      4.0
-
-  """
+  @moduledoc false
 
   @spec calculate_area([{number(), number()}]) :: float()
   defp calculate_area(coords) when is_list(coords) do
@@ -32,7 +24,6 @@ defmodule GeoMeasure.Area do
   Calculates the area of a Geo struct.
   """
   @doc since: "0.0.1"
-
   @spec area(Geo.Polygon.t()) :: float()
   def area(%Geo.Polygon{coordinates: [coords]}) do
     calculate_area(coords)

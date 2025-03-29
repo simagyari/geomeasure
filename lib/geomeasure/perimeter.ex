@@ -1,13 +1,5 @@
 defmodule GeoMeasure.Perimeter do
-  @moduledoc """
-  Calculates the perimeter of a Geo struct.
-
-  ## Examples:
-
-      iex> GeoMeasure.Perimeter.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
-      8.0
-
-  """
+  @moduledoc false
 
   alias GeoMeasure.Distance
 
@@ -33,7 +25,6 @@ defmodule GeoMeasure.Perimeter do
   Calculates the perimeter of a Geo struct.
   """
   @doc since: "0.0.1"
-
   @spec perimeter(Geo.Polygon.t()) :: float()
   def perimeter(%Geo.Polygon{coordinates: [coords]}) do
     calculate_perimeter(coords)

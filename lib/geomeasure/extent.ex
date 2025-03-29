@@ -1,16 +1,5 @@
 defmodule GeoMeasure.Extent do
-  @moduledoc """
-  Calculates the extent of a Geo struct.
-
-  ## Examples:
-
-      iex> GeoMeasure.Extent.extent(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
-      {1, 3, 2, 4}
-
-      iex> GeoMeasure.Extent.extent(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
-      {0, 2, 0, 2}
-
-  """
+  @moduledoc false
 
   @spec calculate_extent([{number(), number()}]) :: {number(), number(), number(), number()}
   def calculate_extent(coords) when is_list(coords) do
@@ -41,7 +30,6 @@ defmodule GeoMeasure.Extent do
   Calculates the extent coordinates of a Geo struct.
   """
   @doc since: "0.0.1"
-
   @spec extent(Geo.LineString.t()) :: {number(), number(), number(), number()}
   def extent(%Geo.LineString{coordinates: coords}) do
     calculate_extent(coords)

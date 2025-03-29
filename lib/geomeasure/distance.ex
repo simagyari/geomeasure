@@ -1,19 +1,5 @@
 defmodule GeoMeasure.Distance do
-  @moduledoc """
-  Calculates distance between two coordinate pairs or Geo.Point structs.
-
-  ## Examples:
-
-      iex> GeoMeasure.Distance.distance({0, 0}, {5, 0})
-      5.0
-
-      iex> GeoMeasure.Distance.distance({0, 0}, {3, 4})
-      5.0
-
-      iex> GeoMeasure.Distance.distance(%Geo.Point{coordinates: {0, 0}}, %Geo.Point{coordinates: {3, 4}})
-      5.0
-
-  """
+  @moduledoc false
 
   alias Geo
 

@@ -2,6 +2,7 @@ defmodule GeoMeasure.Distance do
   @moduledoc false
 
   alias Geo
+  alias GeoMeasure.Utils
 
   @doc """
   Calculates the distance between two coordinate pairs or Geo.Point structs.
@@ -9,6 +10,8 @@ defmodule GeoMeasure.Distance do
   @doc since: "0.0.1"
   @spec calculate({number(), number()}, {number(), number()}) :: float()
   def calculate({x1, y1}, {x2, y2}) do
+    Utils.tuple_not_nil!({x1, y1})
+    Utils.tuple_not_nil!({x2, y2})
     :math.sqrt(:math.pow(x1 - x2, 2) + :math.pow(y1 - y2, 2))
   end
 

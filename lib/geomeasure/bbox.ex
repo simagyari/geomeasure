@@ -1,7 +1,7 @@
 defmodule GeoMeasure.Bbox do
   @moduledoc false
 
-  alias GeoMeasure.Extent
+  alias GeoMeasure.{Extent, Utils}
 
   @spec calculate_bbox([{number(), number()}]) :: Geo.Polygon.t()
   defp calculate_bbox(coords) when is_list(coords) do
@@ -25,7 +25,10 @@ defmodule GeoMeasure.Bbox do
   """
   @doc since: "0.0.1"
   @spec calculate(Geo.Point.t()) :: Geo.Point.t()
-  def calculate(%Geo.Point{} = point), do: point
+  def calculate(%Geo.Point{coordinates: coords} = point) do
+    Utils.tuple_not_nil!(coords)
+    point
+  end
 
   @spec calculate(Geo.LineString.t()) :: Geo.Polygon.t()
   def calculate(%Geo.LineString{coordinates: coords}) do

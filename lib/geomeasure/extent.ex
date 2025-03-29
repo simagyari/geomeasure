@@ -4,9 +4,6 @@ defmodule GeoMeasure.Extent do
 
   ## Examples:
 
-      iex> GeoMeasure.Extent.extent(%Geo.Point{coordinates: {1, 2}})
-      nil
-
       iex> GeoMeasure.Extent.extent(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
       {1, 3, 2, 4}
 
@@ -44,10 +41,6 @@ defmodule GeoMeasure.Extent do
   Calculates the extent coordinates of a Geo struct.
   """
   @doc since: "0.0.1"
-  @spec extent(Geo.Point.t()) :: nil
-  def extent(%Geo.Point{}) do
-    nil
-  end
 
   @spec extent(Geo.LineString.t()) :: {number(), number(), number(), number()}
   def extent(%Geo.LineString{coordinates: coords}) do

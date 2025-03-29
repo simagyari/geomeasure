@@ -4,12 +4,6 @@ defmodule GeoMeasure.Perimeter do
 
   ## Examples:
 
-      iex> GeoMeasure.Perimeter.perimeter(%Geo.Point{coordinates: {1, 2}})
-      nil
-
-      iex> GeoMeasure.Perimeter.perimeter(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
-      nil
-
       iex> GeoMeasure.Perimeter.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
       8.0
 
@@ -39,15 +33,6 @@ defmodule GeoMeasure.Perimeter do
   Calculates the perimeter of a Geo struct.
   """
   @doc since: "0.0.1"
-  @spec perimeter(Geo.Point.t()) :: nil
-  def perimeter(%Geo.Point{}) do
-    nil
-  end
-
-  @spec perimeter(Geo.LineString.t()) :: nil
-  def perimeter(%Geo.LineString{}) do
-    nil
-  end
 
   @spec perimeter(Geo.Polygon.t()) :: float()
   def perimeter(%Geo.Polygon{coordinates: [coords]}) do

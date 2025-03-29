@@ -24,6 +24,14 @@ Currently, the following properties can be calculated for the supported [Geo](ht
 - Extent
 - Perimeter
 
+For each geometry, only the properties that have meaning for the given geometry are implemented. This results in the following implementation table, where :white_check_mark: means supported, and :x: means unsupported property:
+
+| Geometry | Area | Bounding box | Centroid | Distance | Extent | Perimeter |
+| -------- | ---- | ------------ | -------- | -------- | ------ | --------- |
+| Point | <p align="center">:x:</p> | <p align="center">:white_check_mark:</p> | <p align="center">:white_check_mark:</p> | <p align="center">:white_check_mark:</p> | <p align="center">:x:</p> | <p align="center">:x:</p> |
+| LineString | <p align="center">:x:</p> | <p align="center">:white_check_mark:</p> | <p align="center">:white_check_mark:</p> | <p align="center">:x:</p> | <p align="center">:white_check_mark:</p> | <p align="center">:x:</p> |
+| Polygon | <p align="center">:white_check_mark:</p> | <p align="center">:white_check_mark:</p> | <p align="center">:white_check_mark:</p> | <p align="center">:x:</p> | <p align="center">:white_check_mark:</p> | <p align="center">:white_check_mark:</p> |
+
 _Note_: If you would like to make in-memory calculations to determine the relationship between two Geo structs, please check out [topo](https://github.com/pkinney/topo).
 
 ```elixir
@@ -42,12 +50,6 @@ Each function can be called through their module, such as `GeoMeasure.Area.area`
 Calling through the `GeoMeasure.Area` module:
 
 ```elixir
-iex(1)> GeoMeasure.Area.area(%Geo.Point{coordinates: {1, 2}})
-nil
-
-iex(2)> GeoMeasure.Area.area(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
-nil
-
 iex(3)> GeoMeasure.Area.area(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 4.0
 ```
@@ -55,12 +57,6 @@ iex(3)> GeoMeasure.Area.area(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2},
 Calling through the `GeoMeasure` module:
 
 ```elixir
-iex(1)> GeoMeasure.area(%Geo.Point{coordinates: {1, 2}})
-nil
-
-iex(2)> GeoMeasure.area(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
-nil
-
 iex(3)> GeoMeasure.area(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 4.0
 ```
@@ -170,9 +166,6 @@ iex(3)> GeoMeasure.distance(%Geo.Point{coordinates: {0, 0}}, %Geo.Point{coordina
 Calling through the `GeoMeasure.Extent` module:
 
 ```elixir
-iex(1)> GeoMeasure.Extent.extent(%Geo.Point{coordinates: {1, 2}})
-nil
-
 iex(2)> GeoMeasure.Extent.extent(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 {1, 3, 2, 4}
 
@@ -183,9 +176,6 @@ iex(3)> GeoMeasure.Extent.extent(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2,
 Calling through the `GeoMeasure` module:
 
 ```elixir
-iex(1)> GeoMeasure.extent(%Geo.Point{coordinates: {1, 2}})
-nil
-
 iex(2)> GeoMeasure.extent(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 {1, 3, 2, 4}
 
@@ -198,12 +188,6 @@ iex(3)> GeoMeasure.extent(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2
 Calling through the `GeoMeasure.Perimeter` module:
 
 ```elixir
-iex(1)> GeoMeasure.Perimeter.perimeter(%Geo.Point{coordinates: {1, 2}})
-nil
-
-iex(2)> GeoMeasure.Perimeter.perimeter(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
-nil
-
 iex(3)> GeoMeasure.Perimeter.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 8.0
 ```
@@ -211,12 +195,6 @@ iex(3)> GeoMeasure.Perimeter.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2
 Calling through the `GeoMeasure` module:
 
 ```elixir
-iex(1)> GeoMeasure.perimeter(%Geo.Point{coordinates: {1, 2}})
-nil
-
-iex(2)> GeoMeasure.perimeter(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
-nil
-
 iex(3)> GeoMeasure.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 8.0
 ```

@@ -3,12 +3,12 @@ defmodule GeoMeasure.Test do
 
   test "calculate_point_area" do
     geom = %Geo.Point{coordinates: {1, 2}}
-    assert GeoMeasure.area(geom) == nil
+    assert_raise FunctionClauseError, fn -> GeoMeasure.area(geom) end
   end
 
   test "calculate_linestring_area" do
     geom = %Geo.LineString{coordinates: [{1, 2}, {3, 4}]}
-    assert GeoMeasure.area(geom) == nil
+    assert_raise FunctionClauseError, fn -> GeoMeasure.area(geom) end
   end
 
   test "calculate_polygon_area" do
@@ -90,7 +90,7 @@ defmodule GeoMeasure.Test do
 
   test "calculate_point_extent" do
     geom = %Geo.Point{coordinates: {1, 2}}
-    assert GeoMeasure.extent(geom) == nil
+    assert_raise FunctionClauseError, fn -> GeoMeasure.extent(geom) end
   end
 
   test "calculate_linestring_extent" do
@@ -105,12 +105,12 @@ defmodule GeoMeasure.Test do
 
   test "calculate_point_perimeter" do
     geom = %Geo.Point{coordinates: {1, 2}}
-    assert GeoMeasure.perimeter(geom) == nil
+    assert_raise FunctionClauseError, fn -> GeoMeasure.perimeter(geom) end
   end
 
   test "calculate_linestring_perimeter" do
     geom = %Geo.LineString{coordinates: [{1, 2}, {3, 4}]}
-    assert GeoMeasure.perimeter(geom) == nil
+    assert_raise FunctionClauseError, fn -> GeoMeasure.perimeter(geom) end
   end
 
   test "calculate_polygon_perimeter" do

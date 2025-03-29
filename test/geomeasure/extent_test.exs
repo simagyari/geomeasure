@@ -3,7 +3,7 @@ defmodule GeoMeasure.Extent.Test do
 
   test "calculate_point_extent" do
     geom = %Geo.Point{coordinates: {1, 2}}
-    assert GeoMeasure.Extent.extent(geom) == nil
+    assert_raise FunctionClauseError, fn -> GeoMeasure.Extent.extent(geom) end
   end
 
   test "calculate_linestring_extent" do

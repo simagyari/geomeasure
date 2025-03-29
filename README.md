@@ -43,7 +43,7 @@ end
 ```
 ## Examples
 
-While each function can be called through their module, such as `GeoMeasure.Area.area` or `GeoMeasure.Perimeter.perimeter`, it is encouraged to use delegates from the main `GeoMeasure` module, enabling shortened calls, such as `GeoMeasure.area` or `GeoMeasure.perimeter`. Thus, the following examples will only show the shorter, more convenient calls through `GeoMeasure`.
+While each function can be called through their module, such as `GeoMeasure.Area.calculate` or `GeoMeasure.Perimeter.calculate`, it is encouraged to use delegates from the main `GeoMeasure` module, enabling shortened calls, such as `GeoMeasure.area` or `GeoMeasure.perimeter`. Thus, the following examples will only show the shorter, more convenient calls through `GeoMeasure`.
 
 ### Area
 

@@ -2,10 +2,16 @@ defmodule GeoMeasure.Centroid do
   @moduledoc false
 
   alias Geo
+  alias GeoMeasure.Utils
 
   @spec calculate_centroid([{number(), number()}]) :: Geo.Point.t()
   defp calculate_centroid(coords) when is_list(coords) do
-    {sum_x, sum_y} = Enum.reduce(coords, {0, 0}, &sum_coordinates/2)
+    {sum_x, sum_y} =
+      Enum.reduce(coords, {0, 0}, fn tpl, acc ->
+        Utils.tuple_not_nil!(tpl)
+        sum_coordinates(acc, tpl)
+      end)
+
     mean_x = sum_x / length(coords)
     mean_y = sum_y / length(coords)
     %Geo.Point{coordinates: {mean_x, mean_y}}
@@ -19,7 +25,10 @@ defmodule GeoMeasure.Centroid do
   """
   @doc since: "0.0.1"
   @spec calculate(Geo.Point.t()) :: Geo.Point.t()
-  def calculate(%Geo.Point{} = point), do: point
+  def calculate(%Geo.Point{coordinates: coords} = point) do
+    Utils.tuple_not_nil!(coords)
+    point
+  end
 
   @spec calculate(Geo.LineString.t()) :: Geo.Point.t()
   def calculate(%Geo.LineString{coordinates: coords}) do

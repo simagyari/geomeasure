@@ -1,10 +1,14 @@
 defmodule GeoMeasure.Extent do
   @moduledoc false
 
+  alias GeoMeasure.Utils
+
   @spec calculate_extent([{number(), number()}]) :: {number(), number(), number(), number()}
   def calculate_extent(coords) when is_list(coords) do
     coords
     |> Enum.reduce({nil, nil, nil, nil}, fn {x, y}, {min_x, max_x, min_y, max_y} ->
+      Utils.tuple_not_nil!({x, y})
+
       {
         min_x |> min_or_init(x),
         max_x |> max_or_init(x),

@@ -4,12 +4,6 @@ defmodule GeoMeasure.Area do
 
   ## Examples:
 
-      iex> GeoMeasure.Area.area(%Geo.Point{coordinates: {1, 2}})
-      nil
-
-      iex> GeoMeasure.Area.area(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
-      nil
-
       iex> GeoMeasure.Area.area(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
       4.0
 
@@ -38,15 +32,6 @@ defmodule GeoMeasure.Area do
   Calculates the area of a Geo struct.
   """
   @doc since: "0.0.1"
-  @spec area(Geo.Point.t()) :: nil
-  def area(%Geo.Point{}) do
-    nil
-  end
-
-  @spec area(Geo.LineString.t()) :: nil
-  def area(%Geo.LineString{}) do
-    nil
-  end
 
   @spec area(Geo.Polygon.t()) :: float()
   def area(%Geo.Polygon{coordinates: [coords]}) do

@@ -20,6 +20,9 @@ defmodule GeoMeasure do
       iex> GeoMeasure.bbox(%Geo.Point{coordinates: {1, 2}})
       %Geo.Point{coordinates: {1, 2}}
 
+      iex> GeoMeasure.bbox(%Geo.PointM{coordinates: {1, 2, 5}})
+      %Geo.Point{coordinates: {1, 2}}
+
       iex> GeoMeasure.bbox(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
       %Geo.Polygon{coordinates: [[{1, 2}, {1, 4}, {3, 4}, {3, 2}, {1, 2}]]}
 
@@ -33,6 +36,9 @@ defmodule GeoMeasure do
   #### Examples:
 
       iex> GeoMeasure.centroid(%Geo.Point{coordinates: {1, 2}})
+      %Geo.Point{coordinates: {1, 2}}
+
+      iex> GeoMeasure.centroid(%Geo.PointM{coordinates: {1, 2, 5}})
       %Geo.Point{coordinates: {1, 2}}
 
       iex> GeoMeasure.centroid(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
@@ -54,6 +60,12 @@ defmodule GeoMeasure do
       5.0
 
       iex> GeoMeasure.distance(%Geo.Point{coordinates: {0, 0}}, %Geo.Point{coordinates: {3, 4}})
+      5.0
+
+      iex> GeoMeasure.distance(%Geo.PointM{coordinates: {0, 0, 5}}, %Geo.PointM{coordinates: {3, 4, 10}})
+      5.0
+
+      iex> GeoMeasure.distance(%Geo.PointM{coordinates: {0, 0, 5}}, %Geo.Point{coordinates: {3, 4}})
       5.0
 
   ## extent

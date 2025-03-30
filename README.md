@@ -12,6 +12,7 @@ A collection of functions calculating different properties of [Geo](https://gith
 Currently, this project supports only the following geometries:
 
 - Point
+- PointM
 - LineString
 - Polygon
 
@@ -20,7 +21,7 @@ Currently, the following properties can be calculated for the supported [Geo](ht
 - Area
 - Bounding box
 - Centroid
-- Distance (between two coordinate pairs or Geo.Point structs)
+- Distance (between two coordinate pairs or Geo.Point(M) structs)
 - Extent
 - Perimeter
 
@@ -29,6 +30,7 @@ For each geometry, only the properties that have meaning for the given geometry 
 | Geometry   | Area | Bounding box | Centroid | Distance | Extent | Perimeter |
 | ---------- | :--: | :----------: | :------: | :------: | :----: | :-------: |
 | Point      | ❌   | ✅          | ✅       | ✅      | ❌     | ❌       |
+| PointM     | ❌   | ✅          | ✅       | ✅      | ❌     | ❌       |
 | LineString | ❌   | ✅          | ✅       | ❌      | ✅     | ❌       |
 | Polygon    | ✅   | ✅          | ✅       | ❌      | ✅     | ✅       |
 
@@ -58,14 +60,17 @@ iex(1)> GeoMeasure.area(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 
 iex(1)> GeoMeasure.bbox(%Geo.Point{coordinates: {1, 2}})
 %Geo.Point{coordinates: {1, 2}, srid: nil, properties: %{}}
 
-iex(2)> GeoMeasure.bbox(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+iex(2)> GeoMeasure.bbox(%Geo.PointM{coordinates: {1, 2, 5}})
+%Geo.Point{coordinates: {1, 2}}
+
+iex(3)> GeoMeasure.bbox(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 %Geo.Polygon{
   coordinates: [[{1, 2}, {1, 4}, {3, 4}, {3, 2}, {1, 2}]],
   srid: nil,
   properties: %{}
 }
 
-iex(3)> GeoMeasure.bbox(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(4)> GeoMeasure.bbox(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 %Geo.Polygon{
   coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
   srid: nil,
@@ -79,10 +84,13 @@ iex(3)> GeoMeasure.bbox(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 
 iex(1)> GeoMeasure.centroid(%Geo.Point{coordinates: {1, 2}})
 %Geo.Point{coordinates: {1, 2}, srid: nil, properties: %{}}
 
-iex(2)> GeoMeasure.centroid(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+iex(2)> GeoMeasure.centroid(%Geo.PointM{coordinates: {1, 2, 5}})
+%Geo.Point{coordinates: {1, 2}}
+
+iex(3)> GeoMeasure.centroid(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 %Geo.Point{coordinates: {2.0, 3.0}, srid: nil, properties: %{}}
 
-iex(3)> GeoMeasure.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(4)> GeoMeasure.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 %Geo.Point{coordinates: {1.0, 1.0}, srid: nil, properties: %{}}
 ```
 
@@ -96,6 +104,12 @@ iex(2)> GeoMeasure.distance({0, 0}, {3, 4})
 5.0
 
 iex(3)> GeoMeasure.distance(%Geo.Point{coordinates: {0, 0}}, %Geo.Point{coordinates: {3, 4}})
+5.0
+
+iex(4)> GeoMeasure.distance(%Geo.PointM{coordinates: {0, 0, 5}}, %Geo.PointM{coordinates: {3, 4, 10}})
+5.0
+
+iex(5)> GeoMeasure.distance(%Geo.PointM{coordinates: {0, 0, 5}}, %Geo.Point{coordinates: {3, 4}})
 5.0
 ```
 

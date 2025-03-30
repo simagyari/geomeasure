@@ -116,7 +116,7 @@ defmodule GeoMeasure do
   """
   @doc since: "0.0.1"
   @spec distance({number(), number()}, {number(), number()}) :: float()
-  @spec distance(Geo.Point.t(), Geo.Point.t()) :: float()
+  @spec distance(Geo.Point.t() | Geo.PointM.t(), Geo.Point.t() | Geo.PointM.t()) :: float()
   defdelegate distance(coordinates_1, coordinates_2), to: Distance, as: :calculate
 
   @doc """

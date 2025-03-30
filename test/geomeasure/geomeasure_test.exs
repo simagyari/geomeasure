@@ -26,6 +26,11 @@ defmodule GeoMeasure.Test do
     assert GeoMeasure.bbox(geom) == %Geo.Point{coordinates: {1, 2}}
   end
 
+  test "calculate_pointm_bbox" do
+    geom = %Geo.PointM{coordinates: {1, 2, 5}}
+    assert GeoMeasure.bbox(geom) == %Geo.Point{coordinates: {1, 2}}
+  end
+
   test "calculate_linestring_bbox" do
     geom = %Geo.LineString{coordinates: [{1, 2}, {3, 4}]}
 
@@ -47,6 +52,16 @@ defmodule GeoMeasure.Test do
     assert_raise ArgumentError, fn -> GeoMeasure.bbox(geom) end
   end
 
+  test "calculate_pointm_bbox_nil_coord" do
+    geom = %Geo.PointM{coordinates: {nil, 2, 5}}
+    assert_raise ArgumentError, fn -> GeoMeasure.bbox(geom) end
+  end
+
+  test "calculate_pointm_bbox_nil_measure" do
+    geom = %Geo.PointM{coordinates: {1, 2, nil}}
+    assert GeoMeasure.bbox(geom) == %Geo.Point{coordinates: {1, 2}}
+  end
+
   test "calculate_linestring_bbox_nil_coord" do
     geom = %Geo.LineString{coordinates: [{1, 2}, {nil, 4}]}
     assert_raise ArgumentError, fn -> GeoMeasure.bbox(geom) end
@@ -59,6 +74,11 @@ defmodule GeoMeasure.Test do
 
   test "calculate_point_centroid" do
     geom = %Geo.Point{coordinates: {1, 2}}
+    assert GeoMeasure.centroid(geom) == %Geo.Point{coordinates: {1, 2}}
+  end
+
+  test "calculate_pointm_centroid" do
+    geom = %Geo.PointM{coordinates: {1, 2, 3}}
     assert GeoMeasure.centroid(geom) == %Geo.Point{coordinates: {1, 2}}
   end
 
@@ -75,6 +95,16 @@ defmodule GeoMeasure.Test do
   test "calculate_point_centroid_nil_coord" do
     geom = %Geo.Point{coordinates: {nil, 2}}
     assert_raise ArgumentError, fn -> GeoMeasure.centroid(geom) end
+  end
+
+  test "calculate_pointm_centroid_nil_coord" do
+    geom = %Geo.PointM{coordinates: {1, nil, 3}}
+    assert_raise ArgumentError, fn -> GeoMeasure.centroid(geom) end
+  end
+
+  test "calculate_pointm_centroid_nil_measure" do
+    geom = %Geo.PointM{coordinates: {1, 2, nil}}
+    assert GeoMeasure.centroid(geom) == %Geo.Point{coordinates: {1, 2}}
   end
 
   test "calculate_linestring_centroid_nil_coord" do
@@ -123,6 +153,12 @@ defmodule GeoMeasure.Test do
     assert GeoMeasure.distance(a, b) == 5.0
   end
 
+  test "calculate_distance_xy_direction_pointm" do
+    a = %Geo.PointM{coordinates: {0, 0, 5}}
+    b = %Geo.PointM{coordinates: {3, 4, 5}}
+    assert GeoMeasure.distance(a, b) == 5.0
+  end
+
   test "calculate_distance_xy_direction_nil_coord" do
     a = {0, nil}
     b = {3, 4}
@@ -133,6 +169,18 @@ defmodule GeoMeasure.Test do
     a = %Geo.Point{coordinates: {0, 0}}
     b = %Geo.Point{coordinates: {nil, 4}}
     assert_raise ArgumentError, fn -> GeoMeasure.distance(a, b) end
+  end
+
+  test "calculate_distance_xy_direction_pointm_nil_coord" do
+    a = %Geo.PointM{coordinates: {0, 0, 5}}
+    b = %Geo.PointM{coordinates: {3, nil, 5}}
+    assert_raise ArgumentError, fn -> GeoMeasure.distance(a, b) end
+  end
+
+  test "calculate_distance_xy_direction_pointm_nil_measure" do
+    a = %Geo.PointM{coordinates: {0, 0, nil}}
+    b = %Geo.PointM{coordinates: {3, 4, 5}}
+    assert GeoMeasure.distance(a, b) == 5.0
   end
 
   test "calculate_point_extent" do

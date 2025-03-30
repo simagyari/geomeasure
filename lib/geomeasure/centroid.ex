@@ -31,7 +31,7 @@ defmodule GeoMeasure.Centroid do
   end
 
   @spec calculate(Geo.PointM.t()) :: Geo.Point.t()
-  def calculate(%Geo.Point{coordinates: {x, y, _}}) do
+  def calculate(%Geo.PointM{coordinates: {x, y, _z}}) do
     Utils.tuple_not_nil!({x, y})
     %Geo.Point{coordinates: {x, y}}
   end

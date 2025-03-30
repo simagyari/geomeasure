@@ -6,6 +6,11 @@ defmodule GeoMeasure.Bbox.Test do
     assert GeoMeasure.Bbox.calculate(geom) == %Geo.Point{coordinates: {1, 2}}
   end
 
+  test "calculate_pointm_bbox" do
+    geom = %Geo.PointM{coordinates: {1, 2, 5}}
+    assert GeoMeasure.Bbox.calculate(geom) == %Geo.Point{coordinates: {1, 2}}
+  end
+
   test "calculate_linestring_bbox" do
     geom = %Geo.LineString{coordinates: [{1, 2}, {3, 4}]}
 
@@ -25,6 +30,16 @@ defmodule GeoMeasure.Bbox.Test do
   test "calculate_point_bbox_nil_coord" do
     geom = %Geo.Point{coordinates: {1, nil}}
     assert_raise ArgumentError, fn -> GeoMeasure.Bbox.calculate(geom) end
+  end
+
+  test "calculate_pointm_bbox_nil_coord" do
+    geom = %Geo.PointM{coordinates: {nil, 2, 5}}
+    assert_raise ArgumentError, fn -> GeoMeasure.Bbox.calculate(geom) end
+  end
+
+  test "calculate_pointm_bbox_nil_measure" do
+    geom = %Geo.PointM{coordinates: {1, 2, nil}}
+    assert GeoMeasure.Bbox.calculate(geom) == %Geo.Point{coordinates: {1, 2}}
   end
 
   test "calculate_linestring_bbox_nil_coord" do

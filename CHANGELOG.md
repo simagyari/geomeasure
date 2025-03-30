@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.0 - 2025-03-30
+
+### Enhancements
+
+- [Added support for Geo.PointM struct](https://github.com/simagyari/geomeasure/pull/15). This involves the `bbox`, `centroid`, and `distance` functions, as well as an extension to the tuple nil checking function for handling n-item tuples. Please refer to the [documentation](https://github.com/simagyari/geomeasure/blob/main/README.md) for more information.
+
 ## v1.0.0 - 2025-03-29
 
 ### Potentially breaking change: [Removed implementations that returned `nil` until now](https://github.com/simagyari/geomeasure/pull/5)

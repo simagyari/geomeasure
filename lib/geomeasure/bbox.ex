@@ -30,6 +30,12 @@ defmodule GeoMeasure.Bbox do
     point
   end
 
+  @spec calculate(Geo.PointM.t()) :: Geo.Point.t()
+  def calculate(%Geo.PointM{coordinates: {x, y, _}}) do
+    Utils.tuple_not_nil!({x, y})
+    %Geo.Point{coordinates: {x, y}}
+  end
+
   @spec calculate(Geo.LineString.t()) :: Geo.Polygon.t()
   def calculate(%Geo.LineString{coordinates: coords}) do
     calculate_bbox(coords)

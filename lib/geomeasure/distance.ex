@@ -48,7 +48,9 @@ defmodule GeoMeasure.Distance do
   end
 
   @spec calculate(Geo.PointZM.t(), Geo.PointZM.t()) :: float()
-  def calculate(%Geo.PointZM{coordinates: {x1, y1, z1, _m1}}, %Geo.PointZM{coordinates: {x2, y2, z2, _m2}}) do
+  def calculate(%Geo.PointZM{coordinates: {x1, y1, z1, _m1}}, %Geo.PointZM{
+        coordinates: {x2, y2, z2, _m2}
+      }) do
     calculate({x1, y1, z1}, {x2, y2, z2})
   end
 

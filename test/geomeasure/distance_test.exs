@@ -118,6 +118,6 @@ defmodule GeoMeasure.Distance.Test do
   test "calculate_3d_distance_xyz_direction_pointzm_nil_coord" do
     a = %Geo.PointZM{coordinates: {0, 0, nil, 5}}
     b = %Geo.PointZM{coordinates: {1, 1, 1, 5}}
-    assert_raise ArgumentError, fn-> GeoMeasure.Distance.calculate(a, b) end
+    assert_raise ArgumentError, fn -> GeoMeasure.Distance.calculate(a, b) end
   end
 end

@@ -284,7 +284,7 @@ defmodule GeoMeasure.Test do
   test "calculate_3d_distance_xyz_direction_pointzm_nil_coord" do
     a = %Geo.PointZM{coordinates: {0, 0, nil, 5}}
     b = %Geo.PointZM{coordinates: {1, 1, 1, 5}}
-    assert_raise ArgumentError, fn-> GeoMeasure.distance(a, b) end
+    assert_raise ArgumentError, fn -> GeoMeasure.distance(a, b) end
   end
 
   test "calculate_point_extent" do

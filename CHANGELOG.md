@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.2.0 - 2025-04-07
+
+### Enhancements
+
+- [Added support for Geo.PointZ and Geo.PointZM structs](https://github.com/simagyari/geomeasure/pull/17). This involves the `bbox`, `centroid`, and `distance` functions. Please refer to the [documentation](https://github.com/simagyari/geomeasure/blob/main/README.md) for more information.
+
 ## v1.1.0 - 2025-03-30
 
 ### Enhancements

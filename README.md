@@ -13,6 +13,8 @@ Currently, this project supports only the following geometries:
 
 - Point
 - PointM
+- PointZ
+- PointZM
 - LineString
 - Polygon
 
@@ -25,12 +27,14 @@ Currently, the following properties can be calculated for the supported [Geo](ht
 - Extent
 - Perimeter
 
-For each geometry, only the properties that have meaning for the given geometry are implemented. This results in the following implementation table, where :white_check_mark: means supported, and :x: means unsupported property:
+For each geometry, only the properties that have meaning for the given geometry are implemented. This results in the following implementation table, where ✅ means supported, and ❌ means unsupported property:
 
 | Geometry   | Area | Bounding box | Centroid | Distance | Extent | Perimeter |
 | ---------- | :--: | :----------: | :------: | :------: | :----: | :-------: |
 | Point      | ❌   | ✅          | ✅       | ✅      | ❌     | ❌       |
 | PointM     | ❌   | ✅          | ✅       | ✅      | ❌     | ❌       |
+| PointZ     | ❌   | ✅          | ✅       | ✅      | ❌     | ❌       |
+| PointZM    | ❌   | ✅          | ✅       | ✅      | ❌     | ❌       |
 | LineString | ❌   | ✅          | ✅       | ❌      | ✅     | ❌       |
 | Polygon    | ✅   | ✅          | ✅       | ❌      | ✅     | ✅       |
 
@@ -63,14 +67,20 @@ iex(1)> GeoMeasure.bbox(%Geo.Point{coordinates: {1, 2}})
 iex(2)> GeoMeasure.bbox(%Geo.PointM{coordinates: {1, 2, 5}})
 %Geo.Point{coordinates: {1, 2}}
 
-iex(3)> GeoMeasure.bbox(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+iex(3)> GeoMeasure.bbox(%Geo.PointZ{coordinates: {1, 2, 5}})
+%Geo.PointZ{coordinates: {1, 2, 5}}
+
+iex(4)> GeoMeasure.bbox(%Geo.PointZM{coordinates: {1, 2, 5, 8}})
+%Geo.PointZ{coordinates: {1, 2, 5}}
+
+iex(5)> GeoMeasure.bbox(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 %Geo.Polygon{
   coordinates: [[{1, 2}, {1, 4}, {3, 4}, {3, 2}, {1, 2}]],
   srid: nil,
   properties: %{}
 }
 
-iex(4)> GeoMeasure.bbox(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(6)> GeoMeasure.bbox(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 %Geo.Polygon{
   coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
   srid: nil,
@@ -87,10 +97,16 @@ iex(1)> GeoMeasure.centroid(%Geo.Point{coordinates: {1, 2}})
 iex(2)> GeoMeasure.centroid(%Geo.PointM{coordinates: {1, 2, 5}})
 %Geo.Point{coordinates: {1, 2}}
 
-iex(3)> GeoMeasure.centroid(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+iex(3)> GeoMeasure.centroid(%Geo.PointZ{coordinates: {1, 2, 5}})
+%Geo.PointZ{coordinates: {1, 2, 5}}
+
+iex(4)> GeoMeasure.centroid(%Geo.PointZM{coordinates: 1, 2, 5, 8})
+%Geo.PointZ{coordinates: {1, 2, 5}}
+
+iex(5)> GeoMeasure.centroid(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 %Geo.Point{coordinates: {2.0, 3.0}, srid: nil, properties: %{}}
 
-iex(4)> GeoMeasure.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(6)> GeoMeasure.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 %Geo.Point{coordinates: {1.0, 1.0}, srid: nil, properties: %{}}
 ```
 
@@ -103,14 +119,26 @@ iex(1)> GeoMeasure.distance({0, 0}, {5, 0})
 iex(2)> GeoMeasure.distance({0, 0}, {3, 4})
 5.0
 
-iex(3)> GeoMeasure.distance(%Geo.Point{coordinates: {0, 0}}, %Geo.Point{coordinates: {3, 4}})
+iex(3)> GeoMeasure.distance({0, 0, 0}, {1, 1, 1})
+1.7320508075688772
+
+iex(4)> GeoMeasure.distance(%Geo.Point{coordinates: {0, 0}}, %Geo.Point{coordinates: {3, 4}})
 5.0
 
-iex(4)> GeoMeasure.distance(%Geo.PointM{coordinates: {0, 0, 5}}, %Geo.PointM{coordinates: {3, 4, 10}})
+iex(5)> GeoMeasure.distance(%Geo.PointM{coordinates: {0, 0, 5}}, %Geo.PointM{coordinates: {3, 4, 10}})
 5.0
 
-iex(5)> GeoMeasure.distance(%Geo.PointM{coordinates: {0, 0, 5}}, %Geo.Point{coordinates: {3, 4}})
+iex(6)> GeoMeasure.distance(%Geo.PointM{coordinates: {0, 0, 5}}, %Geo.Point{coordinates: {3, 4}})
 5.0
+
+iex(7)> GeoMeasure.distance(%Geo.PointZ{coordinates: {0, 0, 0}}, Geo.PointZ{coordinates: {1, 1, 1}})
+1.7320508075688772
+
+iex(8)> GeoMeasure.distance(%Geo.PointZM{coordinates: {0, 0, 0, 8}}, Geo.PointZM{coordinates: {1, 1, 1, 6}})
+1.7320508075688772
+
+iex(9)> GeoMeasure.distance(%Geo.PointZM{coordinates: {0, 0, 0, 8}}, %Geo.PointZ{coordinates: {1, 1, 1}})
+1.7320508075688772
 ```
 
 ### Extent

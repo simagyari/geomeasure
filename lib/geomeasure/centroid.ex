@@ -21,7 +21,7 @@ defmodule GeoMeasure.Centroid do
   defp sum_coordinates({lx, ly}, {rx, ry}), do: {lx + rx, ly + ry}
 
   @doc """
-  Calculates the centroid of a Geo struct as a Geo.Point.
+  Calculates the centroid of a Geo struct.
   """
   @doc since: "0.0.1"
   @spec calculate(Geo.Point.t()) :: Geo.Point.t()
@@ -34,6 +34,18 @@ defmodule GeoMeasure.Centroid do
   def calculate(%Geo.PointM{coordinates: {x, y, _z}}) do
     Utils.tuple_not_nil!({x, y})
     %Geo.Point{coordinates: {x, y}}
+  end
+
+  @spec calculate(Geo.PointZ.t()) :: Geo.PointZ.t()
+  def calculate(%Geo.PointZ{coordinates: coords}) do
+    Utils.tuple_not_nil!(coords)
+    %Geo.PointZ{coordinates: coords}
+  end
+
+  @spec calculate(Geo.PointZM.t()) :: Geo.PointZ.t()
+  def calculate(%Geo.PointZM{coordinates: {x, y, z, _}}) do
+    Utils.tuple_not_nil!({x, y, z})
+    %Geo.PointZ{coordinates: {x, y, z}}
   end
 
   @spec calculate(Geo.LineString.t()) :: Geo.Point.t()

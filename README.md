@@ -29,14 +29,16 @@ Currently, the following properties can be calculated for the supported [Geo](ht
 
 For each geometry, only the properties that have meaning for the given geometry are implemented. This results in the following implementation table, where ✅ means supported, and ❌ means unsupported property:
 
-| Geometry   | Area | Bounding box | Centroid | Distance | Extent | Perimeter |
-| ---------- | :--: | :----------: | :------: | :------: | :----: | :-------: |
-| Point      | ❌   | ✅          | ✅       | ✅      | ❌     | ❌       |
-| PointM     | ❌   | ✅          | ✅       | ✅      | ❌     | ❌       |
-| PointZ     | ❌   | ✅          | ✅       | ✅      | ❌     | ❌       |
-| PointZM    | ❌   | ✅          | ✅       | ✅      | ❌     | ❌       |
-| LineString | ❌   | ✅          | ✅       | ❌      | ✅     | ❌       |
-| Polygon    | ✅   | ✅          | ✅       | ❌      | ✅     | ✅       |
+| Geometry     | Area | Bounding box | Centroid | Distance | Extent | Perimeter |
+| ----------   | :--: | :----------: | :------: | :------: | :----: | :-------: |
+| Point        | ❌   | ✅          | ✅       | ✅      | ❌     | ❌       |
+| PointM       | ❌   | ✅          | ✅       | ✅      | ❌     | ❌       |
+| PointZ       | ❌   | ✅          | ✅       | ✅      | ❌     | ❌       |
+| PointZM      | ❌   | ✅          | ✅       | ✅      | ❌     | ❌       |
+| LineString   | ❌   | ✅          | ✅       | ❌      | ✅     | ❌       |
+| LineStringZ  | ❌   | 🔶          | ✅       | ❌      | ✅     | ❌       |
+| LineStringZM | ❌   | 🔶          | ✅       | ❌      | ✅     | ❌       |
+| Polygon      | ✅   | ✅          | ✅       | ❌      | ✅     | ✅       |
 
 _Note_: If you would like to make in-memory calculations to determine the relationship between two Geo structs, please check out [topo](https://github.com/pkinney/topo).
 

@@ -4,7 +4,7 @@ defmodule GeoMeasure.Centroid do
   alias Geo
   alias GeoMeasure.Utils
 
-  @spec calculate_centroid([{number(), number()}]) :: Geo.Point.t()
+  @spec calculate_centroid([{number, number}]) :: Geo.Point.t()
   defp calculate_centroid(coords) when is_list(coords) do
     {sum_x, sum_y} =
       Enum.reduce(coords, {0, 0}, fn tpl, acc ->
@@ -17,7 +17,7 @@ defmodule GeoMeasure.Centroid do
     %Geo.Point{coordinates: {mean_x, mean_y}}
   end
 
-  @spec calculate_centroid([{number(), number(), number()}]) :: Geo.PointZ.t()
+  @spec calculate_centroid([{number, number, number}]) :: Geo.PointZ.t()
   defp calculate_centroid(coords) when is_list(coords) do
     {sum_x, sum_y, sum_z} =
       Enum.reduce(coords, {0, 0, 0}, fn tpl, acc ->
@@ -31,10 +31,10 @@ defmodule GeoMeasure.Centroid do
     %Geo.PointZ{coordinates: {mean_x, mean_y, mean_z}}
   end
 
-  @spec sum_coordinates({number(), number()}, {number(), number()}) :: {number(), number()}
+  @spec sum_coordinates({number, number}, {number, number}) :: {number, number}
   defp sum_coordinates({lx, ly}, {rx, ry}), do: {lx + rx, ly + ry}
 
-  @spec sum_coordinates({number(), number(), number()}, {number(), number(), number()}) :: {number(), number(), number()}
+  @spec sum_coordinates({number, number, number}, {number, number, number}) :: {number, number, number}
   defp sum_coordinates({lx, ly, lz}, {rx, ry, rz}), do: {lx + rx, ly + ry, lz + rz}
 
   @doc """

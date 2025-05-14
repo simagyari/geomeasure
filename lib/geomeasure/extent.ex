@@ -3,7 +3,7 @@ defmodule GeoMeasure.Extent do
 
   alias GeoMeasure.Utils
 
-  @spec calculate_extent([{number(), number()}]) :: {number(), number(), number(), number()}
+  @spec calculate_extent([{number, number}]) :: {number, number, number, number}
   def calculate_extent(coords) when is_list(coords) do
     coords
     |> Enum.reduce({nil, nil, nil, nil}, fn {x, y}, {min_x, max_x, min_y, max_y} ->
@@ -18,7 +18,7 @@ defmodule GeoMeasure.Extent do
     end)
   end
 
-  @spec calculate_extent([{number(), number(), number()}]) :: {number(), number(), number(), number(), number(), number()}
+  @spec calculate_extent([{number, number, number}]) :: {number, number, number, number, number, number}
   def calculate_extent(coords) when is_list(coords) do
     coords
     |> Enum.reduce({nil, nil, nil, nil, nil, nil}, fn {x, y, z}, {min_x, max_x, min_y, max_y, min_z, max_z} ->
@@ -35,39 +35,39 @@ defmodule GeoMeasure.Extent do
     end)
   end
 
-  @spec min_or_init(nil, number()) :: number() | nil
+  @spec min_or_init(nil, number) :: number | nil
   defp min_or_init(nil, val), do: val
 
-  @spec min_or_init(number(), number()) :: number()
+  @spec min_or_init(number, number) :: number
   defp min_or_init(current, val), do: min(current, val)
 
-  @spec max_or_init(nil, number()) :: number() | nil
+  @spec max_or_init(nil, number) :: number | nil
   defp max_or_init(nil, val), do: val
 
-  @spec max_or_init(number(), number()) :: number()
+  @spec max_or_init(number, number) :: number
   defp max_or_init(current, val), do: max(current, val)
 
   @doc """
   Calculates the extent coordinates of a Geo struct.
   """
   @doc since: "0.0.1"
-  @spec calculate(Geo.LineString.t()) :: {number(), number(), number(), number()}
+  @spec calculate(Geo.LineString.t()) :: {number, number, number, number}
   def calculate(%Geo.LineString{coordinates: coords}) do
     calculate_extent(coords)
   end
 
-  @spec calculate(Geo.LineStringZ.t()) :: {number(), number(), number(), number(), number(), number()}
+  @spec calculate(Geo.LineStringZ.t()) :: {number, number, number, number, number, number}
   def calculate(%Geo.LineStringZ{coordinates: coords}) do
     calculate_extent(coords)
   end
 
-  @spec calculate(Geo.LineStringZM.t()) :: {number(), number(), number(), number(), number(), number()}
+  @spec calculate(Geo.LineStringZM.t()) :: {number, number, number, number, number, number}
   def calculate(%Geo.LineStringZM{coordinates: coords}) do
     trimmed_coords = Enum.map(coords, fn {x, y, z, _} -> {x, y, z} end)
     calculate_extent(trimmed_coords)
   end
 
-  @spec calculate(Geo.Polygon.t()) :: {number(), number(), number(), number()}
+  @spec calculate(Geo.Polygon.t()) :: {number, number, number, number}
   def calculate(%Geo.Polygon{coordinates: [coords]}) do
     calculate_extent(tl(coords))
   end

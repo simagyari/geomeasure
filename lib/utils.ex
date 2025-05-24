@@ -18,7 +18,9 @@ defmodule GeoMeasure.Utils do
     end)
   end
 
-  @spec remove_m_values([{number, number, number} | {number, number, number, number}]) :: [{number, number} | {number, number, number}]
+  @spec remove_m_values([{number, number, number} | {number, number, number, number}]) :: [
+          {number, number} | {number, number, number}
+        ]
   def remove_m_values(coords) when is_list(coords) do
     Enum.map(coords, fn
       {a, b, _c} -> {a, b}

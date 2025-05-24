@@ -18,10 +18,12 @@ defmodule GeoMeasure.Extent do
     end)
   end
 
-  @spec calculate_extent_3d([{number, number, number}]) :: {number, number, number, number, number, number}
+  @spec calculate_extent_3d([{number, number, number}]) ::
+          {number, number, number, number, number, number}
   def calculate_extent_3d(coords) do
     coords
-    |> Enum.reduce({nil, nil, nil, nil, nil, nil}, fn {x, y, z}, {min_x, max_x, min_y, max_y, min_z, max_z} ->
+    |> Enum.reduce({nil, nil, nil, nil, nil, nil}, fn {x, y, z},
+                                                      {min_x, max_x, min_y, max_y, min_z, max_z} ->
       Utils.tuple_not_nil!({x, y, z})
 
       {

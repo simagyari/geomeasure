@@ -34,7 +34,8 @@ defmodule GeoMeasure.Centroid do
   @spec sum_coordinates({number, number}, {number, number}) :: {number, number}
   defp sum_coordinates({lx, ly}, {rx, ry}), do: {lx + rx, ly + ry}
 
-  @spec sum_coordinates({number, number, number}, {number, number, number}) :: {number, number, number}
+  @spec sum_coordinates({number, number, number}, {number, number, number}) ::
+          {number, number, number}
   defp sum_coordinates({lx, ly, lz}, {rx, ry, rz}), do: {lx + rx, ly + ry, lz + rz}
 
   @doc """

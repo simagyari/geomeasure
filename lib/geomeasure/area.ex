@@ -16,7 +16,8 @@ defmodule GeoMeasure.Area do
           acc = acc + x1 * y2 - x2 * y1
           {acc, rest}
 
-        {acc, []} -> acc
+        {acc, []} ->
+          acc
       end
     end)
     |> abs()

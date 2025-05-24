@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.3.0 - 2025-05-24
+
+### Enhancements
+
+- [Added the GeoMeasure.length function to calculate the length of linear geometries](https://github.com/simagyari/geomeasure/pull/21). It uses the `Perimeter` module under the hood, but the `length` name keeps the geometric correctness.
+- [Added support for Geo.LineStringZ and Geo.LineStringZM structs except for GeoMeasure.bbox](https://github.com/simagyari/geomeasure/pull/21). This involves the `centroid`, `extent`, and `length` functions. Please refer to the [documentation](https://github.com/simagyari/geomeasure/blob/main/README.md) for more information.
+
+### Bug fixes
+
+- [Fixed the way GeoMeasure.area calculates the area of concave polygons](https://github.com/simagyari/geomeasure/pull/21).
+
 ## v1.2.0 - 2025-04-07
 
 ### Enhancements
@@ -34,9 +45,9 @@ This ensures that the package raises a uniform ArgumentError upon encountering `
 
 ## v0.0.1 - 2025-03-21
 
-- First publication of the package
+### First publication of the package
 
-- Enhancements
+### Enhancements
 
-    - Created functions for the calculation of the supported properties (area, bounding box, centroid, distance, extent, perimeter) for the supported structs (Point, LineString, Polygon)
-    - Added convenience shortcuts from the main GeoMeasure module in the form of delegates to the specific modules containing the actual functions.
+- Created functions for the calculation of the supported properties (area, bounding box, centroid, distance, extent, perimeter) for the supported structs (Point, LineString, Polygon)
+- Added convenience shortcuts from the main GeoMeasure module in the form of delegates to the specific modules containing the actual functions.

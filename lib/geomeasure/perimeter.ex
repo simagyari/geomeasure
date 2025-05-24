@@ -4,10 +4,9 @@ defmodule GeoMeasure.Perimeter do
   alias GeoMeasure.{Distance, Utils}
 
   @spec calculate_perimeter([{number, number}]) :: float
-  defp calculate_perimeter(coords) when is_list(coords) do
+  defp calculate_perimeter(coords) do
     coords
     |> Enum.reduce({0, tl(coords)}, fn point_1, {acc, remaining} ->
-      IO.inspect({point_1, remaining, acc})
       case remaining do
         [] ->
           acc

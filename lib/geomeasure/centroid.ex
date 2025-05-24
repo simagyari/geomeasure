@@ -5,7 +5,7 @@ defmodule GeoMeasure.Centroid do
   alias GeoMeasure.Utils
 
   @spec calculate_centroid([{number, number}]) :: Geo.Point.t()
-  defp calculate_centroid(coords) when is_list(coords) do
+  defp calculate_centroid(coords) do
     {sum_x, sum_y} =
       Enum.reduce(coords, {0, 0}, fn tpl, acc ->
         Utils.tuple_not_nil!(tpl)
@@ -17,8 +17,8 @@ defmodule GeoMeasure.Centroid do
     %Geo.Point{coordinates: {mean_x, mean_y}}
   end
 
-  @spec calculate_centroid([{number, number, number}]) :: Geo.PointZ.t()
-  defp calculate_centroid(coords) when is_list(coords) do
+  @spec calculate_centroid_3d([{number, number, number}]) :: Geo.PointZ.t()
+  defp calculate_centroid_3d(coords) do
     {sum_x, sum_y, sum_z} =
       Enum.reduce(coords, {0, 0, 0}, fn tpl, acc ->
         Utils.tuple_not_nil!(tpl)
@@ -72,13 +72,14 @@ defmodule GeoMeasure.Centroid do
 
   @spec calculate(Geo.LineStringZ.t()) :: Geo.PointZ.t()
   def calculate(%Geo.LineStringZ{coordinates: coords}) do
-    calculate_centroid(coords)
+    calculate_centroid_3d(coords)
   end
 
   @spec calculate(Geo.LineStringZM.t()) :: Geo.PointZ.t()
   def calculate(%Geo.LineStringZM{coordinates: coords}) do
-    trimmed_coords = Enum.map(coords, fn {x, y, z, _} -> {x, y, z} end)
-    calculate_centroid(trimmed_coords)
+    coords
+    |> Utils.remove_m_values()
+    |> calculate_centroid_3d()
   end
 
   @spec calculate(Geo.Polygon.t()) :: Get.Point.t()

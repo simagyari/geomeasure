@@ -16,6 +16,8 @@ Currently, this project supports only the following geometries:
 - PointZ
 - PointZM
 - LineString
+- LineStringZ (partial support)
+- LineStringZM (partial support)
 - Polygon
 
 Currently, the following properties can be calculated for the supported [Geo](https://github.com/felt/geo/tree/master) structs:
@@ -25,25 +27,31 @@ Currently, the following properties can be calculated for the supported [Geo](ht
 - Centroid
 - Distance (between two coordinate pairs or Geo.Point(M) structs)
 - Extent
-- Perimeter
+- Length/Perimeter
 
-For each geometry, only the properties that have meaning for the given geometry are implemented. This results in the following implementation table, where ✅ means supported, and ❌ means unsupported property:
+For each geometry, only the properties that have meaning for the given geometry are implemented. This results in the following implementation table, where ✅ means supported, and ❌ means unsupported property, while 🔶 means incomplete or in progress support for a property:
 
-| Geometry   | Area | Bounding box | Centroid | Distance | Extent | Perimeter |
-| ---------- | :--: | :----------: | :------: | :------: | :----: | :-------: |
-| Point      | ❌   | ✅          | ✅       | ✅      | ❌     | ❌       |
-| PointM     | ❌   | ✅          | ✅       | ✅      | ❌     | ❌       |
-| PointZ     | ❌   | ✅          | ✅       | ✅      | ❌     | ❌       |
-| PointZM    | ❌   | ✅          | ✅       | ✅      | ❌     | ❌       |
-| LineString | ❌   | ✅          | ✅       | ❌      | ✅     | ❌       |
-| Polygon    | ✅   | ✅          | ✅       | ❌      | ✅     | ✅       |
+| Geometry     | Area | Bounding box | Centroid | Distance | Extent | Length | Perimeter |
+| ----------   | :--: | :----------: | :------: | :------: | :----: | :----: | :-------: |
+| Point        | ❌   | ✅          | ✅       | ✅      | ❌     | ❌    | ❌        |
+| PointM       | ❌   | ✅          | ✅       | ✅      | ❌     | ❌    | ❌        |
+| PointZ       | ❌   | ✅          | ✅       | ✅      | ❌     | ❌    | ❌        |
+| PointZM      | ❌   | ✅          | ✅       | ✅      | ❌     | ❌    | ❌        |
+| LineString   | ❌   | ✅          | ✅       | ❌      | ✅     | ✅    | ❌        |
+| LineStringZ  | ❌   | 🔶          | ✅       | ❌      | ✅     | ✅    | ❌        |
+| LineStringZM | ❌   | 🔶          | ✅       | ❌      | ✅     | ✅    | ❌        |
+| Polygon      | ✅   | ✅          | ✅       | ❌      | ✅     | ❌    | ✅        |
+
+_Note_: The Length/Perimeter depends on the type of geometry. Length is supported for lines, Perimeter is for Polygons. Under the hood, they use the same calculation.
+
+_Note_: Currently only simple polygons are supported for the area calculations.
 
 _Note_: If you would like to make in-memory calculations to determine the relationship between two Geo structs, please check out [topo](https://github.com/pkinney/topo).
 
 ```elixir
 defp deps do
   [
-    {:geomeasure, "~> 1.2.0"}
+    {:geomeasure, "~> 1.3.0"}
   ]
 end
 ```
@@ -106,7 +114,13 @@ iex(4)> GeoMeasure.centroid(%Geo.PointZM{coordinates: 1, 2, 5, 8})
 iex(5)> GeoMeasure.centroid(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 %Geo.Point{coordinates: {2.0, 3.0}, srid: nil, properties: %{}}
 
-iex(6)> GeoMeasure.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(6)> GeoMeasure.centroid(%Geo.LineStringZ{coordinates: [{1, 2, 3}, {3, 4, 5}]})
+%Geo.PointZ{coordinates: {2.0, 3.0, 4.0}}
+
+iex(7)> GeoMeasure.centroid(%Geo.LineStringZM{coordinates: [{1, 2, 3, 10}, {3, 4, 5, 11}]})
+%Geo.PointZ{coordinates: {2.0, 3.0, 4.0}}
+
+iex(8)> GeoMeasure.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 %Geo.Point{coordinates: {1.0, 1.0}, srid: nil, properties: %{}}
 ```
 
@@ -147,14 +161,29 @@ iex(9)> GeoMeasure.distance(%Geo.PointZM{coordinates: {0, 0, 0, 8}}, %Geo.PointZ
 iex(1)> GeoMeasure.extent(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 {1, 3, 2, 4}
 
-iex(2)> GeoMeasure.extent(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(2)> GeoMeasure.extent(%Geo.LineStringZ{coordinates: [{1, 2, 3}, {3, 4, 5}]})
+{1, 3, 2, 4, 3, 5}
+
+iex(3)> GeoMeasure.extent(%Geo.LineStringZM{coordinates: [{1, 2, 3, 10}, {3, 4, 5, 11}]})
+{1, 3, 2, 4, 3, 5}
+
+iex(4)> GeoMeasure.extent(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 {0, 2, 0, 2}
 ```
 
-### Perimeter
+### Perimeter/Length
 
 ```elixir
-iex(1)> GeoMeasure.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(1)> GeoMeasure.length(%Geo.LineString{coordinates: [{1, 2}, {1, 4}]})
+2.0
+
+iex(2)> GeoMeasure.length(%Geo.LineStringZ{coordinates: [{1, 2, 2}, {1, 4, 2}]})
+2.0
+
+iex(3)> GeoMeasure.length(%Geo.LineStringZM{coordinates: [{1, 2, 2, 10}, {1, 4, 2, 11}]})
+2.0
+
+iex(4)> GeoMeasure.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 8.0
 ```
 

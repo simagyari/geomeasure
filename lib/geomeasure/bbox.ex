@@ -4,7 +4,7 @@ defmodule GeoMeasure.Bbox do
   alias GeoMeasure.{Extent, Utils}
 
   @spec calculate_bbox([{number, number}]) :: Geo.Polygon.t()
-  defp calculate_bbox(coords) when is_list(coords) do
+  defp calculate_bbox(coords) do
     {min_x, max_x, min_y, max_y} = Extent.calculate_extent(coords)
 
     %Geo.Polygon{

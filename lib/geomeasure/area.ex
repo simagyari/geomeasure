@@ -4,11 +4,10 @@ defmodule GeoMeasure.Area do
   alias GeoMeasure.Utils
 
   @spec calculate_area([{number, number}]) :: float
-  defp calculate_area(coords) when is_list(coords) do
+  defp calculate_area(coords) do
     coords
     |> Enum.reduce({0, tl(coords)}, fn item, accumulator ->
       Utils.tuple_not_nil!(item)
-      IO.inspect({item, accumulator})
       {x1, y1} = item
 
       case accumulator do

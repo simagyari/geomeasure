@@ -56,6 +56,12 @@ defmodule GeoMeasure do
       iex> GeoMeasure.centroid(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
       %Geo.Point{coordinates: {2.0, 3.0}}
 
+      iex> GeoMeasure.centroid(%Geo.LineStringZ{coordinates: [{1, 2, 3}, {3, 4, 5}]})
+      %Geo.PointZ{coordinates: {2.0, 3.0, 4.0}}
+
+      iex> GeoMeasure.centroid(%Geo.LineStringZM{coordinates: [{1, 2, 3, 10}, {3, 4, 5, 11}]})
+      %Geo.PointZ{coordinates: {2.0, 3.0, 4.0}}
+
       iex> GeoMeasure.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
       %Geo.Point{coordinates: {1.0, 1.0}}
 
@@ -101,14 +107,29 @@ defmodule GeoMeasure do
       iex> GeoMeasure.extent(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
       {1, 3, 2, 4}
 
+      iex> GeoMeasure.extent(%Geo.LineStringZ{coordinates: [{1, 2, 3}, {3, 4, 5}]})
+      {1, 3, 2, 4, 3, 5}
+
+      iex> GeoMeasure.extent(%Geo.LineStringZM{coordinates: [{1, 2, 3, 10}, {3, 4, 5, 11}]})
+      {1, 3, 2, 4, 3, 5}
+
       iex> GeoMeasure.extent(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
       {0, 2, 0, 2}
 
-  ## perimeter
+  ## perimeter/length
 
-  Calculates the perimeter of a Geo struct.
+  Calculates the perimeter or length of a Geo struct.
 
   #### Examples:
+
+      iex> GeoMeasure.length(%Geo.LineString{coordinates: [{1, 2}, {1, 4}]})
+      2.0
+
+      iex> GeoMeasure.length(%Geo.LineStringZ{coordinates: [{1, 2, 2}, {1, 4, 2}]})
+      2.0
+
+      iex> GeoMeasure.length(%Geo.LineStringZM{coordinates: [{1, 2, 2, 10}, {1, 4, 2, 11}]})
+      2.0
 
       iex> GeoMeasure.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
       8.0

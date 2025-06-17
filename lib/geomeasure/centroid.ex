@@ -4,8 +4,8 @@ defmodule GeoMeasure.Centroid do
   alias Geo
   alias GeoMeasure.Utils
 
-  @spec calculate_centroid([{number, number}]) :: Geo.Point.t()
-  defp calculate_centroid(coords) do
+  @spec calculate_centroid([{number, number}], number) :: Geo.Point.t()
+  defp calculate_centroid(coords, srid) do
     {sum_x, sum_y} =
       Enum.reduce(coords, {0, 0}, fn tpl, acc ->
         Utils.tuple_not_nil!(tpl)
@@ -14,11 +14,11 @@ defmodule GeoMeasure.Centroid do
 
     mean_x = sum_x / length(coords)
     mean_y = sum_y / length(coords)
-    %Geo.Point{coordinates: {mean_x, mean_y}}
+    %Geo.Point{coordinates: {mean_x, mean_y}, srid: srid}
   end
 
-  @spec calculate_centroid_3d([{number, number, number}]) :: Geo.PointZ.t()
-  defp calculate_centroid_3d(coords) do
+  @spec calculate_centroid_3d([{number, number, number}], number) :: Geo.PointZ.t()
+  defp calculate_centroid_3d(coords, srid) do
     {sum_x, sum_y, sum_z} =
       Enum.reduce(coords, {0, 0, 0}, fn tpl, acc ->
         Utils.tuple_not_nil!(tpl)
@@ -28,7 +28,7 @@ defmodule GeoMeasure.Centroid do
     mean_x = sum_x / length(coords)
     mean_y = sum_y / length(coords)
     mean_z = sum_z / length(coords)
-    %Geo.PointZ{coordinates: {mean_x, mean_y, mean_z}}
+    %Geo.PointZ{coordinates: {mean_x, mean_y, mean_z}, srid: srid}
   end
 
   @spec sum_coordinates({number, number}, {number, number}) :: {number, number}
@@ -49,42 +49,42 @@ defmodule GeoMeasure.Centroid do
   end
 
   @spec calculate(Geo.PointM.t()) :: Geo.Point.t()
-  def calculate(%Geo.PointM{coordinates: {x, y, _z}}) do
+  def calculate(%Geo.PointM{coordinates: {x, y, _z}, srid: srid}) do
     Utils.tuple_not_nil!({x, y})
-    %Geo.Point{coordinates: {x, y}}
+    %Geo.Point{coordinates: {x, y}, srid: srid}
   end
 
   @spec calculate(Geo.PointZ.t()) :: Geo.PointZ.t()
-  def calculate(%Geo.PointZ{coordinates: coords}) do
+  def calculate(%Geo.PointZ{coordinates: coords, srid: srid}) do
     Utils.tuple_not_nil!(coords)
-    %Geo.PointZ{coordinates: coords}
+    %Geo.PointZ{coordinates: coords, srid: srid}
   end
 
   @spec calculate(Geo.PointZM.t()) :: Geo.PointZ.t()
-  def calculate(%Geo.PointZM{coordinates: {x, y, z, _}}) do
+  def calculate(%Geo.PointZM{coordinates: {x, y, z, _}, srid: srid}) do
     Utils.tuple_not_nil!({x, y, z})
-    %Geo.PointZ{coordinates: {x, y, z}}
+    %Geo.PointZ{coordinates: {x, y, z}, srid: srid}
   end
 
   @spec calculate(Geo.LineString.t()) :: Geo.Point.t()
-  def calculate(%Geo.LineString{coordinates: coords}) do
-    calculate_centroid(coords)
+  def calculate(%Geo.LineString{coordinates: coords, srid: srid}) do
+    calculate_centroid(coords, srid)
   end
 
   @spec calculate(Geo.LineStringZ.t()) :: Geo.PointZ.t()
-  def calculate(%Geo.LineStringZ{coordinates: coords}) do
-    calculate_centroid_3d(coords)
+  def calculate(%Geo.LineStringZ{coordinates: coords, srid: srid}) do
+    calculate_centroid_3d(coords, srid)
   end
 
   @spec calculate(Geo.LineStringZM.t()) :: Geo.PointZ.t()
-  def calculate(%Geo.LineStringZM{coordinates: coords}) do
+  def calculate(%Geo.LineStringZM{coordinates: coords, srid: srid}) do
     coords
     |> Utils.remove_m_values()
-    |> calculate_centroid_3d()
+    |> calculate_centroid_3d(srid)
   end
 
   @spec calculate(Geo.Polygon.t()) :: Get.Point.t()
-  def calculate(%Geo.Polygon{coordinates: [coords]}) do
-    calculate_centroid(tl(coords))
+  def calculate(%Geo.Polygon{coordinates: [coords], srid: srid}) do
+    calculate_centroid(tl(coords), srid)
   end
 end

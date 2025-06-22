@@ -79,13 +79,13 @@ iex(1)> GeoMeasure.bbox(%Geo.Point{coordinates: {1, 2}})
 %Geo.Point{coordinates: {1, 2}, srid: nil, properties: %{}}
 
 iex(2)> GeoMeasure.bbox(%Geo.PointM{coordinates: {1, 2, 5}})
-%Geo.Point{coordinates: {1, 2}}
+%Geo.Point{coordinates: {1, 2}, srid: nil, properties: %{}}
 
 iex(3)> GeoMeasure.bbox(%Geo.PointZ{coordinates: {1, 2, 5}})
-%Geo.PointZ{coordinates: {1, 2, 5}}
+%Geo.PointZ{coordinates: {1, 2, 5}, srid: nil, properties: %{}}
 
 iex(4)> GeoMeasure.bbox(%Geo.PointZM{coordinates: {1, 2, 5, 8}})
-%Geo.PointZ{coordinates: {1, 2, 5}}
+%Geo.PointZ{coordinates: {1, 2, 5}, srid: nil, properties: %{}}
 
 iex(5)> GeoMeasure.bbox(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 %Geo.Polygon{
@@ -109,22 +109,22 @@ iex(1)> GeoMeasure.centroid(%Geo.Point{coordinates: {1, 2}})
 %Geo.Point{coordinates: {1, 2}, srid: nil, properties: %{}}
 
 iex(2)> GeoMeasure.centroid(%Geo.PointM{coordinates: {1, 2, 5}})
-%Geo.Point{coordinates: {1, 2}}
+%Geo.Point{coordinates: {1, 2}, srid: nil, properties: %{}}
 
 iex(3)> GeoMeasure.centroid(%Geo.PointZ{coordinates: {1, 2, 5}})
-%Geo.PointZ{coordinates: {1, 2, 5}}
+%Geo.PointZ{coordinates: {1, 2, 5}, srid: nil, properties: %{}}
 
 iex(4)> GeoMeasure.centroid(%Geo.PointZM{coordinates: 1, 2, 5, 8})
-%Geo.PointZ{coordinates: {1, 2, 5}}
+%Geo.PointZ{coordinates: {1, 2, 5}, srid: nil, properties: %{}}
 
 iex(5)> GeoMeasure.centroid(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 %Geo.Point{coordinates: {2.0, 3.0}, srid: nil, properties: %{}}
 
 iex(6)> GeoMeasure.centroid(%Geo.LineStringZ{coordinates: [{1, 2, 3}, {3, 4, 5}]})
-%Geo.PointZ{coordinates: {2.0, 3.0, 4.0}}
+%Geo.PointZ{coordinates: {2.0, 3.0, 4.0}, srid: nil, properties: %{}}
 
 iex(7)> GeoMeasure.centroid(%Geo.LineStringZM{coordinates: [{1, 2, 3, 10}, {3, 4, 5, 11}]})
-%Geo.PointZ{coordinates: {2.0, 3.0, 4.0}}
+%Geo.PointZ{coordinates: {2.0, 3.0, 4.0}, srid: nil, properties: %{}}
 
 iex(8)> GeoMeasure.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 %Geo.Point{coordinates: {1.0, 1.0}, srid: nil, properties: %{}}

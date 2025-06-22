@@ -97,6 +97,44 @@ defmodule GeoMeasure.Test do
     assert_raise ArgumentError, fn -> GeoMeasure.bbox(geom) end
   end
 
+  test "calculate_point_bbox_with_srid" do
+    geom = %Geo.Point{coordinates: {1, 2}, srid: 27700}
+    assert GeoMeasure.bbox(geom) == %Geo.Point{coordinates: {1, 2}, srid: 27700}
+  end
+
+  test "calculate_pointm_bbox_with_srid" do
+    geom = %Geo.PointM{coordinates: {1, 2, 5}, srid: 27700}
+    assert GeoMeasure.bbox(geom) == %Geo.Point{coordinates: {1, 2}, srid: 27700}
+  end
+
+  test "calculate_pointz_bbox_with_srid" do
+    geom = %Geo.PointZ{coordinates: {1, 2, 5}, srid: 27700}
+    assert GeoMeasure.bbox(geom) == %Geo.PointZ{coordinates: {1, 2, 5}, srid: 27700}
+  end
+
+  test "calculate_pointzm_bbox_with_srid" do
+    geom = %Geo.PointZM{coordinates: {1, 2, 5, 8}, srid: 27700}
+    assert GeoMeasure.bbox(geom) == %Geo.PointZ{coordinates: {1, 2, 5}, srid: 27700}
+  end
+
+  test "calculate_linestring_bbox_with_srid" do
+    geom = %Geo.LineString{coordinates: [{1, 2}, {3, 4}], srid: 27700}
+
+    assert GeoMeasure.bbox(geom) == %Geo.Polygon{
+             coordinates: [[{1, 2}, {1, 4}, {3, 4}, {3, 2}, {1, 2}]],
+             srid: 27700
+           }
+  end
+
+  test "calculate_polygon_bbox_with_srid" do
+    geom = %Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]], srid: 27700}
+
+    assert GeoMeasure.bbox(geom) == %Geo.Polygon{
+             coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
+             srid: 27700
+           }
+  end
+
   test "calculate_point_centroid" do
     geom = %Geo.Point{coordinates: {1, 2}}
     assert GeoMeasure.centroid(geom) == %Geo.Point{coordinates: {1, 2}}
@@ -185,6 +223,54 @@ defmodule GeoMeasure.Test do
   test "calculate_polygon_centroid_nil_coord" do
     geom = %Geo.Polygon{coordinates: [[{0, 0}, {nil, 2}, {2, 2}, {2, 0}, {0, 0}]]}
     assert_raise ArgumentError, fn -> GeoMeasure.centroid(geom) end
+  end
+
+  test "calculate_point_centroid_with_srid" do
+    geom = %Geo.Point{coordinates: {1, 2}, srid: 23700}
+    assert GeoMeasure.centroid(geom) == %Geo.Point{coordinates: {1, 2}, srid: 23700}
+  end
+
+  test "calculate_pointm_centroid_with_srid" do
+    geom = %Geo.PointM{coordinates: {1, 2, 3}, srid: 23700}
+    assert GeoMeasure.centroid(geom) == %Geo.Point{coordinates: {1, 2}, srid: 23700}
+  end
+
+  test "calculate_pointz_centroid_with_srid" do
+    geom = %Geo.PointZ{coordinates: {1, 2, 5}, srid: 23700}
+    assert GeoMeasure.centroid(geom) == %Geo.PointZ{coordinates: {1, 2, 5}, srid: 23700}
+  end
+
+  test "calculate_pointzm_centroid_with_srid" do
+    geom = %Geo.PointZM{coordinates: {1, 2, 5, 8}, srid: 23700}
+    assert GeoMeasure.centroid(geom) == %Geo.PointZ{coordinates: {1, 2, 5}, srid: 23700}
+  end
+
+  test "calculate_linestring_centroid_with_srid" do
+    geom = %Geo.LineString{coordinates: [{1, 2}, {3, 4}], srid: 23700}
+    assert GeoMeasure.centroid(geom) == %Geo.Point{coordinates: {2.0, 3.0}, srid: 23700}
+  end
+
+  test "calculate_linestringz_centroid_with_srid" do
+    geom = %Geo.LineStringZ{coordinates: [{1, 2, 3}, {3, 4, 5}], srid: 23700}
+
+    assert GeoMeasure.centroid(geom) == %Geo.PointZ{
+             coordinates: {2.0, 3.0, 4.0},
+             srid: 23700
+           }
+  end
+
+  test "calculate_linestringzm_centroid_with_srid" do
+    geom = %Geo.LineStringZM{coordinates: [{1, 2, 3, 10}, {3, 4, 5, 11}], srid: 23700}
+
+    assert GeoMeasure.centroid(geom) == %Geo.PointZ{
+             coordinates: {2.0, 3.0, 4.0},
+             srid: 23700
+           }
+  end
+
+  test "calculate_polygon_centroid_with_srid" do
+    geom = %Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]], srid: 23700}
+    assert GeoMeasure.centroid(geom) == %Geo.Point{coordinates: {1.0, 1.0}, srid: 23700}
   end
 
   test "calculate_distance_x_direction" do

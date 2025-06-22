@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.4.0 - 2025-06-22
+
+### Enhancements
+
+- [Added SRID transfer capability to calculations that return Geo structs](https://github.com/simagyari/geomeasure/pull/22). This involves the `bbox` and `perimeter` functions. Please refer to the [documentation](https://github.com/simagyari/geomeasure/blob/main/README.md) for more information.
+
 ## v1.3.0 - 2025-05-24
 
 ### Enhancements

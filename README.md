@@ -45,11 +45,14 @@ For each geometry, only the properties that have meaning for the given geometry 
 > [!IMPORTANT]
 > All computations that return Geo structs transfer the SRID of the input struct to the output struct. Only projected coordinate systems are supported as the algorithms implemented here do not take curved surfaces and angular units into account, which would be necessary for the handling of geographic coordinate systems.
 
-_Note_: The Length/Perimeter depends on the type of geometry. Length is supported for lines, Perimeter is for Polygons. Under the hood, they use the same calculation.
+> [!IMPORTANT]
+> Currently only simple polygons are supported for the area calculations.
 
-_Note_: Currently only simple polygons are supported for the area calculations.
+> [!NOTE]
+> The Length/Perimeter depends on the type of geometry. Length is supported for lines, Perimeter is for Polygons. Under the hood, they use the same calculation.
 
-_Note_: If you would like to make in-memory calculations to determine the relationship between two Geo structs, please check out [topo](https://github.com/pkinney/topo).
+> [!NOTE]
+> If you would like to make in-memory calculations to determine the relationship between two Geo structs, please check out [topo](https://github.com/pkinney/topo).
 
 ```elixir
 defp deps do

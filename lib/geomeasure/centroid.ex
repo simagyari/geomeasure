@@ -83,8 +83,19 @@ defmodule GeoMeasure.Centroid do
     |> calculate_centroid_3d(srid)
   end
 
-  @spec calculate(Geo.Polygon.t()) :: Get.Point.t()
-  def calculate(%Geo.Polygon{coordinates: [coords], srid: srid}) do
-    calculate_centroid(tl(coords), srid)
+  @spec calculate(Geo.Polygon.t()) :: Geo.Point.t()
+  def calculate(%Geo.Polygon{coordinates: coords, srid: srid}) do
+    coords
+    |> hd()
+    |> tl()
+    |> calculate_centroid(srid)
+  end
+
+  @spec calculate(Geo.PolygonZ.t()) :: Geo.PointZ.t()
+  def calculate(%Geo.PolygonZ{coordinates: coords, srid: srid}) do
+    coords
+    |> hd()
+    |> tl()
+    |> calculate_centroid_3d(srid)
   end
 end

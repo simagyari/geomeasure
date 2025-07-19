@@ -44,7 +44,7 @@ For each geometry, only the properties that have meaning for the given geometry 
 
 **IMPORTANT**: All computations that return Geo structs transfer the SRID of the input struct to the output struct. Only projected coordinate systems are supported as the algorithms implemented here do not take curved surfaces and angular units into account, which would be necessary for the handling of geographic coordinate systems.
 
-**IMPORTANT**: Currently only simple polygons are supported for the area calculations.
+**IMPORTANT**: Currently only coplanar polygons are supported for the area calculations.
 
 _Note_: The Length/Perimeter depends on the type of geometry. Length is supported for lines, Perimeter is for Polygons. Under the hood, they use the same calculation.
 
@@ -66,6 +66,14 @@ While each function can be called through their module, such as `GeoMeasure.Area
 ```elixir
 iex(1)> GeoMeasure.area(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 4.0
+
+iex(2)> GeoMeasure.area(%Geo.Polygon{
+    coordinates: [
+      [{0, 0}, {0, 3}, {3, 3}, {3, 0}, {0, 0}],
+      [{1, 1}, {1, 2}, {2, 2}, {2, 1}, {1, 1}]
+    ]
+  })
+8.0
 ```
 
 ### Bounding Box
@@ -187,6 +195,14 @@ iex(3)> GeoMeasure.length(%Geo.LineStringZM{coordinates: [{1, 2, 2, 10}, {1, 4, 
 
 iex(4)> GeoMeasure.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 8.0
+
+iex(5)> GeoMeasure.perimeter(%Geo.Polygon{
+    coordinates: [
+      [{0, 0}, {0, 3}, {3, 3}, {3, 0}, {0, 0}],
+      [{1, 1}, {1, 2}, {2, 2}, {2, 1}, {1, 1}]
+    ]
+  })
+16.0
 ```
 
 ## Copyright and License

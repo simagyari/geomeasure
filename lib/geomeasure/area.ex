@@ -29,7 +29,20 @@ defmodule GeoMeasure.Area do
   """
   @doc since: "0.0.1"
   @spec calculate(Geo.Polygon.t()) :: float
-  def calculate(%Geo.Polygon{coordinates: [coords]}) do
-    calculate_area(coords)
+  def calculate(%Geo.Polygon{coordinates: coord_list}) when length(coord_list) == 1 do
+    calculate_area(hd(coord_list))
+  end
+
+  @spec calculate(Geo.Polygon.t()) :: float
+  def calculate(%Geo.Polygon{coordinates: coord_list}) when length(coord_list) > 1 do
+    [outer_ring | rest] = coord_list
+    outer_area = calculate_area(outer_ring)
+
+    inner_area =
+      Enum.reduce(rest, 0, fn coords, acc ->
+        acc + calculate_area(coords)
+      end)
+
+    outer_area - inner_area
   end
 end

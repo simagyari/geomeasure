@@ -21,6 +21,17 @@ defmodule GeoMeasure.Test do
     assert_raise ArgumentError, fn -> GeoMeasure.area(geom) end
   end
 
+  test "calculate_polygon_area_hole" do
+    geom = %Geo.Polygon{
+      coordinates: [
+        [{0, 0}, {0, 3}, {3, 3}, {3, 0}, {0, 0}],
+        [{1, 1}, {1, 2}, {2, 2}, {2, 1}, {1, 1}]
+      ]
+    }
+
+    assert GeoMeasure.area(geom) == 8.0
+  end
+
   test "calculate_point_bbox" do
     geom = %Geo.Point{coordinates: {1, 2}}
     assert GeoMeasure.bbox(geom) == %Geo.Point{coordinates: {1, 2}}
@@ -476,6 +487,17 @@ defmodule GeoMeasure.Test do
   test "calculate_polygon_perimeter" do
     geom = %Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]}
     assert GeoMeasure.perimeter(geom) == 8.0
+  end
+
+  test "calculate_polygon_perimeter_hole" do
+    geom = %Geo.Polygon{
+      coordinates: [
+        [{0, 0}, {0, 3}, {3, 3}, {3, 0}, {0, 0}],
+        [{1, 1}, {1, 2}, {2, 2}, {2, 1}, {1, 1}]
+      ]
+    }
+
+    assert GeoMeasure.perimeter(geom) == 16.0
   end
 
   test "calculate_linestring_length_nil_coord" do

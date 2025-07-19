@@ -41,6 +41,17 @@ defmodule GeoMeasure.Perimeter.Test do
     assert GeoMeasure.Perimeter.calculate(geom) == 8.0
   end
 
+  test "calculate_polygon_perimeter_hole" do
+    geom = %Geo.Polygon{
+      coordinates: [
+        [{0, 0}, {0, 3}, {3, 3}, {3, 0}, {0, 0}],
+        [{1, 1}, {1, 2}, {2, 2}, {2, 1}, {1, 1}]
+      ]
+    }
+
+    assert GeoMeasure.Perimeter.calculate(geom) == 16.0
+  end
+
   test "calculate_linestring_length_nil_coord" do
     geom = %Geo.LineString{coordinates: [{1, nil}, {1, 4}]}
     assert_raise ArgumentError, fn -> GeoMeasure.Perimeter.calculate(geom) end

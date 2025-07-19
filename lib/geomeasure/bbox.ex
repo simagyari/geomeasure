@@ -80,13 +80,24 @@ defmodule GeoMeasure.Bbox do
 
   @spec calculate(Geo.LineStringZM.t()) :: Geo.Polygon.t()
   def calculate(%Geo.LineStringZM{coordinates: coords, srid: srid}) do
-    calculate_bbox_3d(coords, srid)
+    coords
+    |> Utils.remove_m_values()
+    |> calculate_bbox_3d(srid)
   end
 
   @spec calculate(Geo.Polygon.t()) :: Geo.Polygon.t()
-  def calculate(%Geo.Polygon{coordinates: [coords], srid: srid}) do
+  def calculate(%Geo.Polygon{coordinates: coords, srid: srid}) do
     coords
-    |> Utils.remove_m_values()
+    |> hd()
+    |> tl()
     |> calculate_bbox(srid)
+  end
+
+  @spec calculate(Geo.PolygonZ.t()) :: Geo.Polygon.t()
+  def calculate(%Geo.PolygonZ{coordinates: coords, srid: srid}) do
+    coords
+    |> hd()
+    |> tl()
+    |> calculate_bbox_3d(srid)
   end
 end

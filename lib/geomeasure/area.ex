@@ -37,9 +37,12 @@ defmodule GeoMeasure.Area do
   def calculate(%Geo.Polygon{coordinates: coord_list}) when length(coord_list) > 1 do
     [outer_ring | rest] = coord_list
     outer_area = calculate_area(outer_ring)
-    inner_area = Enum.reduce(rest, 0, fn coords, acc ->
-      acc + calculate_area(coords)
-    end)
+
+    inner_area =
+      Enum.reduce(rest, 0, fn coords, acc ->
+        acc + calculate_area(coords)
+      end)
+
     outer_area - inner_area
   end
 end

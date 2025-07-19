@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.5.0 - 2025-07-19
+
+### Enhancements
+
+- [Added support for polygons with holes in area and perimeter calculations](https://github.com/simagyari/geomeasure/pull/24). The areas of holes get subtracted from the area of the outer ring, while the perimeters of holes get added to the perimeter of the outer ring. Please refer to the [documentation](https://github.com/simagyari/geomeasure/blob/main/README.md) for more information.
+
 ## v1.4.0 - 2025-06-22
 
 ### Enhancements

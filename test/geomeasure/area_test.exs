@@ -20,4 +20,15 @@ defmodule GeoMeasure.Area.Test do
     geom = %Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {nil, 0}, {0, 0}]]}
     assert_raise ArgumentError, fn -> GeoMeasure.Area.calculate(geom) end
   end
+
+  test "calculate_polygon_area_hole" do
+    geom = %Geo.Polygon{
+      coordinates: [
+        [{0, 0}, {0, 3}, {3, 3}, {3, 0}, {0, 0}],
+        [{1, 1}, {1, 2}, {2, 2}, {2, 1}, {1, 1}]
+      ]
+    }
+
+    assert GeoMeasure.Area.calculate(geom) == 8.0
+  end
 end

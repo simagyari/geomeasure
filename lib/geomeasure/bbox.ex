@@ -21,6 +21,25 @@ defmodule GeoMeasure.Bbox do
     }
   end
 
+  @spec calculate_bbox_3d([{number, number, number}], number | nil) :: Geo.Polygon.t()
+  defp calculate_bbox_3d(coords, srid) do
+    {min_x, max_x, min_y, max_y, min_z, max_z} = Extent.calculate_extent_3d(coords)
+
+    %Geo.Polygon{
+      coordinates: [
+        [
+          {min_x, min_y},
+          {min_x, max_y},
+          {max_x, max_y},
+          {max_x, min_y},
+          {min_x, min_y}
+        ]
+      ],
+      srid: srid,
+      properties: %{min_z: min_z, max_z: max_z}
+    }
+  end
+
   @doc """
   Calculates the bounding box of a Geo struct.
   """
@@ -54,8 +73,20 @@ defmodule GeoMeasure.Bbox do
     calculate_bbox(coords, srid)
   end
 
+  @spec calculate(Geo.LineStringZ.t()) :: Geo.Polygon.t()
+  def calculate(%Geo.LineStringZ{coordinates: coords, srid: srid}) do
+    calculate_bbox_3d(coords, srid)
+  end
+
+  @spec calculate(Geo.LineStringZM.t()) :: Geo.Polygon.t()
+  def calculate(%Geo.LineStringZM{coordinates: coords, srid: srid}) do
+    calculate_bbox_3d(coords, srid)
+  end
+
   @spec calculate(Geo.Polygon.t()) :: Geo.Polygon.t()
   def calculate(%Geo.Polygon{coordinates: [coords], srid: srid}) do
-    calculate_bbox(coords, srid)
+    coords
+    |> Utils.remove_m_values()
+    |> calculate_bbox(srid)
   end
 end

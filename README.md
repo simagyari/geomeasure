@@ -16,9 +16,10 @@ Currently, this project supports only the following geometries:
 - PointZ
 - PointZM
 - LineString
-- LineStringZ (partial support)
-- LineStringZM (partial support)
+- LineStringZ
+- LineStringZM
 - Polygon
+- PolygonZ
 
 Currently, the following properties can be calculated for the supported [Geo](https://github.com/felt/geo/tree/master) structs:
 

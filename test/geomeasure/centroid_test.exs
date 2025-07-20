@@ -150,7 +150,14 @@ defmodule GeoMeasure.Centroid.Test do
   end
 
   test "calculate_polygonz_centroid_with_srid" do
-    geom = %Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]], srid: 23700}
-    assert GeoMeasure.Centroid.calculate(geom) == %Geo.PointZ{coordinates: {1.0, 1.0, 1.0}, srid: 23700}
+    geom = %Geo.PolygonZ{
+      coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]],
+      srid: 23700
+    }
+
+    assert GeoMeasure.Centroid.calculate(geom) == %Geo.PointZ{
+             coordinates: {1.0, 1.0, 1.0},
+             srid: 23700
+           }
   end
 end

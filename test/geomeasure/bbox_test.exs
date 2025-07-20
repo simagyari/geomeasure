@@ -33,18 +33,18 @@ defmodule GeoMeasure.Bbox.Test do
     geom = %Geo.LineStringZ{coordinates: [{0, 0, 0}, {1, 1, 1}]}
 
     assert GeoMeasure.Bbox.calculate(geom) == %Geo.Polygon{
-      coordinates: [[{0, 0}, {0, 1}, {1, 1}, {1, 0}, {0, 0}]],
-      properties: %{min_z: 0, max_z: 1}
-    }
+             coordinates: [[{0, 0}, {0, 1}, {1, 1}, {1, 0}, {0, 0}]],
+             properties: %{min_z: 0, max_z: 1}
+           }
   end
 
   test "calculate_linestringzm_bbox" do
     geom = %Geo.LineStringZM{coordinates: [{0, 0, 0, 2}, {1, 1, 1, 3}]}
 
     assert GeoMeasure.Bbox.calculate(geom) == %Geo.Polygon{
-      coordinates: [[{0, 0}, {0, 1}, {1, 1}, {1, 0}, {0, 0}]],
-      properties: %{min_z: 0, max_z: 1}
-    }
+             coordinates: [[{0, 0}, {0, 1}, {1, 1}, {1, 0}, {0, 0}]],
+             properties: %{min_z: 0, max_z: 1}
+           }
   end
 
   test "calculate_polygon_bbox" do
@@ -152,20 +152,20 @@ defmodule GeoMeasure.Bbox.Test do
     geom = %Geo.LineStringZ{coordinates: [{0, 0, 0}, {1, 1, 1}], srid: 23700}
 
     assert GeoMeasure.Bbox.calculate(geom) == %Geo.Polygon{
-      coordinates: [[{0, 0}, {0, 1}, {1, 1}, {1, 0}, {0, 0}]],
-      srid: 23700,
-      properties: %{min_z: 0, max_z: 1}
-    }
+             coordinates: [[{0, 0}, {0, 1}, {1, 1}, {1, 0}, {0, 0}]],
+             srid: 23700,
+             properties: %{min_z: 0, max_z: 1}
+           }
   end
 
   test "calculate_linestringzm_bbox_with_srid" do
     geom = %Geo.LineStringZM{coordinates: [{0, 0, 0, 2}, {1, 1, 1, 3}], srid: 23700}
 
     assert GeoMeasure.Bbox.calculate(geom) == %Geo.Polygon{
-      coordinates: [[{0, 0}, {0, 1}, {1, 1}, {1, 0}, {0, 0}]],
-      srid: 23700,
-      properties: %{min_z: 0, max_z: 1}
-    }
+             coordinates: [[{0, 0}, {0, 1}, {1, 1}, {1, 0}, {0, 0}]],
+             srid: 23700,
+             properties: %{min_z: 0, max_z: 1}
+           }
   end
 
   test "calculate_polygon_bbox_with_srid" do
@@ -178,7 +178,10 @@ defmodule GeoMeasure.Bbox.Test do
   end
 
   test "calculate_polygonz_bbox_with_srid" do
-    geom = %Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]], srid: 23700}
+    geom = %Geo.PolygonZ{
+      coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]],
+      srid: 23700
+    }
 
     assert GeoMeasure.Bbox.calculate(geom) == %Geo.Polygon{
              coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],

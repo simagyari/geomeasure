@@ -71,7 +71,18 @@ defmodule GeoMeasure.Extent do
   end
 
   @spec calculate(Geo.Polygon.t()) :: {number, number, number, number}
-  def calculate(%Geo.Polygon{coordinates: [coords]}) do
-    calculate_extent(tl(coords))
+  def calculate(%Geo.Polygon{coordinates: coords}) do
+    coords
+    |> hd()
+    |> tl()
+    |> calculate_extent()
+  end
+
+  @spec calculate(Geo.PolygonZ.t()) :: {number, number, number, number, number, number}
+  def calculate(%Geo.PolygonZ{coordinates: coords}) do
+    coords
+    |> hd()
+    |> tl()
+    |> calculate_extent_3d()
   end
 end

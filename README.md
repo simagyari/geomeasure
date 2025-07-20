@@ -16,9 +16,10 @@ Currently, this project supports only the following geometries:
 - PointZ
 - PointZM
 - LineString
-- LineStringZ (partial support)
-- LineStringZM (partial support)
+- LineStringZ
+- LineStringZM
 - Polygon
+- PolygonZ
 
 Currently, the following properties can be calculated for the supported [Geo](https://github.com/felt/geo/tree/master) structs:
 
@@ -29,7 +30,7 @@ Currently, the following properties can be calculated for the supported [Geo](ht
 - Extent
 - Length/Perimeter
 
-For each geometry, only the properties that have meaning for the given geometry are implemented. This results in the following implementation table, where ✅ means supported, and ❌ means unsupported property, while 🔶 means incomplete or in progress support for a property:
+For each geometry, only the properties that have meaning for the given geometry are implemented. This results in the following implementation table, where ✅ means supported, and ❌ means unsupported property, 🎯 means planned, while 🔶 means incomplete or in progress support for a property:
 
 | Geometry     | Area | Bounding box | Centroid | Distance | Extent | Length | Perimeter |
 | ----------   | :--: | :----------: | :------: | :------: | :----: | :----: | :-------: |
@@ -38,13 +39,14 @@ For each geometry, only the properties that have meaning for the given geometry 
 | PointZ       | ❌   | ✅          | ✅       | ✅      | ❌     | ❌    | ❌        |
 | PointZM      | ❌   | ✅          | ✅       | ✅      | ❌     | ❌    | ❌        |
 | LineString   | ❌   | ✅          | ✅       | ❌      | ✅     | ✅    | ❌        |
-| LineStringZ  | ❌   | 🔶          | ✅       | ❌      | ✅     | ✅    | ❌        |
-| LineStringZM | ❌   | 🔶          | ✅       | ❌      | ✅     | ✅    | ❌        |
+| LineStringZ  | ❌   | ✅          | ✅       | ❌      | ✅     | ✅    | ❌        |
+| LineStringZM | ❌   | ✅          | ✅       | ❌      | ✅     | ✅    | ❌        |
 | Polygon      | ✅   | ✅          | ✅       | ❌      | ✅     | ❌    | ✅        |
+| PolygonZ     | 🎯   | ✅          | ✅       | ❌      | ✅     | ❌    | ✅        |
 
 **IMPORTANT**: All computations that return Geo structs transfer the SRID of the input struct to the output struct. Only projected coordinate systems are supported as the algorithms implemented here do not take curved surfaces and angular units into account, which would be necessary for the handling of geographic coordinate systems.
 
-**IMPORTANT**: Currently only coplanar polygons are supported for the area calculations.
+**IMPORTANT**: Both area and perimeter can handle polygons with holes now. Area is missing PolygonZ support.
 
 _Note_: The Length/Perimeter depends on the type of geometry. Length is supported for lines, Perimeter is for Polygons. Under the hood, they use the same calculation.
 
@@ -98,11 +100,32 @@ iex(5)> GeoMeasure.bbox(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
   properties: %{}
 }
 
-iex(6)> GeoMeasure.bbox(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(6)> GeoMeasure.bbox(%Geo.LineStringZ{coordinates: [{0, 0, 0}, {1, 1, 1}]})
+%Geo.Polygon{
+  coordinates: [[{0, 0}, {0, 1}, {1, 1}, {1, 0}, {0, 0}]],
+  srid: nil,
+  properties: %{max_z: 1, min_z: 0}
+}
+
+iex(7)> GeoMeasure.bbox(%Geo.LineStringZM{coordinates: [{0, 0, 0, 2}, {1, 1, 1, 3}]})
+%Geo.Polygon{
+  coordinates: [[{0, 0}, {0, 1}, {1, 1}, {1, 0}, {0, 0}]],
+  srid: nil,
+  properties: %{max_z: 1, min_z: 0}
+}
+
+iex(8)> GeoMeasure.bbox(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 %Geo.Polygon{
   coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
   srid: nil,
   properties: %{}
+}
+
+iex(9)> GeoMeasure.bbox(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
+%Geo.Polygon{
+  coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
+  srid: nil,
+  properties: %{max_z: 2, min_z: 0}
 }
 ```
 
@@ -132,6 +155,9 @@ iex(7)> GeoMeasure.centroid(%Geo.LineStringZM{coordinates: [{1, 2, 3, 10}, {3, 4
 
 iex(8)> GeoMeasure.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 %Geo.Point{coordinates: {1.0, 1.0}, srid: nil, properties: %{}}
+
+iex(9)> GeoMeasure.centroid(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
+%Geo.PointZ{coordinates: {1.0, 1.0, 1.0}, srid: nil, properties: %{}}
 ```
 
 ### Distance
@@ -179,6 +205,9 @@ iex(3)> GeoMeasure.extent(%Geo.LineStringZM{coordinates: [{1, 2, 3, 10}, {3, 4, 
 
 iex(4)> GeoMeasure.extent(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 {0, 2, 0, 2}
+
+iex(5)> GeoMeasure.extent(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
+{0, 2, 0, 2, 0, 2}
 ```
 
 ### Perimeter/Length
@@ -203,6 +232,17 @@ iex(5)> GeoMeasure.perimeter(%Geo.Polygon{
     ]
   })
 16.0
+
+iex(6)> GeoMeasure.perimeter(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
+8.94427190999916
+
+iex(7)> GeoMeasure.perimeter(%Geo.PolygonZ{
+    coordinates: [
+      [{0, 0, 0}, {0, 3, 1}, {3, 3, 2}, {3, 0, 1}, {0, 0, 0}],
+      [{1, 1, 0.66}, {1, 2, 1}, {2, 2, 1.33}, {2, 1, 1}, {1, 1, 0.66}]
+    ]
+  })
+16.8676364068953
 ```
 
 ## Copyright and License

@@ -41,6 +41,11 @@ defmodule GeoMeasure.Centroid.Test do
     assert GeoMeasure.Centroid.calculate(geom) == %Geo.Point{coordinates: {1.0, 1.0}}
   end
 
+  test "calculate_polygonz_centroid" do
+    geom = %Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]}
+    assert GeoMeasure.Centroid.calculate(geom) == %Geo.PointZ{coordinates: {1.0, 1.0, 1.0}}
+  end
+
   test "calculate_point_centroid_nil_coord" do
     geom = %Geo.Point{coordinates: {nil, 2}}
     assert_raise ArgumentError, fn -> GeoMeasure.Centroid.calculate(geom) end
@@ -91,6 +96,11 @@ defmodule GeoMeasure.Centroid.Test do
     assert_raise ArgumentError, fn -> GeoMeasure.Centroid.calculate(geom) end
   end
 
+  test "calculate_polygonz_centroid_nil_coord" do
+    geom = %Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, nil, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]}
+    assert_raise ArgumentError, fn -> GeoMeasure.Centroid.calculate(geom) end
+  end
+
   test "calculate_point_centroid_with_srid" do
     geom = %Geo.Point{coordinates: {1, 2}, srid: 23700}
     assert GeoMeasure.Centroid.calculate(geom) == %Geo.Point{coordinates: {1, 2}, srid: 23700}
@@ -137,5 +147,17 @@ defmodule GeoMeasure.Centroid.Test do
   test "calculate_polygon_centroid_with_srid" do
     geom = %Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]], srid: 23700}
     assert GeoMeasure.Centroid.calculate(geom) == %Geo.Point{coordinates: {1.0, 1.0}, srid: 23700}
+  end
+
+  test "calculate_polygonz_centroid_with_srid" do
+    geom = %Geo.PolygonZ{
+      coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]],
+      srid: 23700
+    }
+
+    assert GeoMeasure.Centroid.calculate(geom) == %Geo.PointZ{
+             coordinates: {1.0, 1.0, 1.0},
+             srid: 23700
+           }
   end
 end

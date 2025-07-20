@@ -3,7 +3,7 @@ defmodule GeoMeasure.Perimeter do
 
   alias GeoMeasure.{Distance, Utils}
 
-  @spec calculate_perimeter([{number, number}]) :: float
+  @spec calculate_perimeter([{number, number}] | [{number, number, number}]) :: float
   defp calculate_perimeter(coords) do
     coords
     |> Enum.reduce({0, tl(coords)}, fn point_1, {acc, remaining} ->
@@ -11,7 +11,7 @@ defmodule GeoMeasure.Perimeter do
         [] ->
           acc
 
-        [point_2 = {_a, _b}] ->
+        [point_2] when is_tuple(point_2) ->
           acc = acc + Distance.calculate(point_1, point_2)
           {acc, []}
 
@@ -45,12 +45,26 @@ defmodule GeoMeasure.Perimeter do
   end
 
   @spec calculate(Geo.Polygon.t()) :: float
-  def calculate(%Geo.Polygon{coordinates: coord_list}) when length(coord_list) == 1 do
-    calculate_perimeter(hd(coord_list))
+  def calculate(%Geo.Polygon{coordinates: coords}) when length(coords) == 1 do
+    coords
+    |> hd()
+    |> calculate_perimeter()
   end
 
   @spec calculate(Geo.Polygon.t()) :: float
-  def calculate(%Geo.Polygon{coordinates: coord_list}) when length(coord_list) > 1 do
-    Enum.reduce(coord_list, 0, fn coords, acc -> acc + calculate_perimeter(coords) end)
+  def calculate(%Geo.Polygon{coordinates: coords}) when length(coords) > 1 do
+    Enum.reduce(coords, 0, fn coord_list, acc -> acc + calculate_perimeter(coord_list) end)
+  end
+
+  @spec calculate(Geo.PolygonZ.t()) :: float
+  def calculate(%Geo.PolygonZ{coordinates: coords}) when length(coords) == 1 do
+    coords
+    |> hd()
+    |> calculate_perimeter()
+  end
+
+  @spec calculate(Geo.PolygonZ.t()) :: float
+  def calculate(%Geo.PolygonZ{coordinates: coords}) when length(coords) > 1 do
+    Enum.reduce(coords, 0, fn coord_list, acc -> acc + calculate_perimeter(coord_list) end)
   end
 end

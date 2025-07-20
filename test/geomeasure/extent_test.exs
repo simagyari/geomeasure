@@ -26,6 +26,11 @@ defmodule GeoMeasure.Extent.Test do
     assert GeoMeasure.Extent.calculate(geom) == {0, 2, 0, 2}
   end
 
+  test "calculate_polygonz_extent" do
+    geom = %Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]}
+    assert GeoMeasure.Extent.calculate(geom) == {0, 2, 0, 2, 0, 2}
+  end
+
   test "calculate_linestring_extent_nil_coord" do
     geom = %Geo.LineString{coordinates: [{1, 2}, {nil, 4}]}
     assert_raise ArgumentError, fn -> GeoMeasure.Extent.calculate(geom) end
@@ -43,6 +48,11 @@ defmodule GeoMeasure.Extent.Test do
 
   test "calculate_polygon_extent_nil_coord" do
     geom = %Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {nil, 0}, {0, 0}]]}
+    assert_raise ArgumentError, fn -> GeoMeasure.Extent.calculate(geom) end
+  end
+
+  test "calculate_polygonz_extent_nil_coord" do
+    geom = %Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, nil, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]}
     assert_raise ArgumentError, fn -> GeoMeasure.Extent.calculate(geom) end
   end
 end

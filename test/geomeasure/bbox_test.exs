@@ -29,11 +29,38 @@ defmodule GeoMeasure.Bbox.Test do
            }
   end
 
+  test "calculate_linestringz_bbox" do
+    geom = %Geo.LineStringZ{coordinates: [{0, 0, 0}, {1, 1, 1}]}
+
+    assert GeoMeasure.Bbox.calculate(geom) == %Geo.Polygon{
+             coordinates: [[{0, 0}, {0, 1}, {1, 1}, {1, 0}, {0, 0}]],
+             properties: %{min_z: 0, max_z: 1}
+           }
+  end
+
+  test "calculate_linestringzm_bbox" do
+    geom = %Geo.LineStringZM{coordinates: [{0, 0, 0, 2}, {1, 1, 1, 3}]}
+
+    assert GeoMeasure.Bbox.calculate(geom) == %Geo.Polygon{
+             coordinates: [[{0, 0}, {0, 1}, {1, 1}, {1, 0}, {0, 0}]],
+             properties: %{min_z: 0, max_z: 1}
+           }
+  end
+
   test "calculate_polygon_bbox" do
     geom = %Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]}
 
     assert GeoMeasure.Bbox.calculate(geom) == %Geo.Polygon{
              coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]
+           }
+  end
+
+  test "calculate_polygonz_bbox" do
+    geom = %Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]}
+
+    assert GeoMeasure.Bbox.calculate(geom) == %Geo.Polygon{
+             coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
+             properties: %{min_z: 0, max_z: 2}
            }
   end
 
@@ -72,8 +99,23 @@ defmodule GeoMeasure.Bbox.Test do
     assert_raise ArgumentError, fn -> GeoMeasure.Bbox.calculate(geom) end
   end
 
+  test "calculate_linestringz_bbox_nil_coord" do
+    geom = %Geo.LineStringZ{coordinates: [{0, nil, 0}, {1, 1, 1}]}
+    assert_raise ArgumentError, fn -> GeoMeasure.Bbox.calculate(geom) end
+  end
+
+  test "calculate_linestringzm_bbox_nil_coord" do
+    geom = %Geo.LineStringZM{coordinates: [{0, 0, 0, 2}, {1, nil, 1, 3}]}
+    assert_raise ArgumentError, fn -> GeoMeasure.Bbox.calculate(geom) end
+  end
+
   test "calculate_polygon_bbox_nil_coord" do
     geom = %Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, nil}, {2, 0}, {0, 0}]]}
+    assert_raise ArgumentError, fn -> GeoMeasure.Bbox.calculate(geom) end
+  end
+
+  test "calculate_polygonz_bbox_nil_coord" do
+    geom = %Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, nil, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]}
     assert_raise ArgumentError, fn -> GeoMeasure.Bbox.calculate(geom) end
   end
 
@@ -106,12 +148,45 @@ defmodule GeoMeasure.Bbox.Test do
            }
   end
 
+  test "calculate_linestringz_bbox_with_srid" do
+    geom = %Geo.LineStringZ{coordinates: [{0, 0, 0}, {1, 1, 1}], srid: 23700}
+
+    assert GeoMeasure.Bbox.calculate(geom) == %Geo.Polygon{
+             coordinates: [[{0, 0}, {0, 1}, {1, 1}, {1, 0}, {0, 0}]],
+             srid: 23700,
+             properties: %{min_z: 0, max_z: 1}
+           }
+  end
+
+  test "calculate_linestringzm_bbox_with_srid" do
+    geom = %Geo.LineStringZM{coordinates: [{0, 0, 0, 2}, {1, 1, 1, 3}], srid: 23700}
+
+    assert GeoMeasure.Bbox.calculate(geom) == %Geo.Polygon{
+             coordinates: [[{0, 0}, {0, 1}, {1, 1}, {1, 0}, {0, 0}]],
+             srid: 23700,
+             properties: %{min_z: 0, max_z: 1}
+           }
+  end
+
   test "calculate_polygon_bbox_with_srid" do
     geom = %Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]], srid: 27700}
 
     assert GeoMeasure.Bbox.calculate(geom) == %Geo.Polygon{
              coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
              srid: 27700
+           }
+  end
+
+  test "calculate_polygonz_bbox_with_srid" do
+    geom = %Geo.PolygonZ{
+      coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]],
+      srid: 23700
+    }
+
+    assert GeoMeasure.Bbox.calculate(geom) == %Geo.Polygon{
+             coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
+             srid: 23700,
+             properties: %{min_z: 0, max_z: 2}
            }
   end
 end

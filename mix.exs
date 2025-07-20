@@ -2,7 +2,7 @@ defmodule GeoMeasure.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/simagyari/geomeasure"
-  @version "1.5.0"
+  @version "1.6.0"
 
   def project do
     [

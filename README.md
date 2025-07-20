@@ -55,7 +55,7 @@ _Note_: If you would like to make in-memory calculations to determine the relati
 ```elixir
 defp deps do
   [
-    {:geomeasure, "~> 1.5.0"}
+    {:geomeasure, "~> 1.6.0"}
   ]
 end
 ```

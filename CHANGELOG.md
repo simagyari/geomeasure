@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.6.0 - 2025-07-20
+
+### Enhancements
+
+- [Added support for LineStringZ and LineStringZM bounding box calculations](https://github.com/simagyari/geomeasure/pull/25). Until now, these structs were not supported. Now they return a Geo.Polygon with the min and max z value in the properties dict. For more information, please refer to the [documentation](https://github.com/simagyari/geomeasure/blob/main/README.md).
+- [Added support for PolygonZ except for area calculations](https://github.com/simagyari/geomeasure/pull/25). PolygonZ is supported for bounding box, centroid, extent, and perimeter calculations now. For more information, please refer to the [documentation](https://github.com/simagyari/geomeasure/blob/main/README.md).
+
+### Bugfixes
+- All calculations now handle Polygon and PolygonZ structs with holes in them correctly, meaning that the bounding box and the extent only take into account the outer ring, while the perimeter and area include the holes, too.
+
 ## v1.5.0 - 2025-07-19
 
 ### Enhancements

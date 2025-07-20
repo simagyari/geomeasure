@@ -52,6 +52,22 @@ defmodule GeoMeasure.Perimeter.Test do
     assert GeoMeasure.Perimeter.calculate(geom) == 16.0
   end
 
+  test "calculate_polygonz_perimeter" do
+    geom = %Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]}
+    assert GeoMeasure.Perimeter.calculate(geom) == 8.94427190999916
+  end
+
+  test "calculate_polygonz_perimeter_hole" do
+    geom = %Geo.PolygonZ{
+      coordinates: [
+        [{0, 0, 0}, {0, 3, 1}, {3, 3, 2}, {3, 0, 1}, {0, 0, 0}],
+        [{1, 1, 0.66}, {1, 2, 1}, {2, 2, 1.33}, {2, 1, 1}, {1, 1, 0.66}]
+      ]
+    }
+
+    assert GeoMeasure.Perimeter.calculate(geom) == 16.8676364068953
+  end
+
   test "calculate_linestring_length_nil_coord" do
     geom = %Geo.LineString{coordinates: [{1, nil}, {1, 4}]}
     assert_raise ArgumentError, fn -> GeoMeasure.Perimeter.calculate(geom) end
@@ -69,6 +85,11 @@ defmodule GeoMeasure.Perimeter.Test do
 
   test "calculate_polygon_perimeter_nil_coord" do
     geom = %Geo.Polygon{coordinates: [[{0, 0}, {nil, 2}, {2, nil}, {2, 0}, {0, 0}]]}
+    assert_raise ArgumentError, fn -> GeoMeasure.Perimeter.calculate(geom) end
+  end
+
+  test "calculate_polygonz_perimeter_nil_coord" do
+    geom = %Geo.PolygonZ{coordinates: [[{0, 0, 0}, {nil, 2, 0}, {2, nil, 0}, {2, 0, 0}, {0, 0, 0}]]}
     assert_raise ArgumentError, fn -> GeoMeasure.Perimeter.calculate(geom) end
   end
 end

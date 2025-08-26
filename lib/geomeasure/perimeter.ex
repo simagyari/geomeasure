@@ -45,26 +45,22 @@ defmodule GeoMeasure.Perimeter do
   end
 
   @spec calculate(Geo.Polygon.t()) :: float
-  def calculate(%Geo.Polygon{coordinates: coords}) when length(coords) == 1 do
-    coords
-    |> hd()
-    |> calculate_perimeter()
+  def calculate(%Geo.Polygon{coordinates: [ring]}) do
+    calculate_perimeter(ring)
   end
 
   @spec calculate(Geo.Polygon.t()) :: float
-  def calculate(%Geo.Polygon{coordinates: coords}) when length(coords) > 1 do
+  def calculate(%Geo.Polygon{coordinates: [_first, _second | _rest] = coords}) do
     Enum.reduce(coords, 0, fn coord_list, acc -> acc + calculate_perimeter(coord_list) end)
   end
 
   @spec calculate(Geo.PolygonZ.t()) :: float
-  def calculate(%Geo.PolygonZ{coordinates: coords}) when length(coords) == 1 do
-    coords
-    |> hd()
-    |> calculate_perimeter()
+  def calculate(%Geo.PolygonZ{coordinates: [ring]}) do
+    calculate_perimeter(ring)
   end
 
   @spec calculate(Geo.PolygonZ.t()) :: float
-  def calculate(%Geo.PolygonZ{coordinates: coords}) when length(coords) > 1 do
+  def calculate(%Geo.PolygonZ{coordinates: [_first, _second | _rest] = coords}) do
     Enum.reduce(coords, 0, fn coord_list, acc -> acc + calculate_perimeter(coord_list) end)
   end
 end

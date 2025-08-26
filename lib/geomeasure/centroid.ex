@@ -4,7 +4,7 @@ defmodule GeoMeasure.Centroid do
   alias Geo
   alias GeoMeasure.Utils
 
-  @spec calculate_centroid([{number, number}], number | nil) :: Geo.Point.t()
+  @spec calculate_centroid([{number, number}], integer | nil) :: Geo.Point.t()
   defp calculate_centroid(coords, srid) do
     {sum_x, sum_y} =
       Enum.reduce(coords, {0, 0}, fn tpl, acc ->
@@ -17,7 +17,7 @@ defmodule GeoMeasure.Centroid do
     %Geo.Point{coordinates: {mean_x, mean_y}, srid: srid}
   end
 
-  @spec calculate_centroid_3d([{number, number, number}], number | nil) :: Geo.PointZ.t()
+  @spec calculate_centroid_3d([{number, number, number}], integer | nil) :: Geo.PointZ.t()
   defp calculate_centroid_3d(coords, srid) do
     {sum_x, sum_y, sum_z} =
       Enum.reduce(coords, {0, 0, 0}, fn tpl, acc ->

@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.6.1 - 2025-08-26
+
+### Enhancements
+
+- [Refactored list length checking in area and perimeter function to use pattern matching instead of guards](https://github.com/simagyari/geomeasure/pull/28). This will result in performance improvements for large lists as they will not have to be traversed by the length/1 function anymore.
+- [Changed typespec of private functions that return Geo structs so that SRIDs are always hinted as integer](https://github.com/simagyari/geomeasure/pull/28). This is purely a cosmetic improvement as typespecs do not impact the way the code compiles or runs, but it is better for readability.
+
 ## v1.6.0 - 2025-07-20
 
 ### Enhancements

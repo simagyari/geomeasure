@@ -16,8 +16,18 @@ defmodule GeoMeasure.Area.Test do
     assert GeoMeasure.Area.calculate(geom) == 4.0
   end
 
+  test "calculate_polygonz_area" do
+    geom = %Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 5, 0}, {4, 5, 3}, {4, 0, 3}, {0, 0, 0}]]}
+    assert GeoMeasure.Area.calculate(geom) == 25.0
+  end
+
   test "calculate_polygon_area_nil_coord" do
     geom = %Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {nil, 0}, {0, 0}]]}
+    assert_raise ArgumentError, fn -> GeoMeasure.Area.calculate(geom) end
+  end
+
+  test "calculate_polygonz_area_nil_coord" do
+    geom = %Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 5, 0}, {4, 5, 3}, {nil, 0, 3}, {0, 0, 0}]]}
     assert_raise ArgumentError, fn -> GeoMeasure.Area.calculate(geom) end
   end
 
@@ -30,5 +40,16 @@ defmodule GeoMeasure.Area.Test do
     }
 
     assert GeoMeasure.Area.calculate(geom) == 8.0
+  end
+
+  test "calculate_polygonz_area_hole" do
+    geom = %Geo.PolygonZ{
+      coordinates: [
+        [{0, 0, 0}, {0, 5, 0}, {4, 5, 3}, {4, 0, 3}, {0, 0, 0}],
+        [{0, 0, 0}, {0, 1, 0}, {4, 1, 3}, {4, 0, 3}, {0, 0, 0}]
+      ]
+    }
+
+    assert GeoMeasure.Area.calculate(geom) == 20.0
   end
 end

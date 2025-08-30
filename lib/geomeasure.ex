@@ -11,6 +11,9 @@ defmodule GeoMeasure do
       iex> GeoMeasure.area(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
       4.0
 
+      iex> GeoMeasure.area(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 5, 0}, {4, 5, 3}, {4, 0, 3}, {0, 0, 0}]]})
+      25.0
+
   ## bbox
 
   Calculates the bounding box of a Geo struct.

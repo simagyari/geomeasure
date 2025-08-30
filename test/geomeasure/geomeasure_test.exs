@@ -16,8 +16,18 @@ defmodule GeoMeasure.Test do
     assert GeoMeasure.area(geom) == 4.0
   end
 
+  test "calculate_polygonz_area" do
+    geom = %Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 5, 0}, {4, 5, 3}, {4, 0, 3}, {0, 0, 0}]]}
+    assert GeoMeasure.area(geom) == 25.0
+  end
+
   test "calculate_polygon_area_nil_coord" do
     geom = %Geo.Polygon{coordinates: [[{0, 0}, {0, nil}, {2, 2}, {2, 0}, {0, 0}]]}
+    assert_raise ArgumentError, fn -> GeoMeasure.area(geom) end
+  end
+
+  test "calculate_polygonz_area_nil_coord" do
+    geom = %Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 5, 0}, {4, 5, 3}, {nil, 0, 3}, {0, 0, 0}]]}
     assert_raise ArgumentError, fn -> GeoMeasure.area(geom) end
   end
 
@@ -30,6 +40,17 @@ defmodule GeoMeasure.Test do
     }
 
     assert GeoMeasure.area(geom) == 8.0
+  end
+
+  test "calculate_polygonz_area_hole" do
+    geom = %Geo.PolygonZ{
+      coordinates: [
+        [{0, 0, 0}, {0, 5, 0}, {4, 5, 3}, {4, 0, 3}, {0, 0, 0}],
+        [{0, 0, 0}, {0, 1, 0}, {4, 1, 3}, {4, 0, 3}, {0, 0, 0}]
+      ]
+    }
+
+    assert GeoMeasure.area(geom) == 20.0
   end
 
   test "calculate_point_bbox" do

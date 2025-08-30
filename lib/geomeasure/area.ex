@@ -5,14 +5,13 @@ defmodule GeoMeasure.Area do
 
   @spec calculate_area([{number, number}]) :: float
   defp calculate_area(coords) do
+    Enum.each(coords, &Utils.tuple_not_nil!/1)
     coords
     |> Enum.reduce({0, tl(coords)}, fn item, accumulator ->
-      Utils.tuple_not_nil!(item)
       {x1, y1} = item
 
       case accumulator do
         {acc, [{x2, y2} | rest]} ->
-          Utils.tuple_not_nil!({x2, y2})
           acc = acc + x1 * y2 - x2 * y1
           {acc, rest}
 
@@ -26,6 +25,7 @@ defmodule GeoMeasure.Area do
 
   @spec calculate_area_3d([{number, number, number}]) :: float
   defp calculate_area_3d(coords) do
+    Enum.each(coords, &Utils.tuple_not_nil!/1)
     [_, point_0 | rest] = coords
 
     rest

@@ -42,7 +42,7 @@ For each geometry, only the properties that have meaning for the given geometry 
 | LineStringZ  | ❌   | ✅          | ✅       | ❌      | ✅     | ✅    | ❌        |
 | LineStringZM | ❌   | ✅          | ✅       | ❌      | ✅     | ✅    | ❌        |
 | Polygon      | ✅   | ✅          | ✅       | ❌      | ✅     | ❌    | ✅        |
-| PolygonZ     | 🎯   | ✅          | ✅       | ❌      | ✅     | ❌    | ✅        |
+| PolygonZ     | ✅   | ✅          | ✅       | ❌      | ✅     | ❌    | ✅        |
 
 **IMPORTANT**: All computations that return Geo structs transfer the SRID of the input struct to the output struct. Only projected coordinate systems are supported as the algorithms implemented here do not take curved surfaces and angular units into account, which would be necessary for the handling of geographic coordinate systems.
 

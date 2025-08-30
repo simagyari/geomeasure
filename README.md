@@ -46,7 +46,7 @@ For each geometry, only the properties that have meaning for the given geometry 
 
 **IMPORTANT**: All computations that return Geo structs transfer the SRID of the input struct to the output struct. Only projected coordinate systems are supported as the algorithms implemented here do not take curved surfaces and angular units into account, which would be necessary for the handling of geographic coordinate systems.
 
-**IMPORTANT**: Both area and perimeter can handle polygons with holes now. Area is missing PolygonZ support.
+**IMPORTANT**: Both area and perimeter can handle polygons with holes now. Area supports PolygonZ, calculating surface area and NOT footprint. 
 
 _Note_: The Length/Perimeter depends on the type of geometry. Length is supported for lines, Perimeter is for Polygons. Under the hood, they use the same calculation.
 
@@ -76,6 +76,17 @@ iex(2)> GeoMeasure.area(%Geo.Polygon{
     ]
   })
 8.0
+
+iex(3)> GeoMeasure.area(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 5, 0}, {4, 5, 3}, {4, 0, 3}, {0, 0, 0}]]})
+25.0
+
+iex(4)> GeoMeasure.area(%Geo.PolygonZ{
+    coordinates: [
+      [{0, 0, 0}, {0, 5, 0}, {4, 5, 3}, {4, 0, 3}, {0, 0, 0}],
+      [{0, 0, 0}, {0, 1, 0}, {4, 1, 3}, {4, 0, 3}, {0, 0, 0}]
+    ]
+  })
+20.0
 ```
 
 ### Bounding Box

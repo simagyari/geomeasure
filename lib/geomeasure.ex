@@ -147,6 +147,8 @@ defmodule GeoMeasure do
     Centroid,
     Distance,
     Extent,
+    FootprintArea,
+    FootprintPerimeter,
     Perimeter
   }
 
@@ -188,6 +190,20 @@ defmodule GeoMeasure do
   @doc since: "0.0.1"
   @spec extent(Geo.geometry()) :: {number, number, number, number}
   defdelegate extent(geometry), to: Extent, as: :calculate
+
+  @doc """
+  Calculates the area of the footprint of a 3D Geo struct.
+  """
+  @doc since: "1.7.0"
+  @spec footprint_area(Geo.geometry()) :: float
+  defdelegate footprint_area(geometry), to: FootprintArea, as: :calculate
+
+  @doc """
+  Calculates the perimeter of a 3D polygonal Geo struct.
+  """
+  @doc since: "1.7.0"
+  @spec footprint_perimeter(Geo.PolygonZ.t()) :: float
+  defdelegate footprint_perimeter(geometry), to: FootprintPerimeter, as: :calculate
 
   @doc """
   Calculates the length of a linear Geo struct.

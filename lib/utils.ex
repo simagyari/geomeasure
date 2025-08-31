@@ -28,4 +28,13 @@ defmodule GeoMeasure.Utils do
       _ -> raise ArgumentError, message: "Wrong tuple size: {#{inspect(coords)}}"
     end)
   end
+
+  @spec polygonz_to_polygon(Geo.PolygonZ.t()) :: Geo.Polygon.t()
+  def polygonz_to_polygon(%Geo.PolygonZ{coordinates: coords}) do
+    polygon_coords = for inner <- coords do
+      for {a, b, _} <- inner, do: {a, b}
+    end
+
+    %Geo.Polygon{coordinates: polygon_coords}
+  end
 end

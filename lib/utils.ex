@@ -29,12 +29,23 @@ defmodule GeoMeasure.Utils do
     end)
   end
 
+  @spec remove_z_values([{number, number, number} | {number, number, number, number}]) :: [{number, number} | {number, number, number}]
+  def remove_z_values(coords) when is_list(coords) do
+    Enum.map(coords, fn
+      {a, b, _c} -> {a, b}
+      {a, b, _c, d} -> {a, b, d}
+      _ -> raise ArgumentError, message: "Wrong tuple size: {#{inspect(coords)}}"
+    end)
+  end
+
+  @spec linestringz_to_linestring(Geo.LineStringZ.t()) :: Geo.LineString.t()
+  def linestringz_to_linestring(%Geo.LineStringZ{coordinates: coords}) do
+    %Geo.LineString{coordinates: remove_z_values(coords)}
+  end
+
   @spec polygonz_to_polygon(Geo.PolygonZ.t()) :: Geo.Polygon.t()
   def polygonz_to_polygon(%Geo.PolygonZ{coordinates: coords}) do
-    polygon_coords = for inner <- coords do
-      for {a, b, _} <- inner, do: {a, b}
-    end
-
+    polygon_coords = Enum.map(coords, &remove_z_values/1)
     %Geo.Polygon{coordinates: polygon_coords}
   end
 end

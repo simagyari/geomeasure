@@ -43,6 +43,12 @@ defmodule GeoMeasure.Utils do
     %Geo.LineString{coordinates: remove_z_values(coords)}
   end
 
+  @spec linestringzm_to_linestring(Geo.LineStringZM.t()) :: Geo.LineString.t()
+  def linestringzm_to_linestring(%Geo.LineStringZM{coordinates: coords}) do
+    linestring_coords = remove_m_values(coords) |> remove_z_values()
+    %Geo.LineString{coordinates: linestring_coords}
+  end
+
   @spec polygonz_to_polygon(Geo.PolygonZ.t()) :: Geo.Polygon.t()
   def polygonz_to_polygon(%Geo.PolygonZ{coordinates: coords}) do
     polygon_coords = Enum.map(coords, &remove_z_values/1)

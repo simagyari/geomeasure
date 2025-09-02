@@ -1,7 +1,6 @@
 defmodule GeoMeasure.Centroid do
   @moduledoc false
 
-  alias Geo
   alias GeoMeasure.Utils
 
   @spec calculate_centroid([{number, number}], integer | nil) :: Geo.Point.t()
@@ -69,6 +68,13 @@ defmodule GeoMeasure.Centroid do
   @spec calculate(Geo.LineString.t()) :: Geo.Point.t()
   def calculate(%Geo.LineString{coordinates: coords, srid: srid}) do
     calculate_centroid(coords, srid)
+  end
+
+  @spec calculate(Geo.LineStringM.t()) :: Geo.Point.t()
+  def calculate(%Geo.LineStringM{coordinates: coords, srid: srid}) do
+    coords
+    |> Utils.remove_m_values()
+    |> calculate_centroid(srid)
   end
 
   @spec calculate(Geo.LineStringZ.t()) :: Geo.PointZ.t()

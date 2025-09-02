@@ -9,7 +9,7 @@
 
 A collection of functions calculating different properties of [Geo](https://github.com/felt/geo/tree/master) structs.
 
-Currently, this project supports only the following geometries:
+Currently, this project supports the following geometries:
 
 - Point
 - PointM
@@ -28,6 +28,8 @@ Currently, the following properties can be calculated for the supported [Geo](ht
 - Centroid
 - Distance (between two coordinate pairs or Geo.Point(M) structs)
 - Extent
+- Footprint area
+- Footprint length/perimeter
 - Length/Perimeter
 
 For each geometry, only the properties that have meaning for the given geometry are implemented. This results in the following implementation table, where ✅ means supported, and ❌ means unsupported property, 🎯 means planned, while 🔶 means incomplete or in progress support for a property:

@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.7.0 - 2025-09-02
+
+### Enhancements
+
+- [Added support for area calculation of PolygonZ structs](https://github.com/simagyari/geomeasure/pull/29). It only supports polygons where all the points are on the same plane.
+- [Added support for area, length, and perimeter calculation of the footprints of 3D structs](https://github.com/simagyari/geomeasure/pull/29).
+- [Added converters from 3D to 2D structs into the Utils module](https://github.com/simagyari/geomeasure/pull/29).
+
 ## v1.6.1 - 2025-08-26
 
 ### Enhancements

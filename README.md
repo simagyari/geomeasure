@@ -9,7 +9,7 @@
 
 A collection of functions calculating different properties of [Geo](https://github.com/felt/geo/tree/master) structs.
 
-Currently, this project supports only the following geometries:
+Currently, this project supports the following geometries:
 
 - Point
 - PointM
@@ -28,25 +28,27 @@ Currently, the following properties can be calculated for the supported [Geo](ht
 - Centroid
 - Distance (between two coordinate pairs or Geo.Point(M) structs)
 - Extent
+- Footprint area
+- Footprint length/perimeter
 - Length/Perimeter
 
 For each geometry, only the properties that have meaning for the given geometry are implemented. This results in the following implementation table, where ✅ means supported, and ❌ means unsupported property, 🎯 means planned, while 🔶 means incomplete or in progress support for a property:
 
-| Geometry     | Area | Bounding box | Centroid | Distance | Extent | Length | Perimeter |
-| ----------   | :--: | :----------: | :------: | :------: | :----: | :----: | :-------: |
-| Point        | ❌   | ✅          | ✅       | ✅      | ❌     | ❌    | ❌        |
-| PointM       | ❌   | ✅          | ✅       | ✅      | ❌     | ❌    | ❌        |
-| PointZ       | ❌   | ✅          | ✅       | ✅      | ❌     | ❌    | ❌        |
-| PointZM      | ❌   | ✅          | ✅       | ✅      | ❌     | ❌    | ❌        |
-| LineString   | ❌   | ✅          | ✅       | ❌      | ✅     | ✅    | ❌        |
-| LineStringZ  | ❌   | ✅          | ✅       | ❌      | ✅     | ✅    | ❌        |
-| LineStringZM | ❌   | ✅          | ✅       | ❌      | ✅     | ✅    | ❌        |
-| Polygon      | ✅   | ✅          | ✅       | ❌      | ✅     | ❌    | ✅        |
-| PolygonZ     | 🎯   | ✅          | ✅       | ❌      | ✅     | ❌    | ✅        |
+| Geometry     | Area | Bounding box | Centroid | Distance | Extent | Footprint area | Footprint length | Footprint perimeter | Length | Perimeter |
+| ----------   | :--: | :----------: | :------: | :------: | :----: | :------------: | :--------------: | :-----------------: | :----: | :-------: |
+| Point        | ❌   | ✅          | ✅       | ✅      | ❌     | ❌            | ❌               | ❌                 | ❌     | ❌       |
+| PointM       | ❌   | ✅          | ✅       | ✅      | ❌     | ❌            | ❌               | ❌                 | ❌     | ❌       |
+| PointZ       | ❌   | ✅          | ✅       | ✅      | ❌     | ❌            | ❌               | ❌                 | ❌     | ❌       |
+| PointZM      | ❌   | ✅          | ✅       | ✅      | ❌     | ❌            | ❌               | ❌                 | ❌     | ❌       |
+| LineString   | ❌   | ✅          | ✅       | ❌      | ✅     | ❌            | ❌               | ❌                 | ✅     | ❌       |
+| LineStringZ  | ❌   | ✅          | ✅       | ❌      | ✅     | ✅            | ✅               | ❌                 | ✅     | ❌       |
+| LineStringZM | ❌   | ✅          | ✅       | ❌      | ✅     | ✅            | ✅               | ❌                 | ✅     | ❌       |
+| Polygon      | ✅   | ✅          | ✅       | ❌      | ✅     | ❌            | ❌               | ❌                 | ❌     | ✅       |
+| PolygonZ     | ✅   | ✅          | ✅       | ❌      | ✅     | ✅            | ❌               | ✅                 | ❌     | ✅       |
 
 **IMPORTANT**: All computations that return Geo structs transfer the SRID of the input struct to the output struct. Only projected coordinate systems are supported as the algorithms implemented here do not take curved surfaces and angular units into account, which would be necessary for the handling of geographic coordinate systems.
 
-**IMPORTANT**: Both area and perimeter can handle polygons with holes now. Area is missing PolygonZ support.
+**IMPORTANT**: Both area and perimeter can handle polygons with holes now. Area supports PolygonZ, calculating surface area and NOT footprint. For area, length, and perimeter calculations on the footprints of 3D structs, use the footprint_area, footprint_length, and footprint_perimeter methods. 
 
 _Note_: The Length/Perimeter depends on the type of geometry. Length is supported for lines, Perimeter is for Polygons. Under the hood, they use the same calculation.
 
@@ -76,6 +78,17 @@ iex(2)> GeoMeasure.area(%Geo.Polygon{
     ]
   })
 8.0
+
+iex(3)> GeoMeasure.area(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 5, 0}, {4, 5, 3}, {4, 0, 3}, {0, 0, 0}]]})
+25.0
+
+iex(4)> GeoMeasure.area(%Geo.PolygonZ{
+    coordinates: [
+      [{0, 0, 0}, {0, 5, 0}, {4, 5, 3}, {4, 0, 3}, {0, 0, 0}],
+      [{0, 0, 0}, {0, 1, 0}, {4, 1, 3}, {4, 0, 3}, {0, 0, 0}]
+    ]
+  })
+20.0
 ```
 
 ### Bounding Box
@@ -208,6 +221,42 @@ iex(4)> GeoMeasure.extent(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2
 
 iex(5)> GeoMeasure.extent(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
 {0, 2, 0, 2, 0, 2}
+```
+
+### Footprint Area
+
+```elixir
+iex(1)> GeoMeasure.footprint_area(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 5, 0}, {4, 5, 3}, {4, 0, 3}, {0, 0, 0}]]})
+20.0
+
+iex(2)> GeoMeasure.footprint_area(%Geo.PolygonZ{
+    coordinates: [
+      [{0, 0, 0}, {0, 5, 0}, {4, 5, 3}, {4, 0, 3}, {0, 0, 0}],
+      [{0, 0, 0}, {0, 1, 0}, {4, 1, 3}, {4, 0, 3}, {0, 0, 0}]
+    ]
+  })
+16.0
+```
+
+### Footprint Perimeter/Length
+
+```elixir
+iex(1)> GeoMeasure.footprint_length(%Geo.LineStringZ{coordinates: [{1, 2, 2}, {1, 4, 2}]})
+2.0
+
+iex(2)> GeoMeasure.footprint_length(%Geo.LineStringZM{coordinates: [{1, 2, 2, 10}, {1, 4, 2, 11}]})
+2.0
+
+iex(3)> GeoMeasure.footprint_perimeter(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
+8.0
+
+iex(4)> GeoMeasure.footprint_perimeter(%Geo.PolygonZ{
+    coordinates: [
+      [{0, 0, 0}, {0, 3, 1}, {3, 3, 2}, {3, 0, 1}, {0, 0, 0}],
+      [{1, 1, 0.66}, {1, 2, 1}, {2, 2, 1.33}, {2, 1, 1}, {1, 1, 0.66}]
+    ]
+  })
+16.0
 ```
 
 ### Perimeter/Length

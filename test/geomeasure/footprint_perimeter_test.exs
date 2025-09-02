@@ -1,7 +1,6 @@
 defmodule GeoMeasure.FootprintPerimeter.Test do
   use ExUnit.Case, async: true
 
-
   test "calculate_linestringz_footprint_length" do
     geom = %Geo.LineStringZ{coordinates: [{1, 2, 2}, {1, 4, 2}]}
     assert GeoMeasure.FootprintPerimeter.calculate(geom) == 2.0

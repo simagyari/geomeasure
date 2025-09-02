@@ -6,6 +6,7 @@ defmodule GeoMeasure.Area do
   @spec calculate_area([{number, number}]) :: float
   defp calculate_area(coords) do
     Enum.each(coords, &Utils.tuple_not_nil!/1)
+
     coords
     |> Enum.reduce({0, tl(coords)}, fn item, accumulator ->
       {x1, y1} = item
@@ -36,7 +37,11 @@ defmodule GeoMeasure.Area do
     |> Kernel./(2)
   end
 
-  @spec triangle_area({number, number, number}, {number, number, number}, {number, number, number}) :: {number, number, number}
+  @spec triangle_area(
+          {number, number, number},
+          {number, number, number},
+          {number, number, number}
+        ) :: {number, number, number}
   defp triangle_area({x0, y0, z0}, {x1, y1, z1}, {x2, y2, z2}) do
     u = {x1 - x0, y1 - y0, z1 - z0}
     v = {x2 - x0, y2 - y0, z2 - z0}
@@ -47,7 +52,8 @@ defmodule GeoMeasure.Area do
     |> :math.sqrt()
   end
 
-  @spec cross_product({number, number, number}, {number, number, number}) :: {number, number, number}
+  @spec cross_product({number, number, number}, {number, number, number}) ::
+          {number, number, number}
   defp cross_product({ux, uy, uz}, {vx, vy, vz}) do
     [
       uy * vz - uz * vy,
@@ -82,9 +88,10 @@ defmodule GeoMeasure.Area do
   def calculate(%Geo.PolygonZ{coordinates: [outer_ring, inner_ring | rest]}) do
     outer_area = calculate_area_3d(outer_ring)
 
-    inner_area = Enum.reduce([inner_ring] ++ rest, 0, fn coord_list, acc ->
-      acc + calculate_area_3d(coord_list)
-    end)
+    inner_area =
+      Enum.reduce([inner_ring] ++ rest, 0, fn coord_list, acc ->
+        acc + calculate_area_3d(coord_list)
+      end)
 
     outer_area - inner_area
   end

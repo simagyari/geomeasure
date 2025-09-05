@@ -41,6 +41,7 @@ For each geometry, only the properties that have meaning for the given geometry 
 | PointZ       | ❌   | ✅          | ✅       | ✅      | ❌     | ❌            | ❌               | ❌                 | ❌     | ❌       |
 | PointZM      | ❌   | ✅          | ✅       | ✅      | ❌     | ❌            | ❌               | ❌                 | ❌     | ❌       |
 | LineString   | ❌   | ✅          | ✅       | ❌      | ✅     | ❌            | ❌               | ❌                 | ✅     | ❌       |
+| LineStringM  | ❌   | ✅          | ✅       | ❌      | ✅     | ❌            | ❌               | ❌                 | ✅     | ❌       |
 | LineStringZ  | ❌   | ✅          | ✅       | ❌      | ✅     | ✅            | ✅               | ❌                 | ✅     | ❌       |
 | LineStringZM | ❌   | ✅          | ✅       | ❌      | ✅     | ✅            | ✅               | ❌                 | ✅     | ❌       |
 | Polygon      | ✅   | ✅          | ✅       | ❌      | ✅     | ❌            | ❌               | ❌                 | ❌     | ✅       |

@@ -26,6 +26,11 @@ defmodule GeoMeasure.Centroid.Test do
     assert GeoMeasure.Centroid.calculate(geom) == %Geo.Point{coordinates: {2.0, 3.0}}
   end
 
+  test "calculate_linestringm_centroid" do
+    geom = %Geo.LineStringM{coordinates: [{1, 2, 5}, {3, 4, 5}]}
+    assert GeoMeasure.Centroid.calculate(geom) == %Geo.Point{coordinates: {2.0, 3.0}}
+  end
+
   test "calculate_linestringz_centroid" do
     geom = %Geo.LineStringZ{coordinates: [{1, 2, 3}, {3, 4, 5}]}
     assert GeoMeasure.Centroid.calculate(geom) == %Geo.PointZ{coordinates: {2.0, 3.0, 4.0}}
@@ -81,6 +86,11 @@ defmodule GeoMeasure.Centroid.Test do
     assert_raise ArgumentError, fn -> GeoMeasure.Centroid.calculate(geom) end
   end
 
+  test "calculate_linestringm_centroid_nil_coord" do
+    geom = %Geo.LineStringM{coordinates: [{1, nil, 5}, {3, 4, 5}]}
+    assert_raise ArgumentError, fn -> GeoMeasure.Centroid.calculate(geom) end
+  end
+
   test "calculate_linestringz_centroid_nil_coord" do
     geom = %Geo.LineStringZ{coordinates: [{1, 2, nil}, {3, 4, 5}]}
     assert_raise ArgumentError, fn -> GeoMeasure.Centroid.calculate(geom) end
@@ -123,6 +133,11 @@ defmodule GeoMeasure.Centroid.Test do
 
   test "calculate_linestring_centroid_with_srid" do
     geom = %Geo.LineString{coordinates: [{1, 2}, {3, 4}], srid: 23700}
+    assert GeoMeasure.Centroid.calculate(geom) == %Geo.Point{coordinates: {2.0, 3.0}, srid: 23700}
+  end
+
+  test "calculate_linestringm_centroid_with_srid" do
+    geom = %Geo.LineStringM0{coordinates: [{1, 2, 5}, {3, 4, 5}], srid: 23700}
     assert GeoMeasure.Centroid.calculate(geom) == %Geo.Point{coordinates: {2.0, 3.0}, srid: 23700}
   end
 

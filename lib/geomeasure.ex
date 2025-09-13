@@ -17,7 +17,8 @@ defmodule GeoMeasure do
   }
 
   @type geo_point :: Geo.Point.t() | Geo.PointM.t() | Geo.PointZ.t() | Geo.PointZM.t()
-  @type geo_line :: Geo.LineString.t() | Geo.LineStringM.t() | Geo.LineStringZ.t() | Geo.LineStringZM.t()
+  @type geo_line ::
+          Geo.LineString.t() | Geo.LineStringM.t() | Geo.LineStringZ.t() | Geo.LineStringZM.t()
   @type geo_polygon :: Geo.Polygon.t() | Geo.PolygonZ.t()
 
   @doc """

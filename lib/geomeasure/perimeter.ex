@@ -32,6 +32,13 @@ defmodule GeoMeasure.Perimeter do
     calculate_perimeter(coords)
   end
 
+  @spec calculate(Geo.LineStringM.t()) :: float
+  def calculate(%Geo.LineStringM{coordinates: coords}) do
+    coords
+    |> Utils.remove_m_values()
+    |> calculate_perimeter()
+  end
+
   @spec calculate(Geo.LineStringZ.t()) :: float
   def calculate(%Geo.LineStringZ{coordinates: coords}) do
     calculate_perimeter(coords)

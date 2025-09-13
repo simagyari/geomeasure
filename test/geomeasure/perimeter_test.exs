@@ -26,6 +26,11 @@ defmodule GeoMeasure.Perimeter.Test do
     assert GeoMeasure.Perimeter.calculate(geom) == 2.0
   end
 
+  test "calculate_linestringm_length" do
+    geom = %Geo.LineStringM{coordinates: [{1, 2, 5}, {1, 4, 5}]}
+    assert GeoMeasure.Perimeter.calculate(geom) == 2.0
+  end
+
   test "calculate_linestringz_length" do
     geom = %Geo.LineStringZ{coordinates: [{1, 2, 2}, {1, 4, 2}]}
     assert GeoMeasure.Perimeter.calculate(geom) == 2.0
@@ -70,6 +75,11 @@ defmodule GeoMeasure.Perimeter.Test do
 
   test "calculate_linestring_length_nil_coord" do
     geom = %Geo.LineString{coordinates: [{1, nil}, {1, 4}]}
+    assert_raise ArgumentError, fn -> GeoMeasure.Perimeter.calculate(geom) end
+  end
+
+  test "calculate_linestringm_length_nil_coord" do
+    geom = %Geo.LineStringM{coordinates: [{1, nil, 5}, {1, 4, 5}]}
     assert_raise ArgumentError, fn -> GeoMeasure.Perimeter.calculate(geom) end
   end
 

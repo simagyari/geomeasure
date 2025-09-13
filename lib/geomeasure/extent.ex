@@ -58,6 +58,13 @@ defmodule GeoMeasure.Extent do
     calculate_extent(coords)
   end
 
+  @spec calculate(Geo.LineStringM.t()) :: {number, number, number, number}
+  def calculate(%Geo.LineStringM{coordinates: coords}) do
+    coords
+    |> Utils.remove_m_values()
+    |> calculate_extent()
+  end
+
   @spec calculate(Geo.LineStringZ.t()) :: {number, number, number, number, number, number}
   def calculate(%Geo.LineStringZ{coordinates: coords}) do
     calculate_extent_3d(coords)

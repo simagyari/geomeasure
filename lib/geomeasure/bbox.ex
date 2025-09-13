@@ -73,6 +73,13 @@ defmodule GeoMeasure.Bbox do
     calculate_bbox(coords, srid)
   end
 
+  @spec calculate(Geo.LineStringM.t()) :: Geo.Polygon.t()
+  def calculate(%Geo.LineStringM{coordinates: coords, srid: srid}) do
+    coords
+    |> Utils.remove_m_values()
+    |> calculate_bbox(srid)
+  end
+
   @spec calculate(Geo.LineStringZ.t()) :: Geo.Polygon.t()
   def calculate(%Geo.LineStringZ{coordinates: coords, srid: srid}) do
     calculate_bbox_3d(coords, srid)

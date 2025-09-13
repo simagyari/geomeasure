@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.8.0 - 2025-09-13
+
+### Enhancements
+
+- [Added support for LineStringM structs](https://github.com/simagyari/geomeasure/pull/32). The bbox, centroid, extent, and length properties can be calculated.
+
 ## v1.7.0 - 2025-09-02
 
 ### Enhancements

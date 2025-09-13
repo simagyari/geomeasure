@@ -31,7 +31,7 @@ defmodule GeoMeasure.Mixfile do
 
   defp deps do
     [
-      {:geo, "~> 4.0"},
+      {:geo, "~> 4.1"},
       {:ex_doc, "~> 0.34", only: :dev, runtime: false}
     ]
   end

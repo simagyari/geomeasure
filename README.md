@@ -16,6 +16,7 @@ Currently, this project supports the following geometries:
 - PointZ
 - PointZM
 - LineString
+- LineStringM
 - LineStringZ
 - LineStringZM
 - Polygon
@@ -114,28 +115,35 @@ iex(5)> GeoMeasure.bbox(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
   properties: %{}
 }
 
-iex(6)> GeoMeasure.bbox(%Geo.LineStringZ{coordinates: [{0, 0, 0}, {1, 1, 1}]})
+iex(6)> GeoMeasure.bbox(%Geo.LineStringM{coordinates: [{0, 0, 0}, {1, 1, 1}]})
+%Geo.Polygon{
+  coordinates: [[{0, 0}, {0, 1}, {1, 1}, {1, 0}, {0, 0}]],
+  srid: nil,
+  properties: %{}
+}
+
+iex(7)> GeoMeasure.bbox(%Geo.LineStringZ{coordinates: [{0, 0, 0}, {1, 1, 1}]})
 %Geo.Polygon{
   coordinates: [[{0, 0}, {0, 1}, {1, 1}, {1, 0}, {0, 0}]],
   srid: nil,
   properties: %{max_z: 1, min_z: 0}
 }
 
-iex(7)> GeoMeasure.bbox(%Geo.LineStringZM{coordinates: [{0, 0, 0, 2}, {1, 1, 1, 3}]})
+iex(8)> GeoMeasure.bbox(%Geo.LineStringZM{coordinates: [{0, 0, 0, 2}, {1, 1, 1, 3}]})
 %Geo.Polygon{
   coordinates: [[{0, 0}, {0, 1}, {1, 1}, {1, 0}, {0, 0}]],
   srid: nil,
   properties: %{max_z: 1, min_z: 0}
 }
 
-iex(8)> GeoMeasure.bbox(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(9)> GeoMeasure.bbox(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 %Geo.Polygon{
   coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
   srid: nil,
   properties: %{}
 }
 
-iex(9)> GeoMeasure.bbox(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
+iex(10)> GeoMeasure.bbox(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
 %Geo.Polygon{
   coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
   srid: nil,
@@ -161,16 +169,19 @@ iex(4)> GeoMeasure.centroid(%Geo.PointZM{coordinates: 1, 2, 5, 8})
 iex(5)> GeoMeasure.centroid(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 %Geo.Point{coordinates: {2.0, 3.0}, srid: nil, properties: %{}}
 
-iex(6)> GeoMeasure.centroid(%Geo.LineStringZ{coordinates: [{1, 2, 3}, {3, 4, 5}]})
+iex(6)> GeoMeasure.centroid(%Geo.LineStringM{coordinates: [{1, 2, 3}, {3, 4, 5}]})
+%Geo.Point{coordinates: {2.0, 3.0}, srid: nil, properties: %{}}
+
+iex(7)> GeoMeasure.centroid(%Geo.LineStringZ{coordinates: [{1, 2, 3}, {3, 4, 5}]})
 %Geo.PointZ{coordinates: {2.0, 3.0, 4.0}, srid: nil, properties: %{}}
 
-iex(7)> GeoMeasure.centroid(%Geo.LineStringZM{coordinates: [{1, 2, 3, 10}, {3, 4, 5, 11}]})
+iex(8)> GeoMeasure.centroid(%Geo.LineStringZM{coordinates: [{1, 2, 3, 10}, {3, 4, 5, 11}]})
 %Geo.PointZ{coordinates: {2.0, 3.0, 4.0}, srid: nil, properties: %{}}
 
-iex(8)> GeoMeasure.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(9)> GeoMeasure.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 %Geo.Point{coordinates: {1.0, 1.0}, srid: nil, properties: %{}}
 
-iex(9)> GeoMeasure.centroid(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
+iex(10)> GeoMeasure.centroid(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
 %Geo.PointZ{coordinates: {1.0, 1.0, 1.0}, srid: nil, properties: %{}}
 ```
 
@@ -211,16 +222,19 @@ iex(9)> GeoMeasure.distance(%Geo.PointZM{coordinates: {0, 0, 0, 8}}, %Geo.PointZ
 iex(1)> GeoMeasure.extent(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 {1, 3, 2, 4}
 
-iex(2)> GeoMeasure.extent(%Geo.LineStringZ{coordinates: [{1, 2, 3}, {3, 4, 5}]})
+iex(2)> GeoMeasure.extent(%Geo.LineStringM{coordinates: [{1, 2, 3}, {3, 4, 5}]})
+{1, 3, 2, 4}
+
+iex(3)> GeoMeasure.extent(%Geo.LineStringZ{coordinates: [{1, 2, 3}, {3, 4, 5}]})
 {1, 3, 2, 4, 3, 5}
 
-iex(3)> GeoMeasure.extent(%Geo.LineStringZM{coordinates: [{1, 2, 3, 10}, {3, 4, 5, 11}]})
+iex(4)> GeoMeasure.extent(%Geo.LineStringZM{coordinates: [{1, 2, 3, 10}, {3, 4, 5, 11}]})
 {1, 3, 2, 4, 3, 5}
 
-iex(4)> GeoMeasure.extent(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(5)> GeoMeasure.extent(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 {0, 2, 0, 2}
 
-iex(5)> GeoMeasure.extent(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
+iex(6)> GeoMeasure.extent(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
 {0, 2, 0, 2, 0, 2}
 ```
 
@@ -266,16 +280,19 @@ iex(4)> GeoMeasure.footprint_perimeter(%Geo.PolygonZ{
 iex(1)> GeoMeasure.length(%Geo.LineString{coordinates: [{1, 2}, {1, 4}]})
 2.0
 
-iex(2)> GeoMeasure.length(%Geo.LineStringZ{coordinates: [{1, 2, 2}, {1, 4, 2}]})
+iex(2)> GeoMeasure.length(%Geo.LineStringM{coordinates: [{1, 2, 2}, {1, 4, 2}]})
 2.0
 
-iex(3)> GeoMeasure.length(%Geo.LineStringZM{coordinates: [{1, 2, 2, 10}, {1, 4, 2, 11}]})
+iex(3)> GeoMeasure.length(%Geo.LineStringZ{coordinates: [{1, 2, 2}, {1, 4, 2}]})
 2.0
 
-iex(4)> GeoMeasure.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(4)> GeoMeasure.length(%Geo.LineStringZM{coordinates: [{1, 2, 2, 10}, {1, 4, 2, 11}]})
+2.0
+
+iex(5)> GeoMeasure.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 8.0
 
-iex(5)> GeoMeasure.perimeter(%Geo.Polygon{
+iex(6)> GeoMeasure.perimeter(%Geo.Polygon{
     coordinates: [
       [{0, 0}, {0, 3}, {3, 3}, {3, 0}, {0, 0}],
       [{1, 1}, {1, 2}, {2, 2}, {2, 1}, {1, 1}]
@@ -283,10 +300,10 @@ iex(5)> GeoMeasure.perimeter(%Geo.Polygon{
   })
 16.0
 
-iex(6)> GeoMeasure.perimeter(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
+iex(7)> GeoMeasure.perimeter(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
 8.94427190999916
 
-iex(7)> GeoMeasure.perimeter(%Geo.PolygonZ{
+iex(8)> GeoMeasure.perimeter(%Geo.PolygonZ{
     coordinates: [
       [{0, 0, 0}, {0, 3, 1}, {3, 3, 2}, {3, 0, 1}, {0, 0, 0}],
       [{1, 1, 0.66}, {1, 2, 1}, {2, 2, 1.33}, {2, 1, 1}, {1, 1, 0.66}]

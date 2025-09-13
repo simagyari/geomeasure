@@ -81,6 +81,14 @@ defmodule GeoMeasure.Test do
            }
   end
 
+  test "calculate_linestringm_bbox" do
+    geom = %Geo.LineStringM{coordinates: [{1, 2, 5}, {3, 4, 6}]}
+
+    assert GeoMeasure.bbox(geom) == %Geo.Polygon{
+             coordinates: [[{1, 2}, {1, 4}, {3, 4}, {3, 2}, {1, 2}]]
+           }
+  end
+
   test "calculate_linestringz_bbox" do
     geom = %Geo.LineStringZ{coordinates: [{0, 0, 0}, {1, 1, 1}]}
 
@@ -151,6 +159,11 @@ defmodule GeoMeasure.Test do
     assert_raise ArgumentError, fn -> GeoMeasure.bbox(geom) end
   end
 
+  test "calculate_linestringm_bbox_nil_coord" do
+    geom = %Geo.LineStringM{coordinates: [{1, 2, 5}, {nil, 4, 5}]}
+    assert_raise ArgumentError, fn -> GeoMeasure.bbox(geom) end
+  end
+
   test "calculate_linestringz_bbox_nil_coord" do
     geom = %Geo.LineStringZ{coordinates: [{0, nil, 0}, {1, 1, 1}]}
     assert_raise ArgumentError, fn -> GeoMeasure.bbox(geom) end
@@ -193,6 +206,15 @@ defmodule GeoMeasure.Test do
 
   test "calculate_linestring_bbox_with_srid" do
     geom = %Geo.LineString{coordinates: [{1, 2}, {3, 4}], srid: 27700}
+
+    assert GeoMeasure.bbox(geom) == %Geo.Polygon{
+             coordinates: [[{1, 2}, {1, 4}, {3, 4}, {3, 2}, {1, 2}]],
+             srid: 27700
+           }
+  end
+
+  test "calculate_linestringm_bbox_with_srid" do
+    geom = %Geo.LineStringM{coordinates: [{1, 2, 5}, {3, 4, 5}], srid: 27700}
 
     assert GeoMeasure.bbox(geom) == %Geo.Polygon{
              coordinates: [[{1, 2}, {1, 4}, {3, 4}, {3, 2}, {1, 2}]],
@@ -267,6 +289,11 @@ defmodule GeoMeasure.Test do
     assert GeoMeasure.centroid(geom) == %Geo.Point{coordinates: {2.0, 3.0}}
   end
 
+  test "calculate_linestringm_centroid" do
+    geom = %Geo.LineStringM{coordinates: [{1, 2, 5}, {3, 4, 5}]}
+    assert GeoMeasure.centroid(geom) == %Geo.Point{coordinates: {2.0, 3.0}}
+  end
+
   test "calculate_linestringz_centroid" do
     geom = %Geo.LineStringZ{coordinates: [{1, 2, 3}, {3, 4, 5}]}
     assert GeoMeasure.centroid(geom) == %Geo.PointZ{coordinates: {2.0, 3.0, 4.0}}
@@ -322,6 +349,11 @@ defmodule GeoMeasure.Test do
     assert_raise ArgumentError, fn -> GeoMeasure.centroid(geom) end
   end
 
+  test "calculate_linestringm_centroid_nil_coord" do
+    geom = %Geo.LineStringM{coordinates: [{1, nil, 5}, {3, 4, 5}]}
+    assert_raise ArgumentError, fn -> GeoMeasure.centroid(geom) end
+  end
+
   test "calculate_linestringz_centroid_nil_coord" do
     geom = %Geo.LineStringZ{coordinates: [{1, 2, nil}, {3, 4, 5}]}
     assert_raise ArgumentError, fn -> GeoMeasure.centroid(geom) end
@@ -364,6 +396,11 @@ defmodule GeoMeasure.Test do
 
   test "calculate_linestring_centroid_with_srid" do
     geom = %Geo.LineString{coordinates: [{1, 2}, {3, 4}], srid: 23700}
+    assert GeoMeasure.centroid(geom) == %Geo.Point{coordinates: {2.0, 3.0}, srid: 23700}
+  end
+
+  test "calculate_linestringm_centroid_with_srid" do
+    geom = %Geo.LineStringM{coordinates: [{1, 2, 5}, {3, 4, 5}], srid: 23700}
     assert GeoMeasure.centroid(geom) == %Geo.Point{coordinates: {2.0, 3.0}, srid: 23700}
   end
 
@@ -529,6 +566,11 @@ defmodule GeoMeasure.Test do
     assert GeoMeasure.extent(geom) == {1, 3, 2, 4}
   end
 
+  test "calculate_linestringm_extent" do
+    geom = %Geo.LineStringM{coordinates: [{1, 2, 5}, {3, 4, 5}]}
+    assert GeoMeasure.extent(geom) == {1, 3, 2, 4}
+  end
+
   test "calculate_linestringz_extent" do
     geom = %Geo.LineStringZ{coordinates: [{1, 2, 3}, {3, 4, 5}]}
     assert GeoMeasure.extent(geom) == {1, 3, 2, 4, 3, 5}
@@ -551,6 +593,11 @@ defmodule GeoMeasure.Test do
 
   test "calculate_linestring_extent_nil_coord" do
     geom = %Geo.LineString{coordinates: [{1, 2}, {nil, 4}]}
+    assert_raise ArgumentError, fn -> GeoMeasure.extent(geom) end
+  end
+
+  test "calculate_linestringm_extent_nil_coord" do
+    geom = %Geo.LineStringM{coordinates: [{1, 2, 5}, {nil, 4, 5}]}
     assert_raise ArgumentError, fn -> GeoMeasure.extent(geom) end
   end
 
@@ -664,6 +711,11 @@ defmodule GeoMeasure.Test do
     assert GeoMeasure.length(geom) == 2.0
   end
 
+  test "calculate_linestringm_length" do
+    geom = %Geo.LineStringM{coordinates: [{1, 2, 5}, {1, 4, 5}]}
+    assert GeoMeasure.length(geom) == 2.0
+  end
+
   test "calculate_linestringz_length" do
     geom = %Geo.LineStringZ{coordinates: [{1, 2, 2}, {1, 4, 2}]}
     assert GeoMeasure.length(geom) == 2.0
@@ -708,6 +760,11 @@ defmodule GeoMeasure.Test do
 
   test "calculate_linestring_length_nil_coord" do
     geom = %Geo.LineString{coordinates: [{1, nil}, {1, 4}]}
+    assert_raise ArgumentError, fn -> GeoMeasure.length(geom) end
+  end
+
+  test "calculate_linestringm_length_nil_coord" do
+    geom = %Geo.LineStringM{coordinates: [{1, nil, 5}, {1, 4, 5}]}
     assert_raise ArgumentError, fn -> GeoMeasure.length(geom) end
   end
 

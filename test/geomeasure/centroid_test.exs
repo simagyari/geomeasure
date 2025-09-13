@@ -137,7 +137,7 @@ defmodule GeoMeasure.Centroid.Test do
   end
 
   test "calculate_linestringm_centroid_with_srid" do
-    geom = %Geo.LineStringM0{coordinates: [{1, 2, 5}, {3, 4, 5}], srid: 23700}
+    geom = %Geo.LineStringM{coordinates: [{1, 2, 5}, {3, 4, 5}], srid: 23700}
     assert GeoMeasure.Centroid.calculate(geom) == %Geo.Point{coordinates: {2.0, 3.0}, srid: 23700}
   end
 

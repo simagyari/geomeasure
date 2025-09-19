@@ -100,4 +100,14 @@ defmodule GeoMeasure.Area do
   def calculate(%Geo.PolygonZ{coordinates: [outer_ring]}) do
     calculate_area_3d(outer_ring)
   end
+
+  @spec calculate(Geo.MultiPolygon.t()) :: float
+  def calculate(%Geo.MultiPolygon{coordinates: coords}) do
+    Enum.reduce(coords, 0, fn coord_list, acc -> acc + calculate(%Geo.Polygon{coordinates: coord_list}) end)
+  end
+
+  @spec calculate(Geo.MultiPolygonZ.t()) :: float
+  def calculate(%Geo.MultiPolygonZ{coordinates: coords}) do
+    Enum.reduce(coords, 0, fn coord_list, acc -> acc + calculate(%Geo.PolygonZ{coordinates: coord_list}) end)
+  end
 end

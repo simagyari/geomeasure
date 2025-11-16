@@ -70,4 +70,38 @@ defmodule GeoMeasure.Perimeter do
   def calculate(%Geo.PolygonZ{coordinates: [_first, _second | _rest] = coords}) do
     Enum.reduce(coords, 0, fn coord_list, acc -> acc + calculate_perimeter(coord_list) end)
   end
+
+  @spec calculate(Geo.MultiLineString.t()) :: float
+  def calculate(%Geo.MultiLineString{coordinates: multi_coords}) do
+    Enum.reduce(multi_coords, 0.0, fn coords, acc -> acc + calculate_perimeter(coords) end)
+  end
+
+  @spec calculate(Geo.MultiLineStringZ.t()) :: float
+  def calculate(%Geo.MultiLineStringZ{coordinates: multi_coords}) do
+    Enum.reduce(multi_coords, 0.0, fn coords, acc -> acc + calculate_perimeter(coords) end)
+  end
+
+  @spec calculate(Geo.MultiLineStringZM.t()) :: float
+  def calculate(%Geo.MultiLineStringZM{coordinates: multi_coords}) do
+    Enum.reduce(multi_coords, 0.0, fn coords, acc ->
+      coords
+      |> Utils.remove_m_values()
+      |> calculate_perimeter()
+      |> Kernel.+(acc)
+    end)
+  end
+
+  @spec calculate(Geo.MultiPolygon.t()) :: float
+  def calculate(%Geo.MultiPolygon{coordinates: multi_coords}) do
+    Enum.reduce(multi_coords, 0.0, fn coords, acc ->
+      acc + calculate(%Geo.Polygon{coordinates: coords})
+    end)
+  end
+
+  @spec calculate(Geo.MultiPolygonZ.t()) :: float
+  def calculate(%Geo.MultiPolygonZ{coordinates: multi_coords}) do
+    Enum.reduce(multi_coords, 0.0, fn coords, acc ->
+      acc + calculate(%Geo.PolygonZ{coordinates: coords})
+    end)
+  end
 end

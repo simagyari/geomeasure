@@ -92,4 +92,42 @@ defmodule GeoMeasure.Extent do
     |> tl()
     |> calculate_extent_3d()
   end
+
+  @spec calculate(Geo.MultiPoint.t()) :: {number, number, number, number}
+  def calculate(%Geo.MultiPoint{coordinates: coords}) do
+    calculate_extent(coords)
+  end
+
+  @spec calculate(Geo.MultiPointZ.t()) :: {number, number, number, number, number, number}
+  def calculate(%Geo.MultiPointZ{coordinates: coords}) do
+    calculate_extent_3d(coords)
+  end
+
+  @spec calculate(Geo.MultiLineString.t()) :: {number, number, number, number}
+  def calculate(%Geo.MultiLineString{coordinates: coords}) do
+    coords
+    |> List.flatten()
+    |> calculate_extent()
+  end
+
+  @spec calculate(Geo.MultiLineStringZ.t()) :: {number, number, number, number, number, number}
+  def calculate(%Geo.MultiLineStringZ{coordinates: coords}) do
+    coords
+    |> List.flatten()
+    |> calculate_extent_3d()
+  end
+
+  @spec calculate(Geo.MultiPolygon.t()) :: {number, number, number, number}
+  def calculate(%Geo.MultiPolygon{coordinates: coords}) do
+    coords
+    |> List.flatten()
+    |> calculate_extent()
+  end
+
+  @spec calculate(Geo.MultiPolygonZ.t()) :: {number, number, number, number, number, number}
+  def calculate(%Geo.MultiPolygonZ{coordinates: coords}) do
+    coords
+    |> List.flatten()
+    |> calculate_extent_3d()
+  end
 end

@@ -81,16 +81,6 @@ defmodule GeoMeasure.Perimeter do
     Enum.reduce(multi_coords, 0.0, fn coords, acc -> acc + calculate_perimeter(coords) end)
   end
 
-  @spec calculate(Geo.MultiLineStringZM.t()) :: float
-  def calculate(%Geo.MultiLineStringZM{coordinates: multi_coords}) do
-    Enum.reduce(multi_coords, 0.0, fn coords, acc ->
-      coords
-      |> Utils.remove_m_values()
-      |> calculate_perimeter()
-      |> Kernel.+(acc)
-    end)
-  end
-
   @spec calculate(Geo.MultiPolygon.t()) :: float
   def calculate(%Geo.MultiPolygon{coordinates: multi_coords}) do
     Enum.reduce(multi_coords, 0.0, fn coords, acc ->

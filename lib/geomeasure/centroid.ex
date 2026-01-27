@@ -129,14 +129,6 @@ defmodule GeoMeasure.Centroid do
     |> calculate_centroid_3d(srid)
   end
 
-  @spec calculate(Geo.MultiLineStringZM.t()) :: Geo.PointZ.t()
-  def calculate(%Geo.MultiLineStringZM{coordinates: coords, srid: srid}) do
-    coords
-    |> List.flatten()
-    |> Utils.remove_m_values()
-    |> calculate_centroid_3d(srid)
-  end
-
   @spec calculate(Geo.MultiPolygon.t()) :: Geo.Point.t()
   def calculate(%Geo.MultiPolygon{coordinates: coords, srid: srid}) do
     coords

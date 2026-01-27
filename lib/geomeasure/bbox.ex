@@ -132,14 +132,6 @@ defmodule GeoMeasure.Bbox do
     |> calculate_bbox_3d(srid)
   end
 
-  @spec calculate(Geo.MultiLineStringZM.t()) :: Geo.Polygon.t()
-  def calculate(%Geo.MultiLineStringZM{coordinates: coords, srid: srid}) do
-    coords
-    |> List.flatten()
-    |> Utils.remove_m_values()
-    |> calculate_bbox_3d(srid)
-  end
-
   @spec calculate(Ge.MultiPolygon.t()) :: Geo.Polygon.t()
   def calculate(%Geo.MultiPolygon{coordinates: coords, srid: srid}) do
     coords

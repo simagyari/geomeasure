@@ -21,6 +21,16 @@ defmodule GeoMeasure.Perimeter.Test do
     assert_raise FunctionClauseError, fn -> GeoMeasure.Perimeter.calculate(geom) end
   end
 
+  test "calculate_multipoint_perimeter" do
+    geom = %Geo.MultiPoint{coordinates: [{1, 2}, {3, 4}]}
+    assert_raise FunctionClauseError, fn -> GeoMeasure.Perimeter.calculate(geom) end
+  end
+
+  test "calculate_multipointz_perimeter" do
+    geom = %Geo.MultiPointZ{coordinates: [{1, 2, 0}, {3, 4, 0}]}
+    assert_raise FunctionClauseError, fn -> GeoMeasure.Perimeter.calculate(geom) end
+  end
+
   test "calculate_linestring_length" do
     geom = %Geo.LineString{coordinates: [{1, 2}, {1, 4}]}
     assert GeoMeasure.Perimeter.calculate(geom) == 2.0
@@ -39,6 +49,16 @@ defmodule GeoMeasure.Perimeter.Test do
   test "calculate_linestringzm_length" do
     geom = %Geo.LineStringZM{coordinates: [{1, 2, 2, 10}, {1, 4, 2, 11}]}
     assert GeoMeasure.Perimeter.calculate(geom) == 2.0
+  end
+
+  test "calculate_multilinestring_length" do
+    geom = %Geo.MultiLineString{coordinates: [[{1, 2}, {1, 4}], [{2, 2}, {2, 5}]]}
+    assert GeoMeasure.Perimeter.calculate(geom) == 5.0
+  end
+
+  test "calculate_multilinestringz_length" do
+    geom = %Geo.MultiLineStringZ{coordinates: [[{1, 2, 0}, {1, 4, 0}], [{2, 2, 0}, {2, 5, 0}]]}
+    assert GeoMeasure.Perimeter.calculate(geom) == 5.0
   end
 
   test "calculate_polygon_perimeter" do
@@ -73,6 +93,36 @@ defmodule GeoMeasure.Perimeter.Test do
     assert GeoMeasure.Perimeter.calculate(geom) == 16.8676364068953
   end
 
+  test "calculate_multipolygon_perimeter" do
+    geom = %Geo.MultiPolygon{
+      coordinates: [
+        [
+          [{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]
+        ],
+        [
+          [{3, 3}, {3, 5}, {5, 5}, {5, 3}, {3, 3}]
+        ]
+      ]
+    }
+
+    assert GeoMeasure.Perimeter.calculate(geom) == 16.0
+  end
+
+  test "calculate_multipolygonz_perimeter" do
+    geom = %Geo.MultiPolygonZ{
+      coordinates: [
+        [
+          [{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]
+        ],
+        [
+          [{3, 3, 0}, {3, 5, 1}, {5, 5, 2}, {5, 3, 1}, {3, 3, 0}]
+        ]
+      ]
+    }
+
+    assert GeoMeasure.Perimeter.calculate(geom) == 17.88854381999832
+  end
+
   test "calculate_linestring_length_nil_coord" do
     geom = %Geo.LineString{coordinates: [{1, nil}, {1, 4}]}
     assert_raise ArgumentError, fn -> GeoMeasure.Perimeter.calculate(geom) end
@@ -93,6 +143,16 @@ defmodule GeoMeasure.Perimeter.Test do
     assert_raise ArgumentError, fn -> GeoMeasure.Perimeter.calculate(geom) end
   end
 
+  test "calculate_multilinestring_length_nil_coord" do
+    geom = %Geo.MultiLineString{coordinates: [[{1, 2}, {1, nil}], [{2, 2}, {2, 5}]]}
+    assert_raise ArgumentError, fn -> GeoMeasure.Perimeter.calculate(geom) end
+  end
+
+  test "calculate_multilinestringz_length_nil_coord" do
+    geom = %Geo.MultiLineStringZ{coordinates: [[{1, 2, 0}, {1, nil, 0}], [{2, 2, 0}, {2, 5, 0}]]}
+    assert_raise ArgumentError, fn -> GeoMeasure.Perimeter.calculate(geom) end
+  end
+
   test "calculate_polygon_perimeter_nil_coord" do
     geom = %Geo.Polygon{coordinates: [[{0, 0}, {nil, 2}, {2, nil}, {2, 0}, {0, 0}]]}
     assert_raise ArgumentError, fn -> GeoMeasure.Perimeter.calculate(geom) end
@@ -101,6 +161,36 @@ defmodule GeoMeasure.Perimeter.Test do
   test "calculate_polygonz_perimeter_nil_coord" do
     geom = %Geo.PolygonZ{
       coordinates: [[{0, 0, 0}, {nil, 2, 0}, {2, nil, 0}, {2, 0, 0}, {0, 0, 0}]]
+    }
+
+    assert_raise ArgumentError, fn -> GeoMeasure.Perimeter.calculate(geom) end
+  end
+
+  test "calculate_multipolygon_perimeter_nil_coord" do
+    geom = %Geo.MultiPolygon{
+      coordinates: [
+        [
+          [{0, 0}, {0, 2}, {2, nil}, {2, 0}, {0, 0}]
+        ],
+        [
+          [{3, 3}, {3, 5}, {5, 5}, {5, 3}, {3, 3}]
+        ]
+      ]
+    }
+
+    assert_raise ArgumentError, fn -> GeoMeasure.Perimeter.calculate(geom) end
+  end
+
+  test "calculate_multipolygonz_perimeter_nil_coord" do
+    geom = %Geo.MultiPolygonZ{
+      coordinates: [
+        [
+          [{0, 0, 0}, {0, 2, 1}, {2, nil, 2}, {2, 0, 1}, {0, 0, 0}]
+        ],
+        [
+          [{3, 3, 0}, {3, 5, 1}, {5, 5, 2}, {5, 3, 1}, {3, 3, 0}]
+        ]
+      ]
     }
 
     assert_raise ArgumentError, fn -> GeoMeasure.Perimeter.calculate(geom) end

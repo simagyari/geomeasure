@@ -21,6 +21,16 @@ defmodule GeoMeasure.Centroid.Test do
     assert GeoMeasure.Centroid.calculate(geom) == %Geo.PointZ{coordinates: {1, 2, 5}}
   end
 
+  test "calculate_multipoint_centroid" do
+    geom = %Geo.MultiPoint{coordinates: [{1, 2}, {3, 4}, {5, 6}]}
+    assert GeoMeasure.Centroid.calculate(geom) == %Geo.Point{coordinates: {3.0, 4.0}}
+  end
+
+  test "calculate_multipointz_centroid" do
+    geom = %Geo.MultiPointZ{coordinates: [{1, 2, 3}, {3, 4, 5}, {5, 6, 7}]}
+    assert GeoMeasure.Centroid.calculate(geom) == %Geo.PointZ{coordinates: {3.0, 4.0, 5.0}}
+  end
+
   test "calculate_linestring_centroid" do
     geom = %Geo.LineString{coordinates: [{1, 2}, {3, 4}]}
     assert GeoMeasure.Centroid.calculate(geom) == %Geo.Point{coordinates: {2.0, 3.0}}
@@ -41,6 +51,16 @@ defmodule GeoMeasure.Centroid.Test do
     assert GeoMeasure.Centroid.calculate(geom) == %Geo.PointZ{coordinates: {2.0, 3.0, 4.0}}
   end
 
+  test "calculate_multilinestring_centroid" do
+    geom = %Geo.MultiLineString{coordinates: [[{1, 2}, {3, 4}], [{5, 6}, {7, 8}]]}
+    assert GeoMeasure.Centroid.calculate(geom) == %Geo.Point{coordinates: {4.0, 5.0}}
+  end
+
+  test "calculate_multilinestringz_centroid" do
+    geom = %Geo.MultiLineStringZ{coordinates: [[{1, 2, 3}, {3, 4, 5}], [{5, 6, 7}, {7, 8, 9}]]}
+    assert GeoMeasure.Centroid.calculate(geom) == %Geo.PointZ{coordinates: {4.0, 5.0, 6.0}}
+  end
+
   test "calculate_polygon_centroid" do
     geom = %Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]}
     assert GeoMeasure.Centroid.calculate(geom) == %Geo.Point{coordinates: {1.0, 1.0}}
@@ -49,6 +69,28 @@ defmodule GeoMeasure.Centroid.Test do
   test "calculate_polygonz_centroid" do
     geom = %Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]}
     assert GeoMeasure.Centroid.calculate(geom) == %Geo.PointZ{coordinates: {1.0, 1.0, 1.0}}
+  end
+
+  test "calculate_multipolygon_centroid" do
+    geom = %Geo.MultiPolygon{
+      coordinates: [
+        [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
+        [[{2, 2}, {2, 4}, {4, 4}, {4, 2}, {2, 2}]]
+      ]
+    }
+
+    assert GeoMeasure.Centroid.calculate(geom) == %Geo.Point{coordinates: {2.0, 2.0}}
+  end
+
+  test "calculate_multipolygonz_centroid" do
+    geom = %Geo.MultiPolygonZ{
+      coordinates: [
+        [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]],
+        [[{2, 2, 2}, {2, 4, 3}, {4, 4, 4}, {4, 2, 3}, {2, 2, 2}]]
+      ]
+    }
+
+    assert GeoMeasure.Centroid.calculate(geom) == %Geo.PointZ{coordinates: {2.0, 2.0, 2.0}}
   end
 
   test "calculate_point_centroid_nil_coord" do
@@ -81,6 +123,16 @@ defmodule GeoMeasure.Centroid.Test do
     assert GeoMeasure.Centroid.calculate(geom) == %Geo.PointZ{coordinates: {1, 2, 5}}
   end
 
+  test "calculate_multipoint_centroid_nil_coord" do
+    geom = %Geo.MultiPoint{coordinates: [{1, 2}, {nil, 4}, {5, 6}]}
+    assert_raise ArgumentError, fn -> GeoMeasure.Centroid.calculate(geom) end
+  end
+
+  test "calculate_multipointz_centroid_nil_coord" do
+    geom = %Geo.MultiPointZ{coordinates: [{1, 2, 3}, {nil, 4, 5}, {5, 6, 7}]}
+    assert_raise ArgumentError, fn -> GeoMeasure.Centroid.calculate(geom) end
+  end
+
   test "calculate_linestring_centroid_nil_coord" do
     geom = %Geo.LineString{coordinates: [{1, nil}, {3, 4}]}
     assert_raise ArgumentError, fn -> GeoMeasure.Centroid.calculate(geom) end
@@ -101,6 +153,16 @@ defmodule GeoMeasure.Centroid.Test do
     assert_raise ArgumentError, fn -> GeoMeasure.Centroid.calculate(geom) end
   end
 
+  test "calculate_multilinestring_centroid_nil_coord" do
+    geom = %Geo.MultiLineString{coordinates: [[{1, 2}, {nil, 4}], [{5, 6}, {7, 8}]]}
+    assert_raise ArgumentError, fn -> GeoMeasure.Centroid.calculate(geom) end
+  end
+
+  test "calculate_multilinestringz_centroid_nil_coord" do
+    geom = %Geo.MultiLineStringZ{coordinates: [[{1, 2, 3}, {nil, 4, 5}], [{5, 6, 7}, {7, 8, 9}]]}
+    assert_raise ArgumentError, fn -> GeoMeasure.Centroid.calculate(geom) end
+  end
+
   test "calculate_polygon_centroid_nil_coord" do
     geom = %Geo.Polygon{coordinates: [[{0, 0}, {nil, 2}, {2, 2}, {2, 0}, {0, 0}]]}
     assert_raise ArgumentError, fn -> GeoMeasure.Centroid.calculate(geom) end
@@ -108,6 +170,28 @@ defmodule GeoMeasure.Centroid.Test do
 
   test "calculate_polygonz_centroid_nil_coord" do
     geom = %Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, nil, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]}
+    assert_raise ArgumentError, fn -> GeoMeasure.Centroid.calculate(geom) end
+  end
+
+  test "calculate_multipolygon_centroid_nil_coord" do
+    geom = %Geo.MultiPolygon{
+      coordinates: [
+        [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
+        [[{2, 2}, {2, 4}, {nil, 4}, {4, 2}, {2, 2}]]
+      ]
+    }
+
+    assert_raise ArgumentError, fn -> GeoMeasure.Centroid.calculate(geom) end
+  end
+
+  test "calculate_multipolygonz_centroid_nil_coord" do
+    geom = %Geo.MultiPolygonZ{
+      coordinates: [
+        [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]],
+        [[{2, 2, 2}, {2, 4, 3}, {nil, 4, 4}, {4, 2, 3}, {2, 2, 2}]]
+      ]
+    }
+
     assert_raise ArgumentError, fn -> GeoMeasure.Centroid.calculate(geom) end
   end
 
@@ -129,6 +213,16 @@ defmodule GeoMeasure.Centroid.Test do
   test "calculate_pointzm_centroid_with_srid" do
     geom = %Geo.PointZM{coordinates: {1, 2, 5, 8}, srid: 23700}
     assert GeoMeasure.Centroid.calculate(geom) == %Geo.PointZ{coordinates: {1, 2, 5}, srid: 23700}
+  end
+
+  test "calculate_multipoint_centroid_with_srid" do
+    geom = %Geo.MultiPoint{coordinates: [{1, 2}, {3, 4}, {5, 6}], srid: 23700}
+    assert GeoMeasure.Centroid.calculate(geom) == %Geo.Point{coordinates: {3.0, 4.0}, srid: 23700}
+  end
+
+  test "calculate_multipointz_centroid_with_srid" do
+    geom = %Geo.MultiPointZ{coordinates: [{1, 2, 3}, {3, 4, 5}, {5, 6, 7}], srid: 23700}
+    assert GeoMeasure.Centroid.calculate(geom) == %Geo.PointZ{coordinates: {3.0, 4.0, 5.0}, srid: 23700}
   end
 
   test "calculate_linestring_centroid_with_srid" do
@@ -159,6 +253,16 @@ defmodule GeoMeasure.Centroid.Test do
            }
   end
 
+  test "calculate_multilinestring_centroid_with_srid" do
+    geom = %Geo.MultiLineString{coordinates: [[{1, 2}, {3, 4}], [{5, 6}, {7, 8}]], srid: 23700}
+    assert GeoMeasure.Centroid.calculate(geom) == %Geo.Point{coordinates: {4.0, 5.0}, srid: 23700}
+  end
+
+  test "calculate_multilinestringz_centroid_with_srid" do
+    geom = %Geo.MultiLineStringZ{coordinates: [[{1, 2, 3}, {3, 4, 5}], [{5, 6, 7}, {7, 8, 9}]], srid: 23700}
+    assert GeoMeasure.Centroid.calculate(geom) == %Geo.PointZ{coordinates: {4.0, 5.0, 6.0}, srid: 23700}
+  end
+
   test "calculate_polygon_centroid_with_srid" do
     geom = %Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]], srid: 23700}
     assert GeoMeasure.Centroid.calculate(geom) == %Geo.Point{coordinates: {1.0, 1.0}, srid: 23700}
@@ -174,5 +278,29 @@ defmodule GeoMeasure.Centroid.Test do
              coordinates: {1.0, 1.0, 1.0},
              srid: 23700
            }
+  end
+
+  test "calculate_multipolygon_centroid_with_srid" do
+    geom = %Geo.MultiPolygon{
+      coordinates: [
+        [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
+        [[{2, 2}, {2, 4}, {4, 4}, {4, 2}, {2, 2}]]
+      ],
+      srid: 23700
+    }
+
+    assert GeoMeasure.Centroid.calculate(geom) == %Geo.Point{coordinates: {2.0, 2.0}, srid: 23700}
+  end
+
+  test "calculate_multipolygonz_centroid_with_srid" do
+    geom = %Geo.MultiPolygonZ{
+      coordinates: [
+        [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]],
+        [[{2, 2, 2}, {2, 4, 3}, {4, 4, 4}, {4, 2, 3}, {2, 2, 2}]]
+      ],
+      srid: 23700
+    }
+
+    assert GeoMeasure.Centroid.calculate(geom) == %Geo.PointZ{coordinates: {2.0, 2.0, 2.0}, srid: 23700}
   end
 end

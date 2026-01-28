@@ -57,5 +57,4 @@ defmodule GeoMeasure.FootprintArea.Test do
 
     assert GeoMeasure.FootprintArea.calculate(geom) == 39.0
   end
-
 end

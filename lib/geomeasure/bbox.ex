@@ -145,5 +145,4 @@ defmodule GeoMeasure.Bbox do
     |> Enum.flat_map(&tl(hd(&1)))
     |> calculate_bbox_3d(srid)
   end
-
 end

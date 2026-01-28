@@ -107,7 +107,12 @@ defmodule GeoMeasure.Bbox.Test do
   end
 
   test "calculate_multipolygon_bbox" do
-    geom = %Geo.MultiPolygon{coordinates: [[[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]], [[{3, 3}, {3, 5}, {5, 5}, {5, 3}, {3, 3}]]]}
+    geom = %Geo.MultiPolygon{
+      coordinates: [
+        [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
+        [[{3, 3}, {3, 5}, {5, 5}, {5, 3}, {3, 3}]]
+      ]
+    }
 
     assert GeoMeasure.Bbox.calculate(geom) == %Geo.Polygon{
              coordinates: [[{0, 0}, {0, 5}, {5, 5}, {5, 0}, {0, 0}]]
@@ -115,7 +120,12 @@ defmodule GeoMeasure.Bbox.Test do
   end
 
   test "calculate_multipolygonz_bbox" do
-    geom = %Geo.MultiPolygonZ{coordinates: [[[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]], [[{3, 3, 3}, {3, 5, 4}, {5, 5, 5}, {5, 3, 4}, {3, 3, 3}]]]}
+    geom = %Geo.MultiPolygonZ{
+      coordinates: [
+        [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]],
+        [[{3, 3, 3}, {3, 5, 4}, {5, 5, 5}, {5, 3, 4}, {3, 3, 3}]]
+      ]
+    }
 
     assert GeoMeasure.Bbox.calculate(geom) == %Geo.Polygon{
              coordinates: [[{0, 0}, {0, 5}, {5, 5}, {5, 0}, {0, 0}]],
@@ -204,12 +214,24 @@ defmodule GeoMeasure.Bbox.Test do
   end
 
   test "calculate_multipolygon_bbox_nil_coord" do
-    geom = %Geo.MultiPolygon{coordinates: [[[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]], [[{3, 3}, {nil, 5}, {5, 5}, {5, 3}, {3, 3}]]]}
+    geom = %Geo.MultiPolygon{
+      coordinates: [
+        [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
+        [[{3, 3}, {nil, 5}, {5, 5}, {5, 3}, {3, 3}]]
+      ]
+    }
+
     assert_raise ArgumentError, fn -> GeoMeasure.Bbox.calculate(geom) end
   end
 
   test "calculate_multipolygonz_bbox_nil_coord" do
-    geom = %Geo.MultiPolygonZ{coordinates: [[[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]], [[{3, 3, 3}, {3, nil, 4}, {5, 5, 5}, {5, 3, 4}, {3, 3, 3}]]]}
+    geom = %Geo.MultiPolygonZ{
+      coordinates: [
+        [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]],
+        [[{3, 3, 3}, {3, nil, 4}, {5, 5, 5}, {5, 3, 4}, {3, 3, 3}]]
+      ]
+    }
+
     assert_raise ArgumentError, fn -> GeoMeasure.Bbox.calculate(geom) end
   end
 
@@ -300,7 +322,10 @@ defmodule GeoMeasure.Bbox.Test do
   end
 
   test "calculate_multilinestringz_bbox_with_srid" do
-    geom = %Geo.MultiLineStringZ{coordinates: [[{0, 0, 0}, {1, 1, 1}], [{2, 2, 2}, {3, 3, 3}]], srid: 23700}
+    geom = %Geo.MultiLineStringZ{
+      coordinates: [[{0, 0, 0}, {1, 1, 1}], [{2, 2, 2}, {3, 3, 3}]],
+      srid: 23700
+    }
 
     assert GeoMeasure.Bbox.calculate(geom) == %Geo.Polygon{
              coordinates: [[{0, 0}, {0, 3}, {3, 3}, {3, 0}, {0, 0}]],

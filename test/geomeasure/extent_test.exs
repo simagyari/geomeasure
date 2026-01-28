@@ -47,12 +47,24 @@ defmodule GeoMeasure.Extent.Test do
   end
 
   test "calculate_multipolygon_extent" do
-    geom = %Geo.MultiPolygon{coordinates: [[[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]], [[{1, 1}, {1, 3}, {3, 3}, {3, 1}, {1, 1}]]]}
+    geom = %Geo.MultiPolygon{
+      coordinates: [
+        [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
+        [[{1, 1}, {1, 3}, {3, 3}, {3, 1}, {1, 1}]]
+      ]
+    }
+
     assert GeoMeasure.Extent.calculate(geom) == {0, 3, 0, 3}
   end
 
   test "calculate_multipolygonz_extent" do
-    geom = %Geo.MultiPolygonZ{coordinates: [[[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]], [[{1, 1, 1}, {1, 3, 2}, {3, 3, 3}, {3, 1, 2}, {1, 1, 1}]]]}
+    geom = %Geo.MultiPolygonZ{
+      coordinates: [
+        [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]],
+        [[{1, 1, 1}, {1, 3, 2}, {3, 3, 3}, {3, 1, 2}, {1, 1, 1}]]
+      ]
+    }
+
     assert GeoMeasure.Extent.calculate(geom) == {0, 3, 0, 3, 0, 3}
   end
 
@@ -117,12 +129,24 @@ defmodule GeoMeasure.Extent.Test do
   end
 
   test "calculate_multipolygon_extent_nil_coord" do
-    geom = %Geo.MultiPolygon{coordinates: [[[{0, 0}, {0, 2}, {nil, 2}, {2, 0}, {0, 0}]], [[{1, 1}, {1, 3}, {3, 3}, {3, 1}, {1, 1}]]]}
+    geom = %Geo.MultiPolygon{
+      coordinates: [
+        [[{0, 0}, {0, 2}, {nil, 2}, {2, 0}, {0, 0}]],
+        [[{1, 1}, {1, 3}, {3, 3}, {3, 1}, {1, 1}]]
+      ]
+    }
+
     assert_raise ArgumentError, fn -> GeoMeasure.Extent.calculate(geom) end
   end
 
   test "calculate_multipolygonz_extent_nil_coord" do
-    geom = %Geo.MultiPolygonZ{coordinates: [[[{0, 0, 0}, {0, 2, 1}, {nil, 2, 2}, {2, 0, 1}, {0, 0, 0}]], [[{1, 1, 1}, {1, 3, 2}, {3, 3, 3}, {3, 1, 2}, {1, 1, 1}]]]}
+    geom = %Geo.MultiPolygonZ{
+      coordinates: [
+        [[{0, 0, 0}, {0, 2, 1}, {nil, 2, 2}, {2, 0, 1}, {0, 0, 0}]],
+        [[{1, 1, 1}, {1, 3, 2}, {3, 3, 3}, {3, 1, 2}, {1, 1, 1}]]
+      ]
+    }
+
     assert_raise ArgumentError, fn -> GeoMeasure.Extent.calculate(geom) end
   end
 end

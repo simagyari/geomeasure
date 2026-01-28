@@ -107,4 +107,42 @@ defmodule GeoMeasure.Bbox do
     |> tl()
     |> calculate_bbox_3d(srid)
   end
+
+  @spec calculate(Geo.MultiPoint.t()) :: Geo.Polygon.t()
+  def calculate(%Geo.MultiPoint{coordinates: coords, srid: srid}) do
+    calculate_bbox(coords, srid)
+  end
+
+  @spec calculate(Geo.MultiPointZ.t()) :: Geo.Polygon.t()
+  def calculate(%Geo.MultiPointZ{coordinates: coords, srid: srid}) do
+    calculate_bbox_3d(coords, srid)
+  end
+
+  @spec calculate(Geo.MultiLineString.t()) :: Geo.Polygon.t()
+  def calculate(%Geo.MultiLineString{coordinates: coords, srid: srid}) do
+    coords
+    |> List.flatten()
+    |> calculate_bbox(srid)
+  end
+
+  @spec calculate(Geo.MultiLineStringZ.t()) :: Geo.Polygon.t()
+  def calculate(%Geo.MultiLineStringZ{coordinates: coords, srid: srid}) do
+    coords
+    |> List.flatten()
+    |> calculate_bbox_3d(srid)
+  end
+
+  @spec calculate(Ge.MultiPolygon.t()) :: Geo.Polygon.t()
+  def calculate(%Geo.MultiPolygon{coordinates: coords, srid: srid}) do
+    coords
+    |> Enum.flat_map(&tl(hd(&1)))
+    |> calculate_bbox(srid)
+  end
+
+  @spec calculate(Geo.MultiPolygonZ.t()) :: Geo.Polygon.t()
+  def calculate(%Geo.MultiPolygonZ{coordinates: coords, srid: srid}) do
+    coords
+    |> Enum.flat_map(&tl(hd(&1)))
+    |> calculate_bbox_3d(srid)
+  end
 end

@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.9.0 - 2026-01-28
+
+### Enhancements
+
+- [Added support for all multipart geometries](https://github.com/simagyari/geomeasure/pull/33). For further usage examples and supported calculations, please check the [README](https://github.com/simagyari/geomeasure/blob/main/README.md).
+
+### Bugfixes
+
+- [Removed references to nonexistent MultiLineStringZM struct](https://github.com/simagyari/geomeasure/pull/33).
+
 ## v1.8.0 - 2025-09-13
 
 ### Enhancements

@@ -9,7 +9,7 @@
 
 A collection of functions calculating different properties of [Geo](https://github.com/felt/geo/tree/master) structs.
 
-Currently, this project supports the following geometries:
+Currently, this project supports the following geometries (at present these are all [Geo](https://github.com/felt/geo/tree/master) supports):
 
 - Point
 - PointM
@@ -21,6 +21,12 @@ Currently, this project supports the following geometries:
 - LineStringZM
 - Polygon
 - PolygonZ
+- MultiPoint
+- MultiPointZ
+- MultiLineString
+- MultiLineStringZ
+- MultiPolygon
+- MultiPolygonZ
 
 Currently, the following properties can be calculated for the supported [Geo](https://github.com/felt/geo/tree/master) structs:
 
@@ -35,18 +41,24 @@ Currently, the following properties can be calculated for the supported [Geo](ht
 
 For each geometry, only the properties that have meaning for the given geometry are implemented. This results in the following implementation table, where ✅ means supported, and ❌ means unsupported property, 🎯 means planned, while 🔶 means incomplete or in progress support for a property:
 
-| Geometry     | Area | Bounding box | Centroid | Distance | Extent | Footprint area | Footprint length | Footprint perimeter | Length | Perimeter |
-| ----------   | :--: | :----------: | :------: | :------: | :----: | :------------: | :--------------: | :-----------------: | :----: | :-------: |
-| Point        | ❌   | ✅          | ✅       | ✅      | ❌     | ❌            | ❌               | ❌                 | ❌     | ❌       |
-| PointM       | ❌   | ✅          | ✅       | ✅      | ❌     | ❌            | ❌               | ❌                 | ❌     | ❌       |
-| PointZ       | ❌   | ✅          | ✅       | ✅      | ❌     | ❌            | ❌               | ❌                 | ❌     | ❌       |
-| PointZM      | ❌   | ✅          | ✅       | ✅      | ❌     | ❌            | ❌               | ❌                 | ❌     | ❌       |
-| LineString   | ❌   | ✅          | ✅       | ❌      | ✅     | ❌            | ❌               | ❌                 | ✅     | ❌       |
-| LineStringM  | ❌   | ✅          | ✅       | ❌      | ✅     | ❌            | ❌               | ❌                 | ✅     | ❌       |
-| LineStringZ  | ❌   | ✅          | ✅       | ❌      | ✅     | ✅            | ✅               | ❌                 | ✅     | ❌       |
-| LineStringZM | ❌   | ✅          | ✅       | ❌      | ✅     | ✅            | ✅               | ❌                 | ✅     | ❌       |
-| Polygon      | ✅   | ✅          | ✅       | ❌      | ✅     | ❌            | ❌               | ❌                 | ❌     | ✅       |
-| PolygonZ     | ✅   | ✅          | ✅       | ❌      | ✅     | ✅            | ❌               | ✅                 | ❌     | ✅       |
+| Geometry         | Area | Bounding box | Centroid | Distance | Extent | Footprint area | Footprint length | Footprint perimeter | Length | Perimeter |
+| ---------------- | :--: | :----------: | :------: | :------: | :----: | :------------: | :--------------: | :-----------------: | :----: | :-------: |
+| Point            | ❌   | ✅          | ✅       | ✅      | ❌     | ❌            | ❌               | ❌                 | ❌     | ❌       |
+| PointM           | ❌   | ✅          | ✅       | ✅      | ❌     | ❌            | ❌               | ❌                 | ❌     | ❌       |
+| PointZ           | ❌   | ✅          | ✅       | ✅      | ❌     | ❌            | ❌               | ❌                 | ❌     | ❌       |
+| PointZM          | ❌   | ✅          | ✅       | ✅      | ❌     | ❌            | ❌               | ❌                 | ❌     | ❌       |
+| LineString       | ❌   | ✅          | ✅       | ❌      | ✅     | ❌            | ❌               | ❌                 | ✅     | ❌       |
+| LineStringM      | ❌   | ✅          | ✅       | ❌      | ✅     | ❌            | ❌               | ❌                 | ✅     | ❌       |
+| LineStringZ      | ❌   | ✅          | ✅       | ❌      | ✅     | ✅            | ✅               | ❌                 | ✅     | ❌       |
+| LineStringZM     | ❌   | ✅          | ✅       | ❌      | ✅     | ✅            | ✅               | ❌                 | ✅     | ❌       |
+| Polygon          | ✅   | ✅          | ✅       | ❌      | ✅     | ❌            | ❌               | ❌                 | ❌     | ✅       |
+| PolygonZ         | ✅   | ✅          | ✅       | ❌      | ✅     | ✅            | ❌               | ✅                 | ❌     | ✅       |
+| MultiPoint       | ❌   | ✅          | ✅       | ❌      | ❌     | ❌            | ❌               | ❌                 | ❌     | ❌       |
+| MultiPointZ      | ❌   | ✅          | ✅       | ❌      | ❌     | ❌            | ❌               | ❌                 | ❌     | ❌       |
+| MultiLineString  | ❌   | ✅          | ✅       | ❌      | ✅     | ❌            | ❌               | ❌                 | ✅     | ❌       |
+| MultiLineStringZ | ❌   | ✅          | ✅       | ❌      | ✅     | ✅            | ✅               | ❌                 | ✅     | ❌       |
+| MultiPolygon     | ❌   | ✅          | ✅       | ❌      | ✅     | ❌            | ❌               | ❌                 | ❌     | ✅       |
+| MultiPolygonZ    | ❌   | ✅          | ✅       | ❌      | ✅     | ✅            | ❌               | ✅                 | ❌     | ✅       |
 
 **IMPORTANT**: All computations that return Geo structs transfer the SRID of the input struct to the output struct. Only projected coordinate systems are supported as the algorithms implemented here do not take curved surfaces and angular units into account, which would be necessary for the handling of geographic coordinate systems.
 
@@ -59,7 +71,7 @@ _Note_: If you would like to make in-memory calculations to determine the relati
 ```elixir
 defp deps do
   [
-    {:geomeasure, "~> 1.8.0"}
+    {:geomeasure, "~> 1.9.0"}
   ]
 end
 ```
@@ -91,6 +103,22 @@ iex(4)> GeoMeasure.area(%Geo.PolygonZ{
     ]
   })
 20.0
+
+iex(5)> GeoMeasure.area(%Geo.MultiPolygon{
+    coordinates: [
+      [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
+      [[{1, 1}, {1, 3}, {3, 3}, {3, 1}, {1, 1}]]
+    ]
+  })
+8.0
+
+iex(6)> GeoMeasure.area(%Geo.MultiPolygonZ{
+    coordinates: [
+      [[{0, 0, 0}, {0, 5, 0}, {4, 5, 3}, {4, 0, 3}, {0, 0, 0}]],
+      [[{1, 1, 1}, {1, 6, 1}, {5, 6, 4}, {5, 1, 4}, {1, 1, 1}]]
+    ]
+  })
+50.0
 ```
 
 ### Bounding Box
@@ -108,47 +136,84 @@ iex(3)> GeoMeasure.bbox(%Geo.PointZ{coordinates: {1, 2, 5}})
 iex(4)> GeoMeasure.bbox(%Geo.PointZM{coordinates: {1, 2, 5, 8}})
 %Geo.PointZ{coordinates: {1, 2, 5}, srid: nil, properties: %{}}
 
-iex(5)> GeoMeasure.bbox(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+iex(5)> GeoMeasure.bbox(%Geo.MultiPoint{coordinates: [{1, 2}, {3, 4}]})
+%Geo.Polygon{coordinates: [[{1, 2}, {1, 4}, {3, 4}, {3, 2}, {1, 2}]]}
+
+iex(6)> GeoMeasure.bbox(%Geo.MultiPointZ{coordinates: [{0, 0, 0}, {1, 1, 1}]})
+%Geo.Polygon{
+    coordinates: [[{0, 0}, {0, 1}, {1, 1}, {1, 0}, {0, 0}]],
+    properties: %{min_z: 0, max_z: 1}
+  }
+
+iex(7)> GeoMeasure.bbox(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 %Geo.Polygon{
   coordinates: [[{1, 2}, {1, 4}, {3, 4}, {3, 2}, {1, 2}]],
   srid: nil,
   properties: %{}
 }
 
-iex(6)> GeoMeasure.bbox(%Geo.LineStringM{coordinates: [{0, 0, 0}, {1, 1, 1}]})
+iex(8)> GeoMeasure.bbox(%Geo.LineStringM{coordinates: [{0, 0, 0}, {1, 1, 1}]})
 %Geo.Polygon{
   coordinates: [[{0, 0}, {0, 1}, {1, 1}, {1, 0}, {0, 0}]],
   srid: nil,
   properties: %{}
 }
 
-iex(7)> GeoMeasure.bbox(%Geo.LineStringZ{coordinates: [{0, 0, 0}, {1, 1, 1}]})
+iex(9)> GeoMeasure.bbox(%Geo.LineStringZ{coordinates: [{0, 0, 0}, {1, 1, 1}]})
 %Geo.Polygon{
   coordinates: [[{0, 0}, {0, 1}, {1, 1}, {1, 0}, {0, 0}]],
   srid: nil,
   properties: %{max_z: 1, min_z: 0}
 }
 
-iex(8)> GeoMeasure.bbox(%Geo.LineStringZM{coordinates: [{0, 0, 0, 2}, {1, 1, 1, 3}]})
+iex(10)> GeoMeasure.bbox(%Geo.LineStringZM{coordinates: [{0, 0, 0, 2}, {1, 1, 1, 3}]})
 %Geo.Polygon{
   coordinates: [[{0, 0}, {0, 1}, {1, 1}, {1, 0}, {0, 0}]],
   srid: nil,
   properties: %{max_z: 1, min_z: 0}
 }
 
-iex(9)> GeoMeasure.bbox(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(11)> GeoMeasure.bbox(%Geo.MultiLineString{coordinates: [[{1, 2}, {3, 4}], [{0, 0}, {2, 2}]]})
+%Geo.Polygon{coordinates: [[{0, 0}, {0, 4}, {3, 4}, {3, 0}, {0, 0}]]}
+
+iex(12)> GeoMeasure.bbox(%Geo.MultiLineStringZ{coordinates: [[{0, 0, 0}, {1, 1, 1}], [{2, 2, 2}, {3, 3, 3}]]})
+%Geo.Polygon{
+    coordinates: [[{0, 0}, {0, 3}, {3, 3}, {3, 0}, {0, 0}]],
+    properties: %{min_z: 0, max_z: 3}
+  }
+
+iex(13)> GeoMeasure.bbox(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 %Geo.Polygon{
   coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
   srid: nil,
   properties: %{}
 }
 
-iex(10)> GeoMeasure.bbox(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
+iex(14)> GeoMeasure.bbox(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
 %Geo.Polygon{
   coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
   srid: nil,
   properties: %{max_z: 2, min_z: 0}
 }
+
+iex(15)> GeoMeasure.bbox(%Geo.MultiPolygon{
+    coordinates: [
+      [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
+      [[{3, 3}, {3, 5}, {5, 5}, {5, 3}, {3, 3}]]
+    ]
+  })
+%Geo.Polygon{coordinates: [[{0, 0}, {0, 5}, {5, 5}, {5, 0}, {0, 0}]]}
+
+iex(16)> GeoMeasure.bbox(%Geo.MultiPolygonZ{
+    coordinates: [
+      [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]],
+      [[{3, 3, 3}, {3, 5, 4}, {5, 5, 5}, {5, 3, 4}, {3, 3, 3}]]
+    ]
+  })
+%Geo.Polygon{
+    coordinates: [[{0, 0}, {0, 5}, {5, 5}, {5, 0}, {0, 0}]],
+    properties: %{min_z: 0, max_z: 5}
+  }
 ```
 
 ### Centroid
@@ -166,23 +231,51 @@ iex(3)> GeoMeasure.centroid(%Geo.PointZ{coordinates: {1, 2, 5}})
 iex(4)> GeoMeasure.centroid(%Geo.PointZM{coordinates: 1, 2, 5, 8})
 %Geo.PointZ{coordinates: {1, 2, 5}, srid: nil, properties: %{}}
 
-iex(5)> GeoMeasure.centroid(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
+iex(5)> GeoMeasure.centroid(%Geo.MultiPoint{coordinates: [{1, 2}, {3, 4}, {5, 6}]})
+%Geo.Point{coordinates: {3.0, 4.0}}
+
+iex(6)> GeoMeasure.centroid(%Geo.MultiPointZ{coordinates: [{1, 2, 3}, {3, 4, 5}, {5, 6, 7}]})
+%Geo.PointZ{coordinates: {3.0, 4.0, 5.0}}
+
+iex(7)> GeoMeasure.centroid(%Geo.LineString{coordinates: [{1, 2}, {3, 4}]})
 %Geo.Point{coordinates: {2.0, 3.0}, srid: nil, properties: %{}}
 
-iex(6)> GeoMeasure.centroid(%Geo.LineStringM{coordinates: [{1, 2, 3}, {3, 4, 5}]})
+iex(8)> GeoMeasure.centroid(%Geo.LineStringM{coordinates: [{1, 2, 3}, {3, 4, 5}]})
 %Geo.Point{coordinates: {2.0, 3.0}, srid: nil, properties: %{}}
 
-iex(7)> GeoMeasure.centroid(%Geo.LineStringZ{coordinates: [{1, 2, 3}, {3, 4, 5}]})
+iex(9)> GeoMeasure.centroid(%Geo.LineStringZ{coordinates: [{1, 2, 3}, {3, 4, 5}]})
 %Geo.PointZ{coordinates: {2.0, 3.0, 4.0}, srid: nil, properties: %{}}
 
-iex(8)> GeoMeasure.centroid(%Geo.LineStringZM{coordinates: [{1, 2, 3, 10}, {3, 4, 5, 11}]})
+iex(10)> GeoMeasure.centroid(%Geo.LineStringZM{coordinates: [{1, 2, 3, 10}, {3, 4, 5, 11}]})
 %Geo.PointZ{coordinates: {2.0, 3.0, 4.0}, srid: nil, properties: %{}}
 
-iex(9)> GeoMeasure.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(11)> GeoMeasure.centroid(%Geo.MultiLineString{coordinates: [[{1, 2}, {3, 4}], [{5, 6}, {7, 8}]]})
+%Geo.Point{coordinates: {4.0, 5.0}}
+
+iex(12)> GeoMeasure.centroid(%Geo.MultiLineStringZ{coordinates: [[{1, 2, 3}, {3, 4, 5}], [{5, 6, 7}, {7, 8, 9}]]})
+%Geo.PointZ{coordinates: {4.0, 5.0, 6.0}}
+
+iex(13)> GeoMeasure.centroid(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 %Geo.Point{coordinates: {1.0, 1.0}, srid: nil, properties: %{}}
 
-iex(10)> GeoMeasure.centroid(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
+iex(14)> GeoMeasure.centroid(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
 %Geo.PointZ{coordinates: {1.0, 1.0, 1.0}, srid: nil, properties: %{}}
+
+iex(15)> GeoMeasure.centroid(%Geo.MultiPolygon{
+    coordinates: [
+      [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
+      [[{2, 2}, {2, 4}, {4, 4}, {4, 2}, {2, 2}]]
+    ]
+  })
+%Geo.Point{coordinates: {2.0, 2.0}}
+
+iex(16)> GeoMeasure.centroid(%Geo.MultiPolygonZ{
+    coordinates: [
+      [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]],
+      [[{2, 2, 2}, {2, 4, 3}, {4, 4, 4}, {4, 2, 3}, {2, 2, 2}]]
+    ]
+  })
+%Geo.PointZ{coordinates: {2.0, 2.0, 2.0}}
 ```
 
 ### Distance
@@ -231,11 +324,33 @@ iex(3)> GeoMeasure.extent(%Geo.LineStringZ{coordinates: [{1, 2, 3}, {3, 4, 5}]})
 iex(4)> GeoMeasure.extent(%Geo.LineStringZM{coordinates: [{1, 2, 3, 10}, {3, 4, 5, 11}]})
 {1, 3, 2, 4, 3, 5}
 
-iex(5)> GeoMeasure.extent(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(5)> GeoMeasure.extent(%Geo.MultiLineString{coordinates: [[{1, 2}, {3, 4}], [{0, -1}, {2, 3}]]})
+{0, 3, -1, 4}
+
+iex(6)> GeoMeasure.extent(%Geo.MultiLineStringZ{coordinates: [[{1, 2, 3}, {3, 4, 5}], [{0, -1, 2}, {2, 3, 4}]]})
+{0, 3, -1, 4, 2, 5}
+
+iex(7)> GeoMeasure.extent(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 {0, 2, 0, 2}
 
-iex(6)> GeoMeasure.extent(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
+iex(8)> GeoMeasure.extent(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
 {0, 2, 0, 2, 0, 2}
+
+iex(9)> GeoMeasure.extent(%Geo.MultiPolygon{
+    coordinates: [
+      [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]],
+      [[{1, 1}, {1, 3}, {3, 3}, {3, 1}, {1, 1}]]
+    ]
+  })
+{0, 3, 0, 3}
+
+iex(10)> GeoMeasure.extent(%Geo.MultiPolygonZ{
+    coordinates: [
+      [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]],
+      [[{1, 1, 1}, {1, 3, 2}, {3, 3, 3}, {3, 1, 2}, {1, 1, 1}]]
+    ]
+  })
+{0, 3, 0, 3, 0, 3}
 ```
 
 ### Footprint Area
@@ -251,6 +366,14 @@ iex(2)> GeoMeasure.footprint_area(%Geo.PolygonZ{
     ]
   })
 16.0
+
+iex(3)> GeoMeasure.footprint_area(%Geo.MultiPolygonZ{
+    coordinates: [
+      [[{0, 0, 0}, {0, 5, 0}, {4, 5, 3}, {4, 0, 3}, {0, 0, 0}]],
+      [[{10, 10, 0}, {10, 15, 0}, {14, 15, 3}, {14, 10, 3}, {10, 10, 0}]]
+    ]
+  })
+40.0
 ```
 
 ### Footprint Perimeter/Length
@@ -262,13 +385,21 @@ iex(1)> GeoMeasure.footprint_length(%Geo.LineStringZ{coordinates: [{1, 2, 2}, {1
 iex(2)> GeoMeasure.footprint_length(%Geo.LineStringZM{coordinates: [{1, 2, 2, 10}, {1, 4, 2, 11}]})
 2.0
 
-iex(3)> GeoMeasure.footprint_perimeter(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
-8.0
+iex(3)> GeoMeasure.footprint_length(%Geo.MultiLineStringZ{coordinates: [[{0, 0, 0}, {0, 3, 0}], [{0, 0, 0}, {4, 0, 0}]]})
+7.0
 
 iex(4)> GeoMeasure.footprint_perimeter(%Geo.PolygonZ{
     coordinates: [
       [{0, 0, 0}, {0, 3, 1}, {3, 3, 2}, {3, 0, 1}, {0, 0, 0}],
       [{1, 1, 0.66}, {1, 2, 1}, {2, 2, 1.33}, {2, 1, 1}, {1, 1, 0.66}]
+    ]
+  })
+16.0
+
+iex(5)> GeoMeasure.footprint_perimeter(%Geo.MultiPolygonZ{
+    coordinates: [
+      [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]],
+      [[{3, 3, 0}, {3, 5, 1}, {5, 5, 2}, {5, 3, 1}, {3, 3, 0}]]
     ]
   })
 16.0
@@ -289,10 +420,16 @@ iex(3)> GeoMeasure.length(%Geo.LineStringZ{coordinates: [{1, 2, 2}, {1, 4, 2}]})
 iex(4)> GeoMeasure.length(%Geo.LineStringZM{coordinates: [{1, 2, 2, 10}, {1, 4, 2, 11}]})
 2.0
 
-iex(5)> GeoMeasure.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
+iex(5)> GeoMeasure.length(%Geo.MultiLineString{coordinates: [[{1, 2}, {1, 4}], [{2, 2}, {2, 5}]]})
+5.0
+
+iex(6)> GeoMeasure.length(%Geo.MultiLineStringZ{coordinates: [[{1, 2, 0}, {1, 4, 0}], [{2, 2, 0}, {2, 5, 0}]]})
+5.0
+
+iex(7)> GeoMeasure.perimeter(%Geo.Polygon{coordinates: [[{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]]})
 8.0
 
-iex(6)> GeoMeasure.perimeter(%Geo.Polygon{
+iex(8)> GeoMeasure.perimeter(%Geo.Polygon{
     coordinates: [
       [{0, 0}, {0, 3}, {3, 3}, {3, 0}, {0, 0}],
       [{1, 1}, {1, 2}, {2, 2}, {2, 1}, {1, 1}]
@@ -300,16 +437,40 @@ iex(6)> GeoMeasure.perimeter(%Geo.Polygon{
   })
 16.0
 
-iex(7)> GeoMeasure.perimeter(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
+iex(9)> GeoMeasure.perimeter(%Geo.PolygonZ{coordinates: [[{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]]})
 8.94427190999916
 
-iex(8)> GeoMeasure.perimeter(%Geo.PolygonZ{
+iex(10)> GeoMeasure.perimeter(%Geo.PolygonZ{
     coordinates: [
       [{0, 0, 0}, {0, 3, 1}, {3, 3, 2}, {3, 0, 1}, {0, 0, 0}],
       [{1, 1, 0.66}, {1, 2, 1}, {2, 2, 1.33}, {2, 1, 1}, {1, 1, 0.66}]
     ]
   })
 16.8676364068953
+
+iex(11)> GeoMeasure.perimeter(%Geo.MultiPolygon{
+    coordinates: [
+      [
+        [{0, 0}, {0, 2}, {2, 2}, {2, 0}, {0, 0}]
+      ],
+      [
+        [{3, 3}, {3, 5}, {5, 5}, {5, 3}, {3, 3}]
+      ]
+    ]
+  })
+16.0
+
+iex(12)> GeoMeasure.perimeter(%Geo.MultiPolygonZ{
+    coordinates: [
+      [
+        [{0, 0, 0}, {0, 2, 1}, {2, 2, 2}, {2, 0, 1}, {0, 0, 0}]
+      ],
+      [
+        [{3, 3, 0}, {3, 5, 1}, {5, 5, 2}, {5, 3, 1}, {3, 3, 0}]
+      ]
+    ]
+  })
+17.88854381999832
 ```
 
 ## Copyright and License

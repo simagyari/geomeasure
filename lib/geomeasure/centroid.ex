@@ -104,4 +104,42 @@ defmodule GeoMeasure.Centroid do
     |> tl()
     |> calculate_centroid_3d(srid)
   end
+
+  @spec calculate(Geo.MultiPoint.t()) :: Geo.Point.t()
+  def calculate(%Geo.MultiPoint{coordinates: coords, srid: srid}) do
+    calculate_centroid(coords, srid)
+  end
+
+  @spec calculate(Geo.MultiPointZ.t()) :: Geo.PointZ.t()
+  def calculate(%Geo.MultiPointZ{coordinates: coords, srid: srid}) do
+    calculate_centroid_3d(coords, srid)
+  end
+
+  @spec calculate(Geo.MultiLineString.t()) :: Geo.Point.t()
+  def calculate(%Geo.MultiLineString{coordinates: coords, srid: srid}) do
+    coords
+    |> List.flatten()
+    |> calculate_centroid(srid)
+  end
+
+  @spec calculate(Geo.MultiLineStringZ.t()) :: Geo.PointZ.t()
+  def calculate(%Geo.MultiLineStringZ{coordinates: coords, srid: srid}) do
+    coords
+    |> List.flatten()
+    |> calculate_centroid_3d(srid)
+  end
+
+  @spec calculate(Geo.MultiPolygon.t()) :: Geo.Point.t()
+  def calculate(%Geo.MultiPolygon{coordinates: coords, srid: srid}) do
+    coords
+    |> Enum.flat_map(&tl(hd(&1)))
+    |> calculate_centroid(srid)
+  end
+
+  @spec calculate(Geo.MultiPolygonZ.t()) :: Geo.PointZ.t()
+  def calculate(%Geo.MultiPolygonZ{coordinates: coords, srid: srid}) do
+    coords
+    |> Enum.flat_map(&tl(hd(&1)))
+    |> calculate_centroid_3d(srid)
+  end
 end
